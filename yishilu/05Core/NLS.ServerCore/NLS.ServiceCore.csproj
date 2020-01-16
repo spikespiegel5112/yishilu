@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\03Framework\NLS.AspNet.Core\NLS.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\03Framework\NLS.AspNetCore.Linq\NLS.AspNetCore.Linq.csproj" />
+    <ProjectReference Include="..\..\03Framework\NLS.Framework\NLS.Framework.csproj" />
+  </ItemGroup>
+
+</Project>
