@@ -1,7 +1,7 @@
 import axios from 'axios';
 import store from '../store/store';
 import util from './util';
-const baseUrl = process.env.NODE_ENV === 'production' ? 'https://api.pengpai.nplusgroup.com/' : 'https://api.pengpai.nplusgroup.com/';
+const baseUrl = process.env.NODE_ENV === 'production' ? 'http://essilorevent.digital-support.cn/api/' : 'http://192.168.124.8:799/';
 // const baseUrl = process.env.NODE_ENV === 'production' ? 'https://api.pengpai.nplusgroup.com/' : 'http://api.pengpai.nplusgroup.com:81/';
 
 

@@ -22,9 +22,10 @@ import mic from './js/mic/index'
 
 import store from './store/store'
 import CommonEditBg from './components/common/CommonEditBg.vue'
-import CommonRope from './components/common/CommonRope.vue'
-import CommonNode from './components/common/CommonNode.vue'
-import CommonAudioPlayer from './components/common/CommonAudioPlayer.vue'
+// import CommonRope from './components/common/CommonRope.vue'
+// import CommonNode from './components/common/CommonNode.vue'
+import CommonGoBack from './components/common/CommonGoBack.vue'
+// import CommonAudioPlayer from './components/common/CommonAudioPlayer.vue'
 // import BaobaoAudioPlayback from 'baobao-audio-play';
 import BaobaoAudioPlayback from './js/BaobaoAudioPlay_old';
 
@@ -53,10 +54,11 @@ Vue.prototype.$baseUrl = baseUrl;
 
 Vue.prototype.$prodEnv = process.env.NODE_ENV === 'production';
 
-Vue.component('CommonEditBg', CommonEditBg);
-Vue.component('CommonRope', CommonRope);
-Vue.component('CommonNode', CommonNode);
+// Vue.component('CommonEditBg', CommonEditBg);
+// Vue.component('CommonRope', CommonRope);
+// Vue.component('CommonNode', CommonNode);
 // Vue.component('CommonAudioPlayer', CommonAudioPlayer);
+Vue.component('CommonGoBack', CommonGoBack);
 
 
 Vue.prototype.$webStorage.type = 'sessionStorage';

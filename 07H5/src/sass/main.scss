@@ -1,19 +1,58 @@
 $yellow: #f9c978;
-
+.customize_main_container {
+  width: 100%;
+  
+  .longpicture_wrapper {
+    width: 100%;
+    .swiper-slide {
+      width: 30rem;
+      height: 100%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      img {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        // overflow: hidden;
+      }
+    }
+  }
+  .hint {
+    padding: 0.5rem;
+    width: 100%;
+    height: 2rem;
+    color: #4387bd;
+    p {
+      font-size: 0.5rem;
+    }
+  }
+}
 .information_main_container {
   width: 100%;
+  overflow: hidden;
   .frame_wrapper {
     width: 100%;
     height: 10rem;
-    .frame{
+    .swiper-container {
+      .swiper-wrapper {
+        .swiper-slide {
+          background-color: transparent;
+          img {
+            width: 13rem;
+          }
+        }
+      }
+    }
+    .frame {
       width: 100%;
       height: 100%;
-      background-image: url('image/information/frame_00000.png');
+      background-image: url("image/information/frame_00000.png");
       background-size: contain;
       background-repeat: no-repeat;
     }
-
-
+    .common_navigation_item {
+      background-image: url("image/information/button_shiguangdingzhi_00000.png");
+    }
   }
 }
 .homepage_main_container {

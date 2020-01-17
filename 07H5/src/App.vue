@@ -45,9 +45,9 @@
 <style lang="less">
   /*@import '~vux/src/styles/reset.less';*/
 
-  body {
-    background-color: #fbf9fe;
-  }
+  // body {
+  //   background-color: #fbf9fe;
+  // }
 
   @group-title-margin-top: 0px;
 </style>
@@ -56,8 +56,9 @@
   @import 'sass/reset.scss';
   @import 'sass/common.scss';
   @import 'sass/main.scss';
+</style>
 
-  /*body {*/
-  /*background-color: #fbf9fe;*/
-  /*}*/
+
+<style lang="css">
+  @import '../node_modules/swiper/dist/css/swiper.min.css';
 </style>

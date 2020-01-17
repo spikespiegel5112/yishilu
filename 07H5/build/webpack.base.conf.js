@@ -31,6 +31,7 @@ let webpackConfig = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'localPath': resolve(''),
+      'swiper': 'swiper/dist/js/swiper.js',
       $: 'jquery',
       jQuery: 'jquery',
       // 'swiper$': 'swiper',
@@ -51,7 +52,11 @@ let webpackConfig = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'),
+        resolve('test'),
+        resolve('node_modules/swiper'),
+        resolve('node_modules/dom7'),
+        resolve('node_modules/ssr-window')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

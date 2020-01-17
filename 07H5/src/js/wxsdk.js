@@ -30,7 +30,7 @@ function isEmpty (value) {
 }
 
 var wxsdk = {
-  appid: 'wxd636aaf31e161a64',
+  appid: 'wxb2602761a856bbea',
   wxReadyed: false,
   shareParams: {
     share: false, // true可以分享；false不可以分享

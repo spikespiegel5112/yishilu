@@ -24,6 +24,10 @@ const routes = [{
     path: '/information',
     name:'information',
     component: () => import('../components/Information.vue')
+  }, {
+    path: '/customize',
+    name:'customize',
+    component: () => import('../components/Customize.vue')
   }]
 }, {
   path: '/auth',
