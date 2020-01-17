@@ -12,6 +12,9 @@
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide">
+							<a href="javascript:;" @click="checkDetail(1)">
+								<span></span>
+							</a>
 							<img src="@/image/customize/long_picture_00000.jpg" alt />
 						</li>
 					</ul>
@@ -22,6 +25,25 @@
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />
+			</div>
+		</div>
+		<div v-if="dialogFlag" class="dialog_container">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="close"></a>
+				<div class="content">
+					<div class="picture">
+						<img src="@/image/customize/dialog_picture_00000.jpg" alt />
+					</div>
+					<div class="desc">
+						<div class="title">dsadasdas</div>
+						<div class="main">
+							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
+
+							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
+							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -36,7 +58,8 @@ export default {
 	},
 	data() {
 		return {
-			goToNextflag: false
+			goToNextflag: false,
+			dialogFlag: false
 		};
 	},
 	computed: {
@@ -66,7 +89,7 @@ export default {
 
 	mounted() {
 		setTimeout(() => {
-		this.init();
+			this.init();
 
 		}, 100)
 
@@ -96,6 +119,13 @@ export default {
 			};
 			this.$wxsdk.initConfig(params);
 		},
+		checkDetail(index) {
+			this.dialogFlag = true
+		},
+		close() {
+			this.dialogFlag = false
+
+		}
 	}
 }
 </script>

@@ -19,7 +19,7 @@
 					<router-link href="javascript:;" :to="{name:'entrance'}" />
 				</li>
 				<li class="link4">
-					<router-link href="javascript:;" :to="{name:'entrance'}" />
+					<router-link href="javascript:;" :to="{name:'customize'}" />
 				</li>
 				<li class="link5">
 					<router-link href="javascript:;" :to="{name:'entrance'}" />
@@ -161,72 +161,7 @@ export default {
       // debugger
       let that = this;
       this.animationLoadingFlag = false;
-      // if (this.$checkEnvironment() === 'wechat') {
-      //   this.playAnimation();
-      // } else {
-      //   this.playShow = true;
-      // }
 
-    },
-    playAnimation() {
-      if (!this.beginFlag) {
-        console.log('start');
-        this.playFlag = true;
-        this.beginFlag = true;
-        this.$nextTick(() => {
-          this.muteFlag2 = false;
-
-        });
-        this.animateFinishedFlag = false;
-        // this.animationLoadingFlag = false;
-        setTimeout(() => {
-          this.frameAnimationInstance.play();
-          this.iosReadyToPlayFlag = false;
-        }, 1000);
-
-        let baobaoAudioPlayback = new this.$baobaoAudioPlayback({
-          src: this.$store.state.speechUrl,
-          loop: false,
-          icon: false,
-          el: '.entrance_main_container',
-        });
-        baobaoAudioPlayback.play();
-
-        // this.audioInstance2 = new Audio();
-        // this.audioInstance2.src = this.$store.state.speechUrl;
-        // // this.audioInstance1.loop = true;
-        // this.audioInstance2.play();
-
-      }
-
-
-    },
-    playMusic() {
-      // debugger
-      // this.playMusicFlag = true;
-      this.playFlag = true;
-
-    },
-    checkPersonalCenter() {
-      this.$router.push({
-        name: 'personalCenter'
-      });
-    },
-    openEntrance() {
-      if (this.frameLoaded) {
-        this.loadingDataFlag = false;
-        // this.playMusic();
-        // debugger
-
-        this.$store.commit('openEntrance');
-      }
-
-
-    },
-    onSpeechReady(state) {
-      // debugger
-      this.speechReadyFlag = true;
-      this.$vux.loading.hide();
     },
     initShare() {
       let params = {

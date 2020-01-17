@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import wx from 'weixin-js-sdk'
-import imageClipper from '../components/common/imageClipper.vue'
-import mImageCrop from './mic/m-image-crop'
+// import imageClipper from '../components/common/imageClipper.vue'
+// import mImageCrop from './mic/m-image-crop'
 
 
 // import service from "./request";

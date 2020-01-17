@@ -9,7 +9,6 @@ import wxsdk from './js/wxsdk'
 // import axios from 'axios'
 // import moment from 'moment';
 import { ConfirmPlugin, LoadingPlugin, ToastPlugin } from 'vux'
-// import Swiper from 'swiper';
 // import Cookies from 'js-cookie'
 
 import App from './App'
@@ -17,20 +16,10 @@ import router from './router/router'
 import service from './js/request'
 import util from './js/util';
 import { baseUrl } from "./js/request";
-// import imageClipper from './components/common/imageClipper.vue'
-import mic from './js/mic/index'
 
 import store from './store/store'
-import CommonEditBg from './components/common/CommonEditBg.vue'
-// import CommonRope from './components/common/CommonRope.vue'
-// import CommonNode from './components/common/CommonNode.vue'
 import CommonGoBack from './components/common/CommonGoBack.vue'
-// import CommonAudioPlayer from './components/common/CommonAudioPlayer.vue'
-// import BaobaoAudioPlayback from 'baobao-audio-play';
-import BaobaoAudioPlayback from './js/BaobaoAudioPlay_old';
 
-console.log(BaobaoAudioPlayback)
-// Vue.use(mic);
 Vue.use(ConfirmPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
@@ -46,7 +35,7 @@ FastClick.attach(document.body);
 Vue.config.productionTip = false;
 // Vue.prototype.$moment = moment;
 Vue.prototype.$http = service;
-Vue.prototype.$baobaoAudioPlayback = BaobaoAudioPlayback;
+// Vue.prototype.$baobaoAudioPlayback = BaobaoAudioPlayback;
 
 
 Vue.prototype.$baseUrl = baseUrl;
@@ -54,10 +43,6 @@ Vue.prototype.$baseUrl = baseUrl;
 
 Vue.prototype.$prodEnv = process.env.NODE_ENV === 'production';
 
-// Vue.component('CommonEditBg', CommonEditBg);
-// Vue.component('CommonRope', CommonRope);
-// Vue.component('CommonNode', CommonNode);
-// Vue.component('CommonAudioPlayer', CommonAudioPlayer);
 Vue.component('CommonGoBack', CommonGoBack);
 
 

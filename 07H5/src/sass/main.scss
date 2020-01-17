@@ -1,7 +1,7 @@
 $yellow: #f9c978;
 .customize_main_container {
   width: 100%;
-  
+
   .longpicture_wrapper {
     width: 100%;
     .swiper-slide {
@@ -9,6 +9,15 @@ $yellow: #f9c978;
       height: 100%;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
+      a {
+        display: inline-block;
+        width: 1.2rem;
+        height: 1.2rem;
+        position: absolute;
+        left: 15.5rem;
+        top: 3rem;
+        background-image: url("image/customize/dot_00000.png");
+      }
       img {
         display: inline-block;
         width: 100%;
@@ -22,8 +31,71 @@ $yellow: #f9c978;
     width: 100%;
     height: 2rem;
     color: #4387bd;
+    box-sizing: border-box;
+
     p {
       font-size: 0.5rem;
+    }
+  }
+  .dialog_container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 3rem;
+    z-index: 1;
+    .dialog_wrapper {
+      margin: auto;
+      width: 12rem;
+      height: 12rem;
+      background-color: #4387bd;
+      border: 2px solid #fff;
+      border-radius: 20px;
+      position: relative;
+      .close {
+        display: inline-block;
+        width: 1.1rem;
+        height: 1.1rem;
+        background-image: url("image/customize/close_button_00000.png");
+        position: absolute;
+        top: -0.4rem;
+        right: -0.4rem;
+      }
+      .content {
+        display: flex;
+
+        width: 100%;
+        height: 100%;
+        .picture {
+          padding: 1rem 0.5rem 1rem 1rem;
+          width: 6rem;
+
+          height: 100%;
+          box-sizing: border-box;
+          img {
+            display: inline-block;
+            height: auto;
+          }
+        }
+        .desc {
+          display: inline-block;
+          padding: 0 0.5rem 0 0;
+          height: 100%;
+          color: #fff;
+
+          flex: 1;
+          .main {
+            height: 10.5rem;
+            overflow: auto;
+
+            p {
+              margin: 0 0 0.5rem 0;
+              width: 100%;
+              word-break: break-all;
+              font-size: 0.5rem;
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -282,77 +354,6 @@ $yellow: #f9c978;
         opacity: 1;
         transition: all 0.3s;
       }
-    }
-  }
-}
-
-.poster_footer_wrapper {
-  padding: 0.5rem 0;
-  width: 100%;
-  height: 3.5rem;
-  background-color: #fff;
-  font-size: 0;
-
-  .qrcode {
-    display: inline-block;
-    vertical-align: bottom;
-
-    width: 3rem;
-
-    //height: 2.5rem;
-    img,
-    canvas {
-      display: block;
-      width: 100%;
-    }
-  }
-
-  .hint {
-    display: inline-block;
-    margin: 0 3rem 0 0.5rem;
-    vertical-align: bottom;
-    font-size: 0.5rem;
-    text-align: left;
-
-    .flag {
-      font-size: 0;
-
-      label {
-        display: inline-block;
-        width: 2px;
-        height: 2.4rem;
-        background-color: #ccc;
-        vertical-align: top;
-      }
-
-      span {
-        display: inline-block;
-        margin: 0.2rem 0 0 0;
-        width: 3rem;
-        height: 1rem;
-        line-height: 1rem;
-        background-color: red;
-        vertical-align: top;
-        font-size: 0.5rem;
-        color: #fff;
-        text-align: center;
-      }
-    }
-
-    p {
-      display: block;
-      font-size: 0.6rem;
-    }
-  }
-
-  .logo {
-    display: inline-block;
-    vertical-align: bottom;
-
-    width: 3rem;
-
-    img {
-      width: 100%;
     }
   }
 }
