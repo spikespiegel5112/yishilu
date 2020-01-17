@@ -79,10 +79,10 @@ export default {
 			let params = {
 				share: true, // true可以分享；false不可以分享
 				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
+					title: `依视路•见未来•创视纪`, // 分享标题
+					desc: '2020第十二届中国（上海）国际眼睛业展览会邀请函', // 分享描述
 					link: this.$store.state.shareUrl, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
+					imgUrl: 'http://img5.imgtn.bdimg.com/it/u=4294203307,2960810096&fm=26&gp=0.jpg' // 分享图标
 				}
 			};
 			this.$wxsdk.initConfig(params);
@@ -98,7 +98,6 @@ export default {
 			if (userinfo) {
 				userinfo = JSON.parse(userinfo)
 				this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: userinfo.openid } }).then(response => {
-					console.log(response)
 					if (response.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
 					}

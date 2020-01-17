@@ -66,12 +66,13 @@ var wxsdk = {
    * 配置信息
    */
   initWxShareConfig: function (data) {
+    console.log(data)
     var _this = this
     wx.config({
       debug: false,
       appId: data.appId,
       timestamp: data.timestamp, // 生成签名的时间戳
-      nonceStr: data.nonceStr, // 生成签名的随机串
+      nonceStr: data.rndStr, // 生成签名的随机串
       signature: data.signature, // 签名，见附录1
       jsApiList: ['checkJsApi', 'onMenuShareTimeline',
         'onMenuShareAppMessage', 'onMenuShareQQ',
@@ -346,7 +347,7 @@ var wxsdk = {
       'url': _this.getShareUrl()
     }
     shareAuthNew(data).then((res) => {
-      _this.initWxShareConfig(res)
+      _this.initWxShareConfig(res.data)
     })
   },
   // 获取url地址

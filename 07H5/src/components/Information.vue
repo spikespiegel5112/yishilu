@@ -1,5 +1,8 @@
 <template>
 	<div class="information_main_container">
+		<div class="common_logo_wrapper">
+			<div class="common_logo_item"></div>
+		</div>
 		<div class="common_title_item">
 			<img src="@/image/common/title_00000.png" alt />
 			<img src alt />
@@ -24,12 +27,12 @@
 					</ul>
 				</div>
 			</div>
-      <div class="common_navigation_item">
-        <router-link :to="{name:'customize'}"/>
-      </div>
-      <div class="common_goback_wrapper">
-        <CommonGoBack/>
-      </div>
+			<div class="common_navigation_item">
+				<router-link :to="{name:'customize'}" />
+			</div>
+			<div class="common_goback_wrapper">
+				<CommonGoBack />
+			</div>
 		</div>
 	</div>
 </template>

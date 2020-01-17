@@ -2,7 +2,7 @@ import request from '../src/js/request.js'
 // 【公共号】微信分享
 export function shareAuthNew(params) {
   return request({
-    url: '/weixin/jsconfig',
+    url: '/get.wx.setting',
     method: 'get',
     params:params
   })

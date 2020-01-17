@@ -68,8 +68,8 @@ router.beforeEach((to, from, next) => {
     util.$webStorage.setItem('backRoute', to.fullPath);
 
     if ((isEmpty(authToken) || isEmpty(environment)) && environment !== 'others') {
-      next('/auth');
-
+      // next('/auth');
+         next()
     } else {
       // debugger
       next()

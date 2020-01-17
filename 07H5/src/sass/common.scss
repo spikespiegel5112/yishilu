@@ -103,7 +103,7 @@ input:-webkit-autofill {
   width: 100%;
   height: 100vh;
   background-color: #fff;
-  background-image: url("./image/common/bg_00000.jpg");
+  background-image: url("image/common/bg_00000.jpg");
   background-position: 0 0;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -158,11 +158,14 @@ input:-webkit-autofill {
 
 .common_title_item {
   margin: 0 auto;
-  margin-top: 0.9rem;
-
-  width: 10.5rem;
+  margin-top: 3rem;
+  padding: 0 0 0.75rem 0;
+  width: 14rem;
+  text-align: left;
+  
   img {
-    width: 100%;
+    width: 10.5rem;
+    height: auto;
   }
 }
 .common_subtitle_item {
@@ -386,18 +389,20 @@ input:-webkit-autofill {
 
 .common_logo_wrapper {
   width: 100%;
-
-  //position: absolute;
-  //bottom: 0.5rem;
+  position: absolute;
+  top: 0;
   .common_logo_item {
     display: block;
     margin: 0 auto;
-    width: 5rem;
+    width: 3rem;
     height: 2rem;
-    // background-image: url("./image/logo_00000.png");
+    background-image: url("image/common/logo.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
+    position: absolute;
+    right: 0;
+    top: 0.7rem
   }
 }
 

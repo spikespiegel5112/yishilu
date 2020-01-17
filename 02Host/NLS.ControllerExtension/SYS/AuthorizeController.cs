@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static NLS.WeChatConfiguration.WeiXinHelper;
+using static NLS.WeChatConfiguration.WeChatConfiguration;
 
 namespace NLS.Host.ControllerExtension.SYS
 {
@@ -249,6 +250,32 @@ namespace NLS.Host.ControllerExtension.SYS
             return Result(data);
         }
 
+        /// <summary>
+        /// 微信分享
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("get.wx.setting")]
+        public async Task<IActionResult> WXSetting(string url)
+        {
+            string AppId = "wxb2602761a856bbea";
+            string AppSecret = "5a9c6ceb85d8a05414fc7a73547d5044";
+            WeChatConfiguration.WeChatConfiguration wXSettingManager = new WeChatConfiguration.WeChatConfiguration();
+            wXSettingManager.SetAppId(AppId);
+            wXSettingManager.SetSecret(AppSecret);
+            wXSettingManager.SetCallBackUrl(url);
+            dynamic __dynamic;
+            try
+            {
+                __dynamic = await Task.FromResult(wXSettingManager.GetWeChatConfig());
+                return Result(__dynamic);
+            }
+            catch (System.Exception e)
+            {
+                return Result(e.Message);  
+            }
+        }
         /// <summary>
         /// 
         /// </summary>

@@ -15,7 +15,8 @@ export default {
   },
   data() {
     return {
-      goToNextflag: false
+      goToNextflag: false,
+      userinfo:{}
     };
   },
   computed: {
@@ -35,9 +36,17 @@ export default {
 
   mounted() {
    this.goToNextPage()
-
+    this.userinfo= JSON.parse(this.$webStorage.getItem('userInfo'));
+    this.addscancount();
   },
   methods: {
+    addscancount(){
+      this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id,scan_type:0 } }).then(response => {
+      	console.log(response)
+      }).catch(error => {
+      	console.log(error)
+      })
+    },
     goToNextPage(){
             const duration=3000
       setTimeout(()=>{
@@ -48,9 +57,9 @@ export default {
     },
     init() {
       // console.log(FrameAnimation)
-      
+
     },
-    
+
   }
 }
 </script>

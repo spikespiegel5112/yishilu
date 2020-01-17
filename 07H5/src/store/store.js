@@ -12,7 +12,7 @@ const state = {
   // accessToken: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNyZWF0ZWQiOjE1NDI2MTYxMTYzMzcsImV4cCI6MTU0Mjg3NTMxNiwidXNlciI6IntcImlkXCI6MSxcIm5hbWVcIjpcImFkbWluXCIsXCJuaWNrXCI6XCJhZG1pblwiLFwic3RhdHVzXCI6XCJhY3RpdmVcIixcImVtYWlsXCI6bnVsbCxcInBob25lXCI6bnVsbCxcImxhc3RQYXNzd29yZFJlc2V0RGF0ZVwiOm51bGwsXCJzZXNzaW9uS2V5XCI6bnVsbH0ifQ.BdNUqdSAYGwfR-SxWqupWpWb5AQUhIMGIpF2K7yFSthCr3--3LSjCYTAT9Pf9quNoJAXlQzGZklg1tvdOgSFQg',
   // loginId: '',
   loginId: '18260045855',
-  shareUrl: testPrefix === 'test' ? 'http://h5.antisony.org' : `https://projects.thepaper.cn/jsp/jiaguo/spring/index.html#/entrance`,
+  shareUrl: 'http://essilorevent.digital-support.cn/h5/',
 
   bgmUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_entrance.mp3',
   speechUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_speech.mp3',

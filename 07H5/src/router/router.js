@@ -28,6 +28,10 @@ const routes = [{
     path: '/customize',
     name:'customize',
     component: () => import('../components/Customize.vue')
+  }, {
+    path: '/interaction',
+    name:'interaction',
+    component: () => import('../components/Interaction.vue')
   }]
 }, {
   path: '/auth',
