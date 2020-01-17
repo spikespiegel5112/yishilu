@@ -30,7 +30,7 @@
 				<CommonGoBack />
 			</div>
 		</div>
-		<div v-if="dialogFlag" class="dialog_container">
+		<div v-if="dialogFlag" class="common_dialog_container">
 			<div class="dialog_wrapper">
 				<a href="javascript:;" class="close" @click="close"></a>
 				<div class="content">

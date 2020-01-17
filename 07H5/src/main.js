@@ -46,8 +46,8 @@ Vue.prototype.$prodEnv = process.env.NODE_ENV === 'production';
 Vue.component('CommonGoBack', CommonGoBack);
 
 
-Vue.prototype.$webStorage.type = 'sessionStorage';
-util.$webStorage.type = 'sessionStorage';
+Vue.prototype.$webStorage.type = 'localStorage';
+util.$webStorage.type = 'localStorage';
 
 Vue.prototype.$wxsdk = wxsdk;
 

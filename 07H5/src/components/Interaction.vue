@@ -36,10 +36,19 @@
 				<p>点击上方图标，找到“眼-依视路”、“视-优视路”、“光-全视线”展位现场的互动二维码，使用微信的扫一扫功能，扫码点亮本页标签，即可参加抽奖活动，有机会获得暖心礼品一份。</p>
 			</div>
 			<div class="common_navigation_item">
-				<router-link :to="{name:'dasda'}" />
+				<a href="javascript:;" @click="checkStatus"></a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />
+			</div>
+		</div>
+		<div v-if="dialogNotYetFlag" class="common_dialog_container notyet">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closeNotYet"></a>
+				<div class="content">
+					<p>您尚未完成全部打卡</p>
+					<p>请全部完成后进行抽奖</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -55,7 +64,8 @@ export default {
 	data() {
 		return {
 			goToNextflag: false,
-			dialogFlag: false
+			dialogNotYetFlag: false,
+			status: false
 		};
 	},
 	computed: {
@@ -100,6 +110,19 @@ export default {
 			};
 			this.$wxsdk.initConfig(params);
 		},
+		checkStatus() {
+			if (this.status) {
+				this.$router.push({
+					name: ''
+				})
+			} else {
+				this.dialogNotYetFlag = true
+			}
+
+		},
+		closeNotYet() {
+			this.dialogNotYetFlag = false
+		}
 
 	}
 }
