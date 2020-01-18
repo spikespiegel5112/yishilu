@@ -16,9 +16,18 @@ $yellow: #f9c978;
         width: 1.2rem;
         height: 1.2rem;
         position: absolute;
-        left: 15.5rem;
         top: 3rem;
         background-image: url("image/customize/dot_00000.png");
+        background-size: contain;
+        &.point1 {
+          left: 7.5rem;
+        }
+        &.point2 {
+          left: 15.5rem;
+        }
+        &.point3 {
+          left: 25.5rem;
+        }
       }
       img {
         display: inline-block;
@@ -42,31 +51,33 @@ $yellow: #f9c978;
   .common_dialog_container {
     .dialog_wrapper {
       width: 12rem;
-      height: 12rem;
+      height: auto;
       .content {
-        display: flex;
-        .picture {
-          padding: 1rem 0.5rem 1rem 1rem;
-          width: 6rem;
-
-          height: 100%;
-          box-sizing: border-box;
-          img {
-            display: inline-block;
-            height: auto;
-          }
+        color: #fff;
+        .title {
+          display: block;
+          padding: 0.5rem 0;
         }
         .desc {
-          display: inline-block;
-          padding: 0 0.5rem 0 0;
-          height: 100%;
-          flex: 1;
-          .title {
-            color: #fff;
+          display: flex;
+          .picture {
+            display: inline-block;
+            padding: 0 0 0.3rem 0.5rem;
+            width: 6rem;
+            height: 100%;
+            box-sizing: border-box;
+            img {
+              display: inline-block;
+              width: 100%;
+              height: auto;
+            }
           }
           .main {
-            height: 10.5rem;
+            display: inline-block;
+            flex: 1;
+            padding: 0 0.3rem;
             overflow: auto;
+            text-align: left;
           }
         }
       }
@@ -88,7 +99,7 @@ $yellow: #f9c978;
   .content {
     margin: 5.5rem 0 0 0;
     position: relative;
-    .wheel{
+    .wheel {
       canvas {
         width: 13.5rem;
         height: 13.5rem;
@@ -113,7 +124,6 @@ $yellow: #f9c978;
         }
       }
     }
-
   }
 }
 .interaction_main_container {
@@ -344,5 +354,3 @@ $yellow: #f9c978;
     bottom: 1.5rem;
   }
 }
-
-

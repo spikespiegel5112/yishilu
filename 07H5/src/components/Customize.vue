@@ -15,7 +15,13 @@
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide">
-							<a href="javascript:;" @click="checkDetail(1)">
+							<a class="point1" href="javascript:;" @click="checkDetail(0)">
+								<span></span>
+							</a>
+							<a class="point2" href="javascript:;" @click="checkDetail(1)">
+								<span></span>
+							</a>
+							<a class="point3" href="javascript:;" @click="checkDetail(2)">
 								<span></span>
 							</a>
 							<img src="@/image/customize/long_picture_00000.jpg" alt />
@@ -34,16 +40,13 @@
 			<div class="dialog_wrapper">
 				<a href="javascript:;" class="close" @click="close"></a>
 				<div class="content">
-					<div class="picture">
-						<img src="@/image/customize/dialog_picture_00000.jpg" alt />
-					</div>
+					<div class="title">{{dialogData[dialogIndex].title}}</div>
 					<div class="desc">
-						<div class="title">dsadasdas</div>
+						<div class="picture">
+							<img :src="dialogData[dialogIndex].image" alt />
+						</div>
 						<div class="main">
-							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
-
-							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
-							<p>dasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsadadasdasdsada</p>
+							<p v-for="item in dialogData[dialogIndex].paragraph">{{item}}</p>
 						</div>
 					</div>
 				</div>
@@ -62,7 +65,21 @@ export default {
 	data() {
 		return {
 			goToNextflag: false,
-			dialogFlag: false
+			dialogFlag: false,
+			dialogIndex: 0,
+			dialogData: [{
+				title: '成人视活力赋能',
+				paragraph: ['店内场景的标准化指引', '明星产品推荐', '演示道具配置说明', '眼健康设备筛查验配等'],
+				image: require('@/image/customize/dialog_picture_3_00000.jpg')
+			}, {
+				title: '中生代视耐力续航',
+				paragraph: ['店内场景的标准化指引', '明星产品推荐', '演示道具配置说明', '眼健康设备筛查验配等'],
+				image: require('@/image/customize/dialog_picture_2_00000.jpg')
+			}, {
+				title: '青少年视潜力管理',
+				paragraph: ['店内场景的标准化指引', '明星产品推荐', '演示道具配置说明', '眼健康设备筛查验配等'],
+				image: require('@/image/customize/dialog_picture_1_00000.jpg')
+			}]
 		};
 	},
 	computed: {
@@ -124,6 +141,7 @@ export default {
 		},
 		checkDetail(index) {
 			this.dialogFlag = true
+			this.dialogIndex = index
 		},
 		close() {
 			this.dialogFlag = false

@@ -35,10 +35,20 @@ export default {
 		this.sharePage();
 		// this.getUserInfoCache();
 		if (this.$checkEnvironment() === 'wechat') {
-			this.getUserInfo()
+			this.getUserInfo();
 		}
+     //this.testlogin();//本地测试
 	},
 	methods: {
+     testlogin(){
+          this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wjBnWGviGNtbhpztJOf-XZk" } }).then(response => {
+          	if (response.data) {
+          		this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+          	}
+          }).catch(error => {
+          	console.log(error)
+          })
+   },
 		auto_login() {
 			this.$http.post(
 				'wx.login.openid', {
