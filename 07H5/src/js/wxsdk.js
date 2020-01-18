@@ -21,7 +21,7 @@ console.log('wxjssdk', this)
  * }
 */
 
-function isEmpty (value) {
+function isEmpty(value) {
   if (typeof (value) === 'undefined' || value === null || value === '') {
     return true
   } else {
@@ -242,7 +242,7 @@ var wxsdk = {
   /**
    * 获取用户经伟度
    */
-  getLocation: function ( callback ) {
+  getLocation: function (callback) {
     var _this = this
     wx.getLocation({
       success: function (res) {
@@ -289,21 +289,21 @@ var wxsdk = {
     wx.closeWindow()
   },
   // 获取微信授权链接
-  getWeChatAuthUrl () {
+  getWeChatAuthUrl() {
     let _this = this
     let params = {
       'redirectUri': _this.getUrl()
     }
-    getWxUrl(params).then((res)=>{
+    getWxUrl(params).then((res) => {
       console.log('getWxUrl', res)
       window.location.href = res.data
     })
   },
   // 微信，根据code获取用户信息返回登录凭证
-  getWechatAuthTokenByCode (params, callback) {
+  getWechatAuthTokenByCode(params, callback) {
     let _this = this;
-    return new Promise((resolve, reject)=>{
-      getToken(params).then((res)=>{
+    return new Promise((resolve, reject) => {
+      getToken(params).then((res) => {
         console.log('getToken', res)
         let authToken = res.data.access_token
         util.$webStorage.setItem('authToken', authToken)
@@ -311,7 +311,7 @@ var wxsdk = {
         resolve(res.data)
         callback && callback(res.data)
         // location.href = location.href.split('.html')[0] + '.html'
-      }).catch(error=>{
+      }).catch(error => {
         console.log(error)
         // alert('获取accessToken失败啦！！！'+error)
         reject(error)
@@ -320,7 +320,7 @@ var wxsdk = {
 
   },
   // 获取openid
-  getOpenId (code, callback) {
+  getOpenId(code, callback) {
     if (isEmpty(code)) {
       this.authBase()
       return false
@@ -337,11 +337,11 @@ var wxsdk = {
    * 静默授权获取用户openid
    */
   authBase: function () {
-      var url = encodeURI('http://pixseed.nplusgroup.com/resource/doubleEleven/dist/index.html')
-      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid + "&redirect_uri=" + url + "&response_type=code&scope=snsapi_base&state=state1&connect_redirect=1#wechat_redirect";
+    var url = encodeURI('http://pixseed.nplusgroup.com/resource/doubleEleven/dist/index.html')
+    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + this.appid + "&redirect_uri=" + url + "&response_type=code&scope=snsapi_base&state=state1&connect_redirect=1#wechat_redirect";
   },
   // 微信网页分享接口
-  shareAuth () {
+  shareAuth() {
     let _this = this
     let data = {
       'url': _this.getShareUrl()
@@ -351,21 +351,21 @@ var wxsdk = {
     })
   },
   // 获取url地址
-  getUrl () {
+  getUrl() {
     let url = location.href
     if (url.indexOf('?') !== -1 && url.indexOf('?') < url.indexOf('#')) {
       url = url.split('?')[0] + '#' + url.split('#')[1]
     }
     return url
   },
-  getShareUrl () {
+  getShareUrl() {
     let url = location.href
     if (url.indexOf('#') !== -1) {
       url = url.split('#')[0]
     }
     return url
   },
-  stopShare () {
+  stopShare() {
     let _this = this
     let params = {
       share: false

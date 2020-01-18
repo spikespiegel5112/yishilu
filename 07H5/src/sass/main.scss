@@ -4,12 +4,12 @@ $yellow: #f9c978;
   .common_title_item {
     margin-top: 1rem;
   }
-  .main{
+  .main {
     width: 100%;
-    img{
+    img {
       display: block;
       margin: 1rem auto 3rem;
-      width: 14rem
+      width: 14rem;
     }
   }
 }
@@ -111,14 +111,30 @@ $yellow: #f9c978;
     left: 0;
   }
   .content {
-    margin: 5.5rem 0 0 0;
+    margin: 1rem 0 0 0;
     position: relative;
     .wheel {
+      margin: 0 auto;
+      width: 15rem;
+      height: 15rem;
+      background-image: url("./image/lotterydraw/whell_bg_00000.png");
+      background-size: contain;
+      position: relative;
+      text-align: center;
+      &:before {
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 100%;
+        vertical-align: middle;
+      }
       canvas {
-        width: 13.5rem;
-        height: 13.5rem;
+        display: inline-block;
+        width: 11.5rem;
+        height: 11.5rem;
         transform: rotate(0deg);
         transition: rotate 6s ease;
+        vertical-align: middle;
       }
       .begin {
         display: inline-block;
@@ -127,8 +143,8 @@ $yellow: #f9c978;
         background-image: url("./image/lotterydraw/pointer_begin_00000.png");
         background-size: 100%;
         position: absolute;
-        top: 7.3rem;
-        left: 6rem;
+        top: 5.5rem;
+        left: 5.6rem;
         span {
           display: block;
           margin: 1.4rem auto;
@@ -153,7 +169,7 @@ $yellow: #f9c978;
     left: 0;
   }
   > .content {
-    margin: 5.5rem 0 0 0;
+    margin: 1rem 0 0 0;
     position: relative;
     .rules {
       margin: 1.5rem auto 1rem;
@@ -222,6 +238,39 @@ $yellow: #f9c978;
         padding: 1rem 0 0 0;
         p {
           font-size: 0.7rem;
+        }
+      }
+    }
+    &.prompt {
+      .dialog_wrapper {
+        padding: 0.2rem;
+        width: auto;
+        height: auto;
+      }
+      .content {
+        padding: 0.5rem 0.5rem 0 0.5rem;
+        p {
+          font-size: 0.7rem;
+          text-align: left;
+        }
+        .title {
+          font-size: 0.5rem;
+          span {
+            display: inline-block;
+            padding: 0 0.2rem 0 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+          }
+        }
+        .desc {
+          font-size: 0.4rem;
+          line-height: 0.6rem;
+        }
+        .position {
+          padding: 0.2rem 0;
+          font-size: 0.6rem;
+          line-height: 0.6rem;
+          border-top: 2px solid #fff;
         }
       }
     }

@@ -3,6 +3,9 @@
 		<div class="common_logo_wrapper">
 			<div class="common_logo_item"></div>
 		</div>
+		<div class="common_title_item">
+			<img src="@/image/common/title_00000.png" alt />
+		</div>
 		<div class="bg"></div>
 		<div class="content">
 			<div class="common_subtitle_item">
@@ -10,7 +13,7 @@
 			</div>
 			<div class="wheel">
 				<canvas id="wheelcanvas" :width="remUnit*13.5" :height="remUnit*13.5">抱歉！浏览器不支持。</canvas>
-				<a v-if="!alreadyReleasedPrize" class="begin" @click="drawPrize">
+				<a class="begin" @click="drawPrize">
 					<!--<span>开始抽奖</span>-->
 				</a>
 			</div>
@@ -47,8 +50,8 @@ export default {
 			alreadyReleasedPrize: false,
 			alreadyReceivedPrize: false,
 			rotateDuration: 3000,
-			colorDictionary: ['#feebcd', '#ffb54c'],
-			textColorDictionary: ['#C21515', '#feebcd'],
+			colorDictionary: ['#1D88C2', '#E6E6E6'],
+			textColorDictionary: ['#E6E6E6', '#1D88C2'],
 			dotsColorDictionary: ['#ffd800', '#fe9166'],
 			wheelData: [{
 				name: '比萨饼',
@@ -185,40 +188,40 @@ export default {
 
 			ctx.font = this.remUnit;
 
-			ctx2.beginPath();
-			ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.75, 0, Math.PI * 2, true);
-			ctx2.fillStyle = 'rgba(188,75,61,0.5)';
-			ctx2.fill();
+			// ctx2.beginPath();
+			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.75, 0, Math.PI * 2, true);
+			// ctx2.fillStyle = 'rgba(188,75,61,0.5)';
+			// ctx2.fill();
 
-			ctx2.beginPath();
-			ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.57, 0, Math.PI * 2, true);
-			ctx2.fillStyle = '#bc4b3d';
-			ctx2.fill();
+			// ctx2.beginPath();
+			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.57, 0, Math.PI * 2, true);
+			// ctx2.fillStyle = '#bc4b3d';
+			// ctx2.fill();
 
-			ctx2.beginPath();
-			ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.35, 0, Math.PI * 2, true);
-			ctx2.fillStyle = '#f06949';
-			ctx2.fill();
+			// ctx2.beginPath();
+			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.35, 0, Math.PI * 2, true);
+			// ctx2.fillStyle = '#f06949';
+			// ctx2.fill();
 
 
-			ctx2.save();
+			// ctx2.save();
 
-			let showDots = () => {
-				for (let i = 0; i < 24; i++) {
-					ctx.beginPath();
-					let angle = Math.PI * 2 / 24 * i;
-					let translateX = canvasWidth * 0.5 + Math.cos(angle) * this.remUnit * 5.9;
-					let translateY = canvasHeight * 0.5 + Math.sin(angle) * this.remUnit * 5.9;
-					ctx.arc(translateX, translateY, this.remUnit * 0.35, this.remUnit, Math.PI * 2, true);
-					ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
-					ctx.fill();
-				}
-			};
-			showDots();
-			setInterval(() => {
-				showDots();
-				this.dotsColorDictionary = this.dotsColorDictionary.reverse();
-			}, 1000);
+			// let showDots = () => {
+			// 	for (let i = 0; i < 24; i++) {
+			// 		ctx.beginPath();
+			// 		let angle = Math.PI * 2 / 24 * i;
+			// 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * this.remUnit * 5.9;
+			// 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * this.remUnit * 5.9;
+			// 		ctx.arc(translateX, translateY, this.remUnit * 0.35, this.remUnit, Math.PI * 2, true);
+			// 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
+			// 		ctx.fill();
+			// 	}
+			// };
+			// showDots();
+			// setInterval(() => {
+			// 	showDots();
+			// 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
+			// }, 1000);
 
 			let imageSequence = [];
 
@@ -251,7 +254,7 @@ export default {
 				}
 				ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
 
-				ctx.strokeStyle = '#f06949';
+				ctx.strokeStyle = '#4387BD';
 				ctx.stroke();
 				ctx.fillStyle = this.colorDictionary[index % 2];
 
@@ -272,7 +275,12 @@ export default {
 					ctx.fillStyle = this.textColorDictionary[index % 2];
 					ctx.translate(translateX, translateY);
 					ctx.rotate(angle);
-					ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
+					// ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
+					const offset = 20
+					this.wheelData[index].name.split('').forEach((item, index) => {
+						ctx.fillText(item, -ctx.measureText(item).width / 2, index * 30 + offset);
+
+					})
 					ctx.shadowColor = '#000'; // green for demo purposes
 					ctx.shadowBlur = 10;
 					ctx.shadowOffsetX = 0;
@@ -315,17 +323,20 @@ export default {
 				}
 			})
 			// if (item1.value === 10) {
-			this.rotateWheel(index).then(() => {
-				this.alreadyReceivedPrize = false;
-				this.alreadyReleasedPrize = true;
+			if (!this.alreadyReleasedPrize) {
+				this.rotateWheel(index).then(() => {
 
-				this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
-				// this.rewardStr = response.rewardStr;
-				// this.$store.commit('turnOffWinningPrizeChance');
+					this.alreadyReleasedPrize = true;
 
-			}).catch(error => {
-				debugger
-			})
+					this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
+					// this.rewardStr = response.rewardStr;
+					// this.$store.commit('turnOffWinningPrizeChance');
+
+				}).catch(error => {
+					// debugger
+				})
+			}
+
 
 
 

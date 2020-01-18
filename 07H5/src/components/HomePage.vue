@@ -5,7 +5,6 @@
 		</div>
 		<div class="common_title_item">
 			<img src="@/image/common/title_00000.png" alt />
-			<img src alt />
 		</div>
 		<div class="content">
 			<div class="bg" :style="navigatorStyle"></div>

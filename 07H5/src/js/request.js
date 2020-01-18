@@ -1,9 +1,9 @@
 import axios from 'axios';
 import store from '../store/store';
 import util from './util';
-const baseUrl = process.env.NODE_ENV === 'production' ? 'http://essilorevent.digital-support.cn/api/' : 'http://192.168.124.8:799/';
-//const baseUrl = process.env.NODE_ENV === 'production' ? 'http://192.168.124.8:799/' : 'http://192.168.124.8:799/';
+// const baseUrl = process.env.NODE_ENV === 'production' ? 'http://essilorevent.digital-support.cn/api/' : 'http://192.168.124.8:799/';
 
+const baseUrl = process.env.NODE_ENV === 'production' ? 'http://essilorevent.digital-support.cn/api/' : 'http://essilorevent.digital-support.cn/api/';
 
 // 创建axios实例
 const service = axios.create({
