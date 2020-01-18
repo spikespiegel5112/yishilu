@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
+
 
 export default {
 	name: "LotteryDraw",
@@ -42,6 +42,7 @@ export default {
 	},
 	data() {
 		return {
+			drawlistRequest: 'h5.get.wxuser.drawlist',
 			goToNextflag: false,
 			dialogNotYetFlag: false,
 			status: false,
@@ -132,26 +133,24 @@ export default {
 		},
 		getPrizeList() {
 			this.loading = true;
-			this.drawCanvas();
-			this.getCachedCircleNumber();
+			// this.drawCanvas();
+			// this.getCachedCircleNumber();
 
-			this.$http.get(this.$baseUrl + this.getActivityInfoRequest).then(response => {
-				console.log(response)
+			this.$http.get(this.$baseUrl + this.drawlistRequest).then(response => {
+				console.log('getPrizeList+++++++=', response)
 				this.loading = false;
-				response = response.data;
 				this.wheelData = [];
-				this.activityInfo = response.activityInfo;
-				// alert(JSON.parse(sessionStorage.getItem('dailyLimit')))
+				// this.activityInfo = response.activityInfo;
 
-				if (JSON.parse(sessionStorage.getItem('dailyLimit') === 'null')) {
-					this.dailyLimit = response.activityInfo.dailyLimit;
-				}
-				response.rewardList.forEach((item, index) => {
+				// if (JSON.parse(sessionStorage.getItem('dailyLimit') === 'null')) {
+				// 	this.dailyLimit = response.activityInfo.dailyLimit;
+				// }
+				response.data.forEach((item, index) => {
 					this.wheelData.push({
-						name: item.rewardName,
-						image: item.rewardImage !== null ? item.rewardImage + '-style_100x100' : '',
+						name: item.prize_Name,
+						// image: item.rewardImage !== null ? item.rewardImage + '-style_100x100' : '',
 						// image: 'https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png',
-						value: item.activityRewardMappingId,
+						value: item.id,
 					})
 				});
 
@@ -229,7 +228,7 @@ export default {
 				let imageObj = new Image();
 				imageObj.width = '150';
 				imageObj.height = '150';
-				imageObj.src = this.$replaceProtocol(this.wheelData[index].image);
+				// imageObj.src = this.$replaceProtocol(this.wheelData[index].image);
 				imageObj.transparency = 0.2;
 				imageSequence.push(imageObj);
 			});
@@ -261,7 +260,9 @@ export default {
 				ctx.save();
 				ctx.fill();
 
-				imageSequence[index].onload = () => {
+				// imageSequence[index].onload = () => {};
+
+				setTimeout(() => {
 					let translateX, translateY;
 					if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
 						translateX = canvasWidth * 0.5 + Math.cos(angle + baseAngle / 2 - Math.PI / 2 - Math.PI / this.wheelData.length) * this.remUnit * 5;
@@ -278,8 +279,10 @@ export default {
 					// ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
 					const offset = 20
 					this.wheelData[index].name.split('').forEach((item, index) => {
-						ctx.fillText(item, -ctx.measureText(item).width / 2, index * 30 + offset);
+						if (index < 6) {
+							ctx.fillText(item, -ctx.measureText(item).width / 2, index * 30 + offset);
 
+						}
 					})
 					ctx.shadowColor = '#000'; // green for demo purposes
 					ctx.shadowBlur = 10;
@@ -289,8 +292,7 @@ export default {
 
 					ctx.restore();
 					ctx.save();
-
-				};
+				}, 500)
 				// ctx.restore();
 				// ctx.save();
 
