@@ -61,6 +61,9 @@ $yellow: #f9c978;
           padding: 0 0.5rem 0 0;
           height: 100%;
           flex: 1;
+          .title {
+            color: #fff;
+          }
           .main {
             height: 10.5rem;
             overflow: auto;

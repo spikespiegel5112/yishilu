@@ -113,9 +113,12 @@ export default {
 		checkStatus() {
 			if (this.status) {
 				this.$router.push({
-					name: ''
+					name: 'lotteryDraw'
 				})
 			} else {
+				this.$router.push({
+					name: 'lotteryDraw'
+				})
 				this.dialogNotYetFlag = true
 			}
 

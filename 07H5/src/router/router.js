@@ -32,6 +32,10 @@ const routes = [{
     path: '/interaction',
     name:'interaction',
     component: () => import('../components/Interaction.vue')
+  }, {
+    path: '/lotterydraw',
+    name:'lotteryDraw',
+    component: () => import('../components/LotteryDraw.vue')
   }]
 }, {
   path: '/auth',
