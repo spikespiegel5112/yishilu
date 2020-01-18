@@ -310,7 +310,7 @@ export default {
 					const offset = 20
 					this.wheelData[index].name.split('').forEach((item, index) => {
 						if (index < 6) {
-							ctx.fillText(item, -ctx.measureText(item).width / 2, index * 30 + offset);
+							ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit + offset);
 
 						}
 					})
