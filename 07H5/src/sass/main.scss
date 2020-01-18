@@ -156,6 +156,61 @@ $yellow: #f9c978;
       }
     }
   }
+  .common_dialog_container {
+    &.prize {
+      .dialog_wrapper {
+        height: 9rem;
+        .content {
+          color: #fff;
+          .title {
+            width: 100%;
+            position: absolute;
+            top: -3rem;
+            text-align: center;
+            img {
+              display: inline-block;
+            }
+          }
+          .desc {
+            padding: 3rem 0 0 0;
+            .prize {
+              font-size: 1rem;
+              font-weight: bold;
+              line-height: 1.5rem;
+            }
+            .hint {
+              font-size: 0.5rem;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+
+    &.thankyou {
+      .dialog_wrapper {
+        height: 10rem;
+        .content {
+          .title {
+            width: 100%;
+            position: absolute;
+            top: -3rem;
+            text-align: center;
+            img {
+              display: inline-block;
+            }
+          }
+          .desc {
+          }
+          p {
+            font-size: 1.5rem;
+            line-height: 8rem;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
 }
 .interaction_main_container {
   width: 100%;
@@ -235,11 +290,11 @@ $yellow: #f9c978;
       .dialog_wrapper {
         width: 10rem;
         height: 4rem;
-      }
-      .content {
-        padding: 1rem 0 0 0;
-        p {
-          font-size: 0.7rem;
+        .content {
+          padding: 1rem 0 0 0;
+          p {
+            font-size: 0.7rem;
+          }
         }
       }
     }

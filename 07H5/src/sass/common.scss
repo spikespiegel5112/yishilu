@@ -101,7 +101,7 @@ input:-webkit-autofill {
 
 .common_main_container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #fff;
   background-image: url("image/common/bg_00000.jpg");
   background-position: 0 0;
@@ -158,6 +158,7 @@ input:-webkit-autofill {
 .common_dialog_container {
   position: absolute;
   width: 100%;
+  min-height: 100%;
   height: 100%;
   top: 0;
   z-index: 1;

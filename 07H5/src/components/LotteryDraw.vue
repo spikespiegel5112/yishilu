@@ -19,12 +19,29 @@
 				<CommonGoBack to="interaction" />
 			</div>
 		</div>
-		<div v-if="dialogNotYetFlag" class="common_dialog_container notyet">
+		<div v-if="dialogThankYouFlag" class="common_dialog_container thankyou">
 			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closeNotYet"></a>
+				<a href="javascript:;" class="close" @click="closeThankYou"></a>
 				<div class="content">
-					<p>您尚未完成全部打卡</p>
-					<p>请全部完成后进行抽奖</p>
+					<p>谢谢参与</p>
+				</div>
+			</div>
+		</div>
+		<div v-if="dialogPrizeFlag" class="common_dialog_container prize">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closePrize"></a>
+				<div class="content">
+					<div class="title">
+						<img src="@/image/lotterydraw/gift_00000.png" alt />
+					</div>
+					<div class="desc">
+						<p class="prize">
+							恭喜您获得{{prizeData.prize_Name}}
+							<br />
+							{{prizeData.prize_Content}}
+						</p>
+						<p class="hint">请前往依视路展台领取精美礼品</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -43,13 +60,14 @@ export default {
 			drawlistRequest: 'h5.get.wxuser.drawlist',
 			drawRequest: 'h5.user.luck.draw',
 			goToNextflag: false,
-			dialogNotYetFlag: false,
+			dialogThankYouFlag: false,
+			dialogPrizeFlag: false,
 			status: false,
 			wheelCanvas: {},
 			remUnit: '',
 			alreadyReleasedPrize: false,
 			alreadyReceivedPrize: false,
-			rotateDuration: 500,
+			rotateDuration: 3600,
 			colorDictionary: ['#1D88C2', '#E6E6E6'],
 			textColorDictionary: ['#E6E6E6', '#1D88C2'],
 			dotsColorDictionary: ['#ffd800', '#fe9166'],
@@ -86,7 +104,8 @@ export default {
 				value: 30,
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}],
-			userInfo: {}
+			userInfo: {},
+			prizeData: {}
 		};
 	},
 	computed: {
@@ -132,8 +151,11 @@ export default {
 		getUserInfo() {
 			this.userInfo = JSON.parse(this.$webStorage.getItem('userInfo'))
 		},
-		closeNotYet() {
-			this.dialogNotYetFlag = false
+		closeThankYou() {
+			this.dialogThankYouFlag = false
+		},
+		closePrize() {
+			this.dialogPrizeFlag = false
 		},
 		getPrizeList() {
 			this.loading = true;
@@ -376,6 +398,11 @@ export default {
 						if (item1.value === response.id) {
 							this.rotateWheel(index1).then(() => {
 								this.alreadyReleasedPrize = true;
+								if (response.id <= 5) {
+									this.dialogPrizeFlag = true
+								} else {
+									this.dialogThankYouFlag = true
+								}
 							})
 						}
 					});
