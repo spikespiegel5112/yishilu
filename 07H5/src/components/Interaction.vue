@@ -161,6 +161,7 @@ export default {
 		console.log(this.task_type);
 		if (this.task_type) {
 			this.lighttask();
+      this.addscancount();
 		}
 		else {
 			this.getlighten();
@@ -209,42 +210,27 @@ export default {
 				return returnValue
 			}
 		},
+    addscancount() {//增加扫码次数
+    	this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id, scan_type: this.task_type } }).then(response => {
+    		console.log(response)
+    	}).catch(error => {
+    		console.log(error)
+    	})
+    },
 		receivetask(type) {  //领取任务
-			let confirmmsg = "";
 			switch (type) {
 				case 1:
-					confirmmsg = "确定领取眼任务吗";
+					this.dialogYanFlag=true;
 					break;
 				case 2:
-					confirmmsg = "确定领取视任务吗";
+					this.dialogShiFlag=true;
 					break;
 				case 3:
-					confirmmsg = "确定领取光任务吗";
+					this.dialogGuangFlag=true;
 					break;
 				default:
 					break;
 			}
-
-			this.$vux.confirm.show({
-				showCancelButton: true,
-				title: confirmmsg,
-				onConfirm() {
-					this.$http.post(
-						'h5.user.receive.task', {
-						User_Id: this.userinfo.id,
-						Task_Type: type
-					}).then(r => {
-						console.log(r);
-						this.$vux.confirm.show({
-							showCancelButton: false,
-							title: r.msg,
-							onConfirm() { }
-						})
-					}).catch(error => {
-						console.log(error)
-					})
-				}
-			});
 		},
 		init() {
 			// console.log(FrameAnimation)
@@ -267,7 +253,7 @@ export default {
 					name: 'lotteryDraw'
 				})
 			} else {
-				this.dialogFlag = true
+				this.dialogNotYetFlag = true
 			}
 		},
 		closeDialog() {

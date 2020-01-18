@@ -13,9 +13,7 @@
 			</div>
 			<div class="wheel">
 				<canvas id="wheelcanvas" :width="remUnit*13.5" :height="remUnit*13.5">抱歉！浏览器不支持。</canvas>
-				<a class="begin" @click="drawPrize">
-					<!--<span>开始抽奖</span>-->
-				</a>
+				<a class="begin" @click="drawPrize"></a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack to="interaction" />
@@ -43,6 +41,7 @@ export default {
 	data() {
 		return {
 			drawlistRequest: 'h5.get.wxuser.drawlist',
+			drawRequest: 'h5.user.luck.draw',
 			goToNextflag: false,
 			dialogNotYetFlag: false,
 			status: false,
@@ -50,7 +49,7 @@ export default {
 			remUnit: '',
 			alreadyReleasedPrize: false,
 			alreadyReceivedPrize: false,
-			rotateDuration: 3000,
+			rotateDuration: 500,
 			colorDictionary: ['#1D88C2', '#E6E6E6'],
 			textColorDictionary: ['#E6E6E6', '#1D88C2'],
 			dotsColorDictionary: ['#ffd800', '#fe9166'],
@@ -87,6 +86,7 @@ export default {
 				value: 30,
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}],
+			userInfo: {}
 		};
 	},
 	computed: {
@@ -122,11 +122,15 @@ export default {
 		this.$nextTick(() => {
 			this.remUnit = Number(document.getElementsByTagName('html')[0].style.fontSize.replace('px', ''))
 		});
+		this.getUserInfo()
 	},
 	methods: {
 		init() {
 			// console.log(FrameAnimation)
 
+		},
+		getUserInfo() {
+			this.userInfo = JSON.parse(this.$webStorage.getItem('userInfo'))
 		},
 		closeNotYet() {
 			this.dialogNotYetFlag = false
@@ -135,8 +139,11 @@ export default {
 			this.loading = true;
 			// this.drawCanvas();
 			// this.getCachedCircleNumber();
-
-			this.$http.get(this.$baseUrl + this.drawlistRequest).then(response => {
+			this.$http.get(this.$baseUrl + this.drawlistRequest, {
+				params: {
+					u_id: this.userInfo.id
+				}
+			}).then(response => {
 				console.log('getPrizeList+++++++=', response)
 				this.loading = false;
 				this.wheelData = [];
@@ -169,6 +176,7 @@ export default {
 			})
 		},
 		drawCanvas() {
+
 			console.log(this.remUnit)
 			// console.log(this.canvasWidth)
 			// console.log(this.wheelData)
@@ -293,14 +301,12 @@ export default {
 					ctx.restore();
 					ctx.save();
 				}, 500)
+
+
+
+
 				// ctx.restore();
 				// ctx.save();
-
-
-				// setInterval(()=>{
-				//   ctx.rotate(baseAngle*Math.PI/180);
-				// }, 1000);
-
 				// let pointer = new Image();
 				// pointer.url = 'http://localhost/static/img/pointer_00000.png';
 				// pointer.width = '100';
@@ -308,91 +314,76 @@ export default {
 
 
 			});
+			setTimeout(() => {
+				ctx.translate(200, 150)
+				ctx.rotate(-Math.PI / 4);
+
+				ctx.restore();
+				ctx.save();
+
+			}, 1000);
+
 			this.getCachedCircleNumber();
 
 
 		},
 		drawPrize() {
 			this.loading = true;
+			// 本地调试代码
 			console.log(Math.random())
-
 			console.log(Math.ceil((this.wheelData.length - 1) * Math.random()))
 			console.log(this.wheelData.find((item, index) => index === Math.ceil((this.wheelData.length - 1) * Math.random())))
-			let index = 0
-			this.wheelData.forEach((item1, index1) => {
-				if (index1 === Math.ceil((this.wheelData.length - 1) * Math.random())) {
-					index = index1
-				}
-			})
-			// if (item1.value === 10) {
-			if (!this.alreadyReleasedPrize) {
-				this.rotateWheel(index).then(() => {
+			// let index = 0
+			// this.wheelData.forEach((item1, index1) => {
+			// 	if (index1 === Math.ceil((this.wheelData.length - 1) * Math.random())) {
+			// 		index = index1
+			// 		console.log('match+++++++', item1)
+			// 		console.log('match+++++++', index)
 
-					this.alreadyReleasedPrize = true;
-
-					this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
-					// this.rewardStr = response.rewardStr;
-					// this.$store.commit('turnOffWinningPrizeChance');
-
-				}).catch(error => {
-					// debugger
-				})
-			}
-
-
-
-
-
-			// this.$http.post(this.$baseUrl + this.participate_activityRequest, {}, {
-			// 	headers: {
-			// 		'Content-Type': 'application/x-www-form-urlencoded'
-			// 	},
-			// }).then(response => {
-			// 	console.log(response)
-
-			// 	this.loading = false;
-			// 	let responseMetaData = response;
-			// 	response = response.data;
-
-			// 	switch (responseMetaData.code) {
-			// 		case 10000:
-			// 			this.prizeData = response;
-			// 			this.rewardCode = response.rewardCode;
-			// 			this.wheelData.forEach((item1, index1) => {
-			// 				if (item1.value === response.activityRewardMappingId) {
-			// 					// if (item1.value === 10) {
-			// 					this.rotateWheel(index1).then(() => {
-			// 						this.alreadyReceivedPrize = false;
-			// 						this.alreadyReleasedPrize = true;
-
-			// 						this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
-			// 						this.rewardStr = response.rewardStr;
-			// 						this.$store.commit('turnOffWinningPrizeChance');
-
-			// 					})
-			// 				}
-			// 			});
-			// 			break;
-			// 		case 10004:
-			// 			this.$vux.confirm.show({
-			// 				showCancelButton: false,
-			// 				title: responseMetaData.message,
-			// 				onConfirm() {
-			// 				}
-			// 			});
-			// 			break;
 			// 	}
+			// })
+			// if (!this.alreadyReleasedPrize) {
+			// 	this.rotateWheel(index).then(() => {
 
-			// 	// }).catch(error => {
-			// 	//   this.loading = false;
-			// 	//   this.$vux.confirm.show({
-			// 	//     showCancelButton: false,
-			// 	//     title: error.data.message,
-			// 	//     onConfirm() {
-			// 	//
-			// 	//     }
-			// 	//   })
-			// });
+			// 		this.alreadyReleasedPrize = true;
+
+			// 		this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
+
+			// 	}).catch(error => {
+			// 	})
+			// }
+
+
+
+			console.log(' this.userInfo.id', this.userInfo)
+			this.$http.post(this.drawRequest, {
+				u_id: this.userInfo.id
+			}).then(response => {
+				console.log(response)
+				this.loading = false;
+				if (!response.data) {
+					this.$vux.confirm.show({
+						showCancelButton: false,
+						title: response.msg,
+						onConfirm() {
+						}
+					});
+				} else {
+					response = response.data
+					this.prizeData = response;
+					this.rewardCode = response.rewardCode;
+					this.wheelData.forEach((item1, index1) => {
+						if (item1.value === response.id) {
+							this.rotateWheel(index1).then(() => {
+								this.alreadyReleasedPrize = true;
+							})
+						}
+					});
+				}
+			}).catch(error => {
+				this.loading = false;
+				console.log(error)
+			});
 		},
 		checkLowestCommonDivisorWith2(source) {
 			let flag = true;
@@ -418,7 +409,8 @@ export default {
 				console.log(111, offset)
 
 				//因为canvas绘图顺序为顺时针，旋转顺序也为顺时针的话，旋转过后的个数会从最大值往最小值数，所以索性对偏移的个数进行取反
-				offset = this.wheelData.length - offset;
+
+				offset = this.wheelData.length - offset - 4;
 				let initRotateAngle = 3600;
 				let unitAngle = 360 / this.wheelData.length;
 				console.log(222, initRotateAngle + unitAngle * offset)
