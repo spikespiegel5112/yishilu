@@ -18,7 +18,7 @@
 				</a>
 			</div>
 			<div class="common_goback_wrapper">
-				<CommonGoBack to='interaction'/>
+				<CommonGoBack to="interaction" />
 			</div>
 		</div>
 		<div v-if="dialogNotYetFlag" class="common_dialog_container notyet">
@@ -66,6 +66,14 @@ export default {
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}, {
 				name: '炖排骨',
+				value: 30,
+				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
+			}, {
+				name: '小鸡炖蘑菇',
+				value: 30,
+				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
+			}, {
+				name: '牛排',
 				value: 30,
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}, {
@@ -265,19 +273,9 @@ export default {
 					ctx.font = this.remUnit * 0.5 + "px Georgia";
 					ctx.fillStyle = this.textColorDictionary[index % 2];
 					ctx.translate(translateX, translateY);
-					// ctx.rotate(angle + Math.PI / 2);
-					ctx.rotate(angle + Math.PI / 2 + baseAngle / 2);
-
-					// if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-					//   //
-					//   ctx.rotate(angle + Math.PI / 2);
-					// } else {
-					//   ctx.rotate(angle + baseAngle / 2 + Math.PI / 2);
-					// }
+					ctx.rotate(angle);
 					ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-					// let currentImageUrlData=this.wheelCanvas.getContext('2d').toDataURL('image/png', 1);
-					// console.log(currentImageUrlData)
-					ctx.drawImage(imageSequence[index], -this.remUnit * 2 * 0.5, this.remUnit * 1.3, this.remUnit * 2, this.remUnit * 2);
+					// ctx.drawImage(imageSequence[index], -this.remUnit * 2 * 0.5, this.remUnit * 1.3, this.remUnit * 2, this.remUnit * 2);
 					ctx.shadowColor = '#000'; // green for demo purposes
 					ctx.shadowBlur = 10;
 					ctx.shadowOffsetX = 0;
@@ -289,8 +287,8 @@ export default {
 					ctx.save();
 
 				};
-				ctx.restore();
-				ctx.save();
+				// ctx.restore();
+				// ctx.save();
 
 
 				// setInterval(()=>{
