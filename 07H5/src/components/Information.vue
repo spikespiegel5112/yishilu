@@ -16,13 +16,16 @@
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide">
-							<img src="@/image/information/slide_item_00000.png" alt />
+							<img src="@/image/information/slide_item_1_00000.png" alt />
 						</li>
 						<li class="swiper-slide">
-							<img src="@/image/information/slide_item_00000.png" alt />
+							<img src="@/image/information/slide_item_2_00000.png" alt />
 						</li>
 						<li class="swiper-slide">
-							<img src="@/image/information/slide_item_00000.png" alt />
+							<img src="@/image/information/slide_item_3_00000.png" alt />
+						</li>
+						<li class="swiper-slide">
+							<img src="@/image/information/slide_item_4_00000.png" alt />
 						</li>
 					</ul>
 				</div>

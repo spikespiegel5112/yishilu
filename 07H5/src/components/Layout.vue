@@ -28,7 +28,7 @@ export default {
 	mounted() {
 		this.$remResizing({
 			fontSize: 20,
-			threshold: 750,
+			threshold: 768,
 			aligncenter: true,
 		});
 		console.log('$webStorage:', this.$webStorage.type);
