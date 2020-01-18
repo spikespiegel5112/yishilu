@@ -159,7 +159,8 @@ $yellow: #f9c978;
   .common_dialog_container {
     &.prize {
       .dialog_wrapper {
-        height: 9rem;
+        min-height: 9rem;
+        height: auto;
         .content {
           color: #fff;
           .title {
@@ -169,18 +170,20 @@ $yellow: #f9c978;
             text-align: center;
             img {
               display: inline-block;
+              width: 4rem;
             }
           }
           .desc {
             padding: 3rem 0 0 0;
-            .prize {
+            .prizeinfo {
+              padding: 0 1rem;
               font-size: 1rem;
               font-weight: bold;
               line-height: 1.5rem;
             }
             .hint {
               font-size: 0.5rem;
-              font-weight: bold;
+              // font-weight: bold;
             }
           }
         }

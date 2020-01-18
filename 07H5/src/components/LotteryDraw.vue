@@ -35,7 +35,7 @@
 						<img src="@/image/lotterydraw/gift_00000.png" alt />
 					</div>
 					<div class="desc">
-						<p class="prize">
+						<p class="prizeinfo">
 							恭喜您获得{{prizeData.prize_Name}}
 							<br />
 							{{prizeData.prize_Content}}
