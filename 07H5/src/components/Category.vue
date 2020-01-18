@@ -1,5 +1,5 @@
 <template>
-	<div class="homepage_main_container">
+	<div class="category_main_container">
 		<div class="common_logo_wrapper">
 			<div class="common_logo_item"></div>
 		</div>
@@ -8,39 +8,32 @@
 			<img src alt />
 		</div>
 		<div class="content">
-			<div class="bg" :style="navigatorStyle"></div>
-
-			<!-- <img src="@/image/homepage/navigator_00000.png" alt /> -->
-			<ul class="links">
-				<li class="link1">
-					<router-link href="javascript:;" :to="{name:'information'}" />
-				</li>
-				<li class="link2">
-					<router-link href="javascript:;" :to="{name:'interaction'}" />
-				</li>
-				<li class="link3">
-					<router-link href="javascript:;" :to="{name:'category'}" />
-				</li>
-				<li class="link4">
-					<router-link href="javascript:;" :to="{name:'customize'}" />
-				</li>
-				<li class="link5">
-					<router-link href="javascript:;" :to="{name:'entrance'}" />
-				</li>
-			</ul>
+			<div class="common_subtitle_item">
+				<img src="@/image/category/subtitle_00000.png" alt />
+			</div>
+			<div class="main">
+				<img src="@/image/category/category_content_00000.png" alt="">
+			</div>
+			<div class="common_goback_wrapper">
+				<CommonGoBack />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import Swiper from 'swiper';
 
 export default {
-	name: "Homepage",
+	name: "Information",
 	components: {
 	},
 	data() {
 		return {
-			goToNextflag: false
+			goToNextflag: false,
+			dialogFlag: false,
+			dialogIndex: 0,
+
 		};
 	},
 	computed: {
@@ -51,6 +44,14 @@ export default {
 		}
 	},
 	watch: {
+		goToNextflag(value) {
+			if (value === true) {
+				this.$router.push({
+					name: 'homepage'
+				});
+
+			}
+		},
 		remUnit(value) {
 			this.$nextTick(() => {
 				let windowWidth = document.body.clientWidth.toString().replace('px', '');
@@ -61,19 +62,25 @@ export default {
 	},
 
 	mounted() {
-		// this.$autoHeight({
-		//   target: '.entrance_main_container',
-		//   force: true
-		// });
-		this.$nextTick(() => {
-			this.remUnit = Number(document.getElementsByTagName('html')[0].style.fontSize.replace('px', ''));
+		setTimeout(() => {
+			this.init();
 
-
-		});
+		}, 100)
 
 	},
 	methods: {
-
+		init() {
+			// console.log(FrameAnimation)
+			const swiper = new Swiper('.swiper-container', {
+				direction: 'horizontal',
+				slidesPerView: 'auto',
+				freeMode: true,
+				// scrollbar: {
+				// 	el: '.swiper-scrollbar',
+				// },
+				mousewheel: true,
+			})
+		},
 		initShare() {
 			let params = {
 				share: true, // true可以分享；false不可以分享
@@ -86,6 +93,14 @@ export default {
 			};
 			this.$wxsdk.initConfig(params);
 		},
+		checkDetail(index) {
+			this.dialogFlag = true
+			this.dialogIndex = index
+		},
+		close() {
+			this.dialogFlag = false
+
+		}
 	}
 }
 </script>
