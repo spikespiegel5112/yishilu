@@ -96,7 +96,6 @@ export default {
 	methods: {
 		init() {
 			// console.log(FrameAnimation)
-
 		},
 		initShare() {
 			let params = {
