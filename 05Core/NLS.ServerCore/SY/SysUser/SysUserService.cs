@@ -192,7 +192,7 @@ namespace NLS.ServiceCore.SY.SysUser
         public ResponseParamters<string> ClearUserPrizeState()
         {
             ResponseParamters<string> responseParamters = new ResponseParamters<string>();
-            int count = DBRepository.Update($"update wx_user set F_Prize=0,Prize_Time=null,Prize_Name=null ");
+            int count = DBRepository.Update($"update wx_user set F_Prize=0,Prize_Time=null,Prize_Name=null,Prize_State=1,Prize_Id=0 ");
             if (count > 0)
             {
                 responseParamters.State = ResultStatusCode.Success;
@@ -204,6 +204,28 @@ namespace NLS.ServiceCore.SY.SysUser
                 responseParamters.Msg = "清空失败";
             }
 
+            return responseParamters;
+        }
+
+        /// <summary>
+        /// 中奖核销
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        public ResponseParamters<string> ChangeUserPrizeState(int u_id)
+        {
+            ResponseParamters<string> responseParamters = new ResponseParamters<string>();
+            int count = DBRepository.Update($"update wx_user set Prize_State=2 where  Id={u_id}");
+            if (count > 0)
+            {
+                responseParamters.State = ResultStatusCode.Success;
+                responseParamters.Msg = "核销成功";
+            }
+            else
+            {
+                responseParamters.State = ResultStatusCode.SaveFailed;
+                responseParamters.Msg = "核销失败";
+            }
             return responseParamters;
         }
 

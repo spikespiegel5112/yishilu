@@ -15,5 +15,9 @@ namespace NLS.ServiceCore.SY.Task
         Task<ResponseParamters<string>> UserLigntTask(Wx_User_Task usertask);
 
         Task<LightenUpModel> GetLighten(int u_id);
+
+        Task<ResponseParamters<Prize>> UserLuckDraw(int u_id);
+
+        Task<List<Prize>> GetPrizeList(int u_id);
     }
 }

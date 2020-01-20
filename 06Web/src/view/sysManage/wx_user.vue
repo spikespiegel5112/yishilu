@@ -27,7 +27,8 @@
           size="small"
           style="margin-right: 5px"
           @click="modifyManagerInfo(index)"
-        >编辑</Button>
+          v-if="data[index].prize_State==1&&data[index].f_Prize==1"
+        >核销</Button>
       </template>
     </Table>
      <Modal :styles="{width:'50%'}" v-model="isModal" :title="modalTitle" :mask-closable="false">
@@ -168,17 +169,25 @@ export default {
           key: "prize_Time",
           align: "center"
         },
+         {
+          title: "是否核销",
+          key: "prize_State",
+          align: "center",
+           render: (h, params) => {
+            return h("span", params.row.prize_State == 1? "未核销" : "已核销");
+          }
+        },
         {
           title: "创建时间",
           key: "createTime",
           align: "center"
         },
-        //  {
-        //   title: "操作",
-        //   align: "center",
-        //   fixed: "right",
-        //   slot: "action"
-        // }
+         {
+          title: "操作",
+          align: "center",
+          fixed: "right",
+          slot: "action"
+        }
       ],
       data: [],
       ruleValidate: {
@@ -201,12 +210,29 @@ export default {
   },
   methods: {
       modifyManagerInfo(minfo) {
-      this.modalTitle = "用户编辑";
-      this.opType = "Edit";
-      this.$refs["formValidate"].resetFields();
+        var _this=this;
       this.currentItemInfo = this.$copy(this.data[minfo]);
-      //密码随意给个值
-      this.isModal = !this.isModal;
+      this.$Modal.confirm({
+        title: "系统提示",
+        content:
+          ( "确认核销[") +
+          "<b style='color:red'>" +
+          _this.currentItemInfo.prize_Name +
+          "</b>]",
+        onOk: function() {
+          _this.$axios
+            .get("change.wxuser.prizestate",  {params: {u_id: _this.currentItemInfo.id}})
+            .then(p => {
+              if (p.data.state == 200) {
+                _this.$Message.success("核销成功！");
+                _this.getuserPagedList(_this.currentPageIndex);
+              } else {
+                _this.$Message.warning(p.data.msg);
+              }
+            });
+        }
+      });  
+
     },
      addManagerInfo() {
       this.modalTitle = "用户新增";
@@ -251,6 +277,7 @@ export default {
         })
         .then(p => {
             if (p.data.state == 200) {
+               _this.getuserPagedList(_this.currentPageIndex);
               _this.$Message.success("清空成功！");
             }
             else{

@@ -6,7 +6,7 @@
 		<div class="common_title_item">
 			<img src="@/image/common/title_00000.png" alt />
 		</div>
-		<div class="bg"></div>
+		<!-- <div class="bg"></div> -->
 		<div class="content">
 			<div class="common_subtitle_item">
 				<img src="@/image/interaction/subtitle_00000.png" alt />
@@ -14,6 +14,9 @@
 			<div class="wheel">
 				<canvas id="wheelcanvas" :width="remUnit*13.5" :height="remUnit*13.5">抱歉！浏览器不支持。</canvas>
 				<a class="begin" @click="drawPrize"></a>
+			</div>
+			<div class="hint">
+				<p>奖品请至依视路展台领取</p>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack to="interaction" />
@@ -40,7 +43,7 @@
 							<br />
 							{{prizeData.prize_Content}}
 						</p>
-						<p class="hint">请前往依视路展台领取精美礼品</p>
+						<p class="hint">{{prizeData.remark}}</p>
 					</div>
 				</div>
 			</div>
@@ -302,15 +305,15 @@ export default {
 						translateY = canvasHeight * 0.5 + Math.sin(angle + baseAngle / 2) * this.remUnit * 5;
 					}
 
-					ctx.font = this.remUnit * 0.5 + "px Georgia";
+					ctx.font = this.remUnit * 0.7 + "px Georgia";
 					ctx.fillStyle = this.textColorDictionary[index % 2];
 					ctx.translate(translateX, translateY);
 					ctx.rotate(angle);
 					// ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-					const offset = 20
+					const offset = 25
 					this.wheelData[index].name.split('').forEach((item, index) => {
 						if (index < 6) {
-							ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit + offset);
+							ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit / 1.2 + offset);
 
 						}
 					})
@@ -383,22 +386,15 @@ export default {
 			}).then(response => {
 				console.log(response)
 				this.loading = false;
-				if (!response.data) {
-					this.$vux.confirm.show({
-						showCancelButton: false,
-						title: response.msg,
-						onConfirm() {
-						}
-					});
-				} else {
-					response = response.data
-					this.prizeData = response;
-					this.rewardCode = response.rewardCode;
+				response = response.data
+				this.prizeData = response;
+				this.rewardCode = response.rewardCode;
+				if (response.drawCount < 2) {
 					this.wheelData.forEach((item1, index1) => {
 						if (item1.value === response.id) {
 							this.rotateWheel(index1).then(() => {
 								this.alreadyReleasedPrize = true;
-								if (response.id <= 5) {
+								if (response.id < 4) {
 									this.dialogPrizeFlag = true
 								} else {
 									this.dialogThankYouFlag = true
@@ -406,7 +402,15 @@ export default {
 							})
 						}
 					});
+				} else {
+					if (response.id < 4) {
+						this.dialogPrizeFlag = true
+					} else {
+						this.dialogThankYouFlag = true
+					}
 				}
+
+
 			}).catch(error => {
 				this.loading = false;
 				console.log(error)
@@ -459,18 +463,6 @@ export default {
 					reject();
 				}
 			})
-		},
-		initShare() {
-			let params = {
-				share: true, // true可以分享；false不可以分享
-				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
-					link: `${this.$store.state.shareUrl}#/entrance`, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
-				}
-			};
-			this.$wxsdk.initConfig(params);
 		},
 
 	}

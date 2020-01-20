@@ -1,13 +1,13 @@
 <template>
 	<div class="entrance_main_container">
 		<div class="content">
-			<img src="@/image/entrance/entrance_00000.png" alt />
+			<CommonLoading :loading="loading" />
+			<img :src="entranceImage" alt />
 		</div>
 	</div>
 </template>
 
 <script>
-// import { getUserInfo } from '../../api/auth.js'
 
 export default {
 	name: "Entrance",
@@ -16,12 +16,21 @@ export default {
 	data() {
 		return {
 			goToNextflag: false,
-			userinfo: {}
+			countdownFlag: false,
+			loading: true,
+			userinfo: {},
+			entranceImage: require('@/image/entrance/entrance_00000.png'),
+			entranceImagePath: require('@/image/entrance/entrance_00000.png')
 		};
 	},
 	computed: {
 	},
 	watch: {
+		countdownFlag(value) {
+			if (value) {
+				this.goToNextPage()
+			}
+		},
 		goToNextflag(value) {
 
 		},
@@ -35,11 +44,20 @@ export default {
 	},
 
 	mounted() {
-		this.goToNextPage()
 		this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
+		this.getImage()
+
 		this.addscancount();
 	},
 	methods: {
+		getImage() {
+			const imageObject = new Image()
+			imageObject.src = this.entranceImagePath
+			imageObject.onload = () => {
+				this.loading = false
+				this.countdownFlag = true
+			}
+		},
 		addscancount() {
 			this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id, scan_type: 0 } }).then(response => {
 				console.log(response)

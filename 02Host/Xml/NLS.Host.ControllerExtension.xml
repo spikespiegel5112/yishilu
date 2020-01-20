@@ -63,6 +63,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.AuthorizeController.ChangeUserPrizeState(System.Int32)">
+            <summary>
+            中奖核销
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:NLS.Host.ControllerExtension.SYS.AuthorizeController.PageAccess(System.Int32,System.Int32)">
             <summary>
             增加扫码次数
@@ -165,6 +171,25 @@
             </summary>
             <param name="u_id"></param>
             <returns></returns>
+        </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.UserLuckDraw(NLS.Host.ControllerExtension.SYS.TaskController.Draw)">
+            <summary>
+            用户抽奖
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.GetPrizeList(System.Int32)">
+            <summary>
+            获取抽奖列表
+            </summary>
+            <param name="u_id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:NLS.Host.ControllerExtension.SYS.TaskController.Draw">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>

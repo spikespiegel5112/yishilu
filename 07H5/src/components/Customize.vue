@@ -15,13 +15,13 @@
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide">
-							<a class="point1" href="javascript:;" @click="checkDetail(0)">
+							<a class="point1 point" href="javascript:;" @click="checkDetail(0)">
 								<span></span>
 							</a>
-							<a class="point2" href="javascript:;" @click="checkDetail(1)">
+							<a class="point2 point" href="javascript:;" @click="checkDetail(1)">
 								<span></span>
 							</a>
-							<a class="point3" href="javascript:;" @click="checkDetail(2)">
+							<a class="point3 point" href="javascript:;" @click="checkDetail(2)">
 								<span></span>
 							</a>
 							<img src="@/image/customize/long_picture_00000.jpg" alt />
@@ -127,18 +127,7 @@ export default {
 				mousewheel: true,
 			})
 		},
-		initShare() {
-			let params = {
-				share: true, // true可以分享；false不可以分享
-				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
-					link: `${this.$store.state.shareUrl}#/entrance`, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
-				}
-			};
-			this.$wxsdk.initConfig(params);
-		},
+
 		checkDetail(index) {
 			this.dialogFlag = true
 			this.dialogIndex = index

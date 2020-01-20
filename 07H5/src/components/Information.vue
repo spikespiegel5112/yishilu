@@ -16,9 +16,6 @@
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide">
-							<img src="@/image/information/slide_item_1_00000.png" alt />
-						</li>
-						<li class="swiper-slide">
 							<img src="@/image/information/slide_item_2_00000.png" alt />
 						</li>
 						<li class="swiper-slide">
@@ -30,8 +27,11 @@
 					</ul>
 				</div>
 			</div>
+			<div class="position">
+				<img src="@/image/information/position_00000.png" alt />
+			</div>
 			<div class="common_navigation_item">
-				<router-link :to="{name:'customize'}" />
+				<a href="javascript:;" @click="getLocation"></a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />
@@ -90,18 +90,18 @@ export default {
 
 			})
 		},
-		initShare() {
-			let params = {
-				share: true, // true可以分享；false不可以分享
-				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
-					link: `${this.$store.state.shareUrl}#/entrance`, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
-				}
-			};
-			this.$wxsdk.initConfig(params);
-		},
+		getLocation() {
+			wx.openLocation({
+				latitude: 0, // 纬度，浮点数，范围为90 ~ -90
+				longitude: 0, // 经度，浮点数，范围为180 ~ -180。
+				name: '天安门', // 位置名
+				address: '', // 地址详情说明
+				scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+				infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+			});
+
+
+		}
 	}
 }
 </script>

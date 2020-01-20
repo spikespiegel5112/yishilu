@@ -152,6 +152,21 @@ namespace NLS.Host.ControllerExtension.SYS
         }
 
         /// <summary>
+        /// 中奖核销
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("change.wxuser.prizestate")]
+        public JsonResult ChangeUserPrizeState(int u_id)
+        {
+            var result = sysUserService.ChangeUserPrizeState(u_id);
+            if (result.State == ResultStatusCode.Success)
+            {
+                return Result(result);
+            }
+            return Result(result.State, result.Msg);
+        }
+        /// <summary>
         /// 增加扫码次数
         /// </summary>
         /// <returns></returns>

@@ -10,7 +10,7 @@ import HomePage from '../components/HomePage'
 let testPrefix = process.env.NODE_ENV === 'production' ? '/' : '/test';
 const routes = [{
   path: '/',
-  redirect: '/homepage',
+  redirect: '/entrance',
   component: Layout,
   children: [{
     path: '/entrance',

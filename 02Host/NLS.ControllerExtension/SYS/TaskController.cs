@@ -71,5 +71,40 @@ namespace NLS.Host.ControllerExtension.SYS
             return Result(await taskService.GetLighten(u_id));
         }
 
+        /// <summary>
+        /// 用户抽奖
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("h5.user.luck.draw")]
+        public async Task<JsonResult> UserLuckDraw([FromBody]Draw input)
+        {
+            var result = await taskService.UserLuckDraw(input.u_id);
+            if (result.State == ResultStatusCode.Success)
+            {
+                return Result(result);
+            }
+            return Result(result.State, result.Msg);
+        }
+
+        /// <summary>
+        /// 获取抽奖列表
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("h5.get.wxuser.drawlist")]
+        public async Task<JsonResult> GetPrizeList(int u_id)
+        {
+            return Result(await taskService.GetPrizeList(u_id));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class Draw {
+            public int u_id { get; set; }
+        }
     }
 }

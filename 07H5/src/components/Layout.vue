@@ -41,7 +41,7 @@ export default {
 	},
 	methods: {
 		testlogin() {
-			this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wjBnWGviGNtbhpztJOf-XZk" } }).then(response => {
+			this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wlKa8Gbr-dxJwWx4GSqG_1g" } }).then(response => {
 				if (response.data) {
 					this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
 				}

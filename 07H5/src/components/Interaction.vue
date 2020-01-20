@@ -6,7 +6,7 @@
 		<div class="common_title_item">
 			<img src="@/image/common/title_00000.png" alt />
 		</div>
-		<div class="bg"></div>
+		<!-- <div class="bg"></div> -->
 		<div class="content">
 			<div class="common_subtitle_item">
 				<img src="@/image/interaction/subtitle_00000.png" alt />
@@ -47,7 +47,7 @@
 			</div>
 			<div class="rules">
 				<p>游戏规则：</p>
-				<p>点击上方图标，找到“眼-依视路”、“视-优视路”、“光-全视线”展位现场的互动二维码，使用微信的扫一扫功能，扫码点亮本页标签，即可参加抽奖活动，有机会获得暖心礼品一份。</p>
+				<p>点击上方图标，找到“眼-依视路设备”、“视-优视路”、“光-全视线”展位现场的互动二维码，使用微信的扫一扫功能，扫码点亮本页标签，即可参加抽奖活动，有机会获得暖心礼品一份。</p>
 			</div>
 			<div class="common_navigation_item">
 				<a href="javascript:;" @click="checkStatus"></a>
@@ -73,8 +73,8 @@
 						<span>眼</span>依视路设备
 					</p>
 					<p class="desc">
-						眼龄发育和老化过程中的
-						<br />生理及病理状态
+						给大众更全面、更完善的眼健康
+						<br />和视觉质量解决方案。
 					</p>
 					<p class="position">展位号：二号馆2G40-2</p>
 				</div>
@@ -151,19 +151,14 @@ export default {
 	},
 
 	mounted() {
-		setTimeout(() => {
-			this.init();
-
-		}, 100);
 		this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
 		//task_type    1:眼  2:视  3:光
 		this.task_type = this.getParameter('task_type');
 		console.log(this.task_type);
 		if (this.task_type) {
 			this.lighttask();
-      this.addscancount();
-		}
-		else {
+			this.addscancount();
+		} else {
 			this.getlighten();
 		}
 	},
@@ -210,42 +205,27 @@ export default {
 				return returnValue
 			}
 		},
-    addscancount() {//增加扫码次数
-    	this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id, scan_type: this.task_type } }).then(response => {
-    		console.log(response)
-    	}).catch(error => {
-    		console.log(error)
-    	})
-    },
+		addscancount() {//增加扫码次数
+			this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id, scan_type: this.task_type } }).then(response => {
+				console.log(response)
+			}).catch(error => {
+				console.log(error)
+			})
+		},
 		receivetask(type) {  //领取任务
 			switch (type) {
 				case 1:
-					this.dialogYanFlag=true;
+					this.dialogYanFlag = true;
 					break;
 				case 2:
-					this.dialogShiFlag=true;
+					this.dialogShiFlag = true;
 					break;
 				case 3:
-					this.dialogGuangFlag=true;
+					this.dialogGuangFlag = true;
 					break;
 				default:
 					break;
 			}
-		},
-		init() {
-			// console.log(FrameAnimation)
-		},
-		initShare() {
-			let params = {
-				share: true, // true可以分享；false不可以分享
-				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
-					link: `${this.$store.state.shareUrl}#/entrance`, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
-				}
-			};
-			this.$wxsdk.initConfig(params);
 		},
 		checkStatus() {
 			if (this.yan_enabled == "disabled" && this.shi_enabled == "disabled" && this.guang_enabled == "disabled") {

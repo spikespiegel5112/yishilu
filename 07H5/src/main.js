@@ -7,7 +7,7 @@ import FastClick from 'fastclick'
 import wxsdk from './js/wxsdk'
 
 // import axios from 'axios'
-// import moment from 'moment';
+import moment from 'moment';
 import { ConfirmPlugin, LoadingPlugin, ToastPlugin } from 'vux'
 // import Cookies from 'js-cookie'
 
@@ -19,6 +19,8 @@ import { baseUrl } from "./js/request";
 
 import store from './store/store'
 import CommonGoBack from './components/common/CommonGoBack.vue'
+import CommonLoading from './components/common/CommonLoading.vue'
+
 
 Vue.use(ConfirmPlugin)
 Vue.use(LoadingPlugin)
@@ -29,11 +31,11 @@ Vue.use(ToastPlugin)
 Vue.use(util);
 
 
-// moment.locale("zh-cn");
+moment.locale("zh-cn");
 FastClick.attach(document.body);
 
 Vue.config.productionTip = false;
-// Vue.prototype.$moment = moment;
+Vue.prototype.$moment = moment;
 Vue.prototype.$http = service;
 // Vue.prototype.$baobaoAudioPlayback = BaobaoAudioPlayback;
 
@@ -44,6 +46,7 @@ Vue.prototype.$baseUrl = baseUrl;
 Vue.prototype.$prodEnv = process.env.NODE_ENV === 'production';
 
 Vue.component('CommonGoBack', CommonGoBack);
+Vue.component('CommonLoading', CommonLoading);
 
 
 Vue.prototype.$webStorage.type = 'localStorage';

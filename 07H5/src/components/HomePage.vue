@@ -24,7 +24,7 @@
 					<router-link href="javascript:;" :to="{name:'customize'}" />
 				</li>
 				<li class="link5">
-					<router-link href="javascript:;" :to="{name:'entrance'}" />
+					<a href="javascript:;" @click="checkCollection"></a>
 				</li>
 			</ul>
 		</div>
@@ -39,7 +39,8 @@ export default {
 	},
 	data() {
 		return {
-			goToNextflag: false
+			goToNextflag: false,
+			collectionNotYetFlag: false
 		};
 	},
 	computed: {
@@ -72,19 +73,18 @@ export default {
 
 	},
 	methods: {
-
-		initShare() {
-			let params = {
-				share: true, // true可以分享；false不可以分享
-				data: {
-					title: `春天再出发！立个flag，做好自己的事`, // 分享标题
-					desc: '一步一个脚印，一棒接着一棒往前走', // 分享描述
-					link: `${this.$store.state.shareUrl}#/entrance`, // 分享链接
-					imgUrl: 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_shortcut.jpg' // 分享图标
-				}
-			};
-			this.$wxsdk.initConfig(params);
-		},
+		checkCollection() {
+			const time = this.$moment().format('2020-20-11')
+			console.log(this.$moment())
+			debugger
+			if (Date.parse(new Date()) > this.$moment().format('2020-20-11')) {
+				this.$router.push({
+					name: 'entrance'
+				})
+			} else {
+				this.collectionNotYetFlag = true
+			}
+		}
 	}
 }
 </script>

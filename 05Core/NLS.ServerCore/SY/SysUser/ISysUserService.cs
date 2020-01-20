@@ -65,5 +65,11 @@ namespace NLS.ServiceCore.SY.SysUser
         /// <param name="u_id"></param>
         /// <returns></returns>
         Task<WxUser> GetUserInfo(int u_id);
+        /// <summary>
+        /// 中奖核销
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        ResponseParamters<string> ChangeUserPrizeState(int u_id);
     }
 }

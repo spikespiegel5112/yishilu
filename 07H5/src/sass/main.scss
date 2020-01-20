@@ -33,6 +33,17 @@ $yellow: #f9c978;
         top: 3rem;
         background-image: url("image/customize/dot_00000.png");
         background-size: contain;
+        &.point {
+          animation: blink 1s infinite;
+          @keyframes blink {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+        }
         &.point1 {
           left: 7.5rem;
         }
@@ -64,13 +75,15 @@ $yellow: #f9c978;
   }
   .common_dialog_container {
     .dialog_wrapper {
-      width: 12rem;
+      width: 14rem;
       height: auto;
       .content {
+        padding: 0.5rem 0.5rem 0.3rem 0.5rem;
         color: #fff;
         .title {
           display: block;
           padding: 0.5rem 0;
+          font-size: 1.5rem;
         }
         .desc {
           display: flex;
@@ -92,6 +105,10 @@ $yellow: #f9c978;
             padding: 0 0.3rem;
             overflow: auto;
             text-align: left;
+            p {
+              margin: 0 0 0.6rem 0;
+              font-size: 0.6rem;
+            }
           }
         }
       }
@@ -104,7 +121,7 @@ $yellow: #f9c978;
   .bg {
     width: 100%;
     height: 100vh;
-    background-image: url("image/interaction/bg_interaction_00000.png");
+    // background-image: url("image/interaction/bg_interaction_00000.png");
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -115,9 +132,9 @@ $yellow: #f9c978;
     margin: 1rem 0 0 0;
     position: relative;
     .wheel {
-      margin: 0 auto;
-      width: 15rem;
-      height: 15rem;
+      margin: 0 auto 1.5rem;
+      width: 12rem;
+      height: 12rem;
       background-image: url("./image/lotterydraw/whell_bg_00000.png");
       background-size: contain;
       position: relative;
@@ -131,21 +148,21 @@ $yellow: #f9c978;
       }
       canvas {
         display: inline-block;
-        width: 11.5rem;
-        height: 11.5rem;
+        width: 10rem;
+        height: 10rem;
         transform: rotate(0deg);
         transition: rotate 6s ease;
         vertical-align: middle;
       }
       .begin {
         display: inline-block;
-        width: 4rem;
-        height: 4rem;
+        width: 3rem;
+        height: 3rem;
         background-image: url("./image/lotterydraw/pointer_begin_00000.png");
         background-size: 100%;
         position: absolute;
-        top: 5.5rem;
-        left: 5.5rem;
+        top: 4.5rem;
+        left: 4.5rem;
         span {
           display: block;
           margin: 1.4rem auto;
@@ -155,10 +172,19 @@ $yellow: #f9c978;
         }
       }
     }
+    .hint {
+      p {
+        width: 100%;
+        text-align: center;
+        color: #1d88c2;
+        font-size: 0.6rem;
+      }
+    }
   }
   .common_dialog_container {
     &.prize {
       .dialog_wrapper {
+        width: 13rem;
         min-height: 9rem;
         height: auto;
         .content {
@@ -233,9 +259,9 @@ $yellow: #f9c978;
     position: relative;
     .rules {
       margin: 1.5rem auto 1rem;
-      width: 12rem;
+      width: 13rem;
       text-align: left;
-      font-size: 0.4rem;
+      font-size: 0.55rem;
     }
     .interaction_status_wrapper {
       ul {
@@ -308,27 +334,27 @@ $yellow: #f9c978;
         height: auto;
       }
       .content {
-        padding: 0.5rem 0.5rem 0 0.5rem;
+        padding: 0.5rem 0.75rem 0.2rem 0.75rem;
         p {
           font-size: 0.7rem;
           text-align: left;
         }
         .title {
-          font-size: 0.5rem;
+          font-size: 0.75rem;
           span {
             display: inline-block;
             padding: 0 0.2rem 0 0;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
           }
         }
         .desc {
-          font-size: 0.4rem;
+          font-size: 0.55rem;
           line-height: 0.6rem;
         }
         .position {
-          padding: 0.2rem 0;
-          font-size: 0.6rem;
+          padding: 0.4rem 0 0 0;
+          font-size: 0.7rem;
           line-height: 0.6rem;
           border-top: 2px solid #fff;
         }
@@ -339,28 +365,39 @@ $yellow: #f9c978;
 .information_main_container {
   width: 100%;
   overflow: hidden;
-  .frame_wrapper {
-    width: 100%;
-    height: 10rem;
-    .swiper-container {
-      .swiper-wrapper {
-        .swiper-slide {
-          background-color: transparent;
-          img {
-            width: 13rem;
+  > .content {
+    .frame_wrapper {
+      // margin: 0 0 0.8rem 0;
+      width: 100%;
+      height: 10rem;
+      .swiper-container {
+        .swiper-wrapper {
+          .swiper-slide {
+            background-color: transparent;
+            img {
+              width: 13rem;
+            }
           }
         }
       }
+      .frame {
+        width: 100%;
+        height: 100%;
+        background-image: url("image/information/frame_00000.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
     }
-    .frame {
-      width: 100%;
-      height: 100%;
-      background-image: url("image/information/frame_00000.png");
-      background-size: contain;
-      background-repeat: no-repeat;
+    .position {
+      margin: 0.8rem 0;
+      img{
+        width: 10rem;
+      }
     }
     .common_navigation_item {
-      background-image: url("image/information/button_shiguangdingzhi_00000.png");
+      a {
+        background-image: url("image/information/button_yijiandaohang_00000.png");
+      }
     }
   }
 }
@@ -370,7 +407,8 @@ $yellow: #f9c978;
     // margin-top: 1.5rem;
   }
   .content {
-    margin: 0 auto;
+    margin: 3rem auto 0;
+    padding: 0 0 2rem 0;
     width: 12.5rem;
     height: 12.5rem;
     position: relative;

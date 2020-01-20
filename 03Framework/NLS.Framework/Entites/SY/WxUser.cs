@@ -21,6 +21,7 @@ namespace NLS.Framework.Entites.SY
         public int F_Prize { get; set; }
         public DateTime ? Prize_Time { get; set; }
         public string Prize_Name { get; set; }
+        public int Prize_Id { get; set; }
         /// <summary>
         /// 首页扫码次数
         /// </summary>
@@ -37,5 +38,9 @@ namespace NLS.Framework.Entites.SY
         /// 光扫码次数
         /// </summary>
         public int Light_ScanCount { get; set; }
+        /// <summary>
+        /// 1:未核销  2:已核销
+        /// </summary>
+        public int Prize_State { get; set; }
     }
 }
