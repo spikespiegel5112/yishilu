@@ -118,7 +118,7 @@ body {
 	width: 18px;
 	height: 18px;
 	margin: -9px 0 0 -9px;
-	background: #535353;
+	background: #000;
 	border-radius: 18px;
 }
 

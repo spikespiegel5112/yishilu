@@ -309,10 +309,10 @@ export default {
           ctx.translate(translateX, translateY);
           ctx.rotate(angle);
           // ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-          const offset = 25;
+          const offset = this.remUnit / 1.7;
           this.wheelData[index].name.split('').forEach((item, index) => {
             if (index < 6) {
-              ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit / 1.2 + offset);
+              ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit / 1.4 + offset);
 
             }
           });

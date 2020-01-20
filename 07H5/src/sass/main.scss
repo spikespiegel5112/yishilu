@@ -9,11 +9,16 @@ $yellow: #f9c978;
 
   .main {
     width: 100%;
-
+    .describe{
+      margin: 0.5rem auto 0;
+      width: 12rem;
+      font-size: 0.4rem;
+      text-align: left;
+    }
     img {
       display: block;
-      margin: 1rem auto 3rem;
-      width: 14rem;
+      margin: 0.2rem auto 3rem;
+      width: 12rem;
     }
   }
 }

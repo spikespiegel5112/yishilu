@@ -12,6 +12,9 @@
 				<img src="@/image/category/subtitle_00000.png" alt />
 			</div>
 			<div class="main">
+				<div class='describe'>
+					从消费者需求出发，引导推动品类的发展，集眼科、视光学为一体，依视路为您提供保健、预防、矫治和康复的综合眼健康管理方案。
+				</div>
 				<img src="@/image/category/category_content_00000.png" alt="">
 			</div>
 			<div class="common_goback_wrapper">
