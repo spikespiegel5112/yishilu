@@ -28,11 +28,11 @@
 				</li>
 			</ul>
 		</div>
-		<div v-if="collectionNotYetFlag" class="common_dialog_container prompt">
+		<div v-if="collectionNotYetFlag" class="common_dialog_container collection">
 			<div class="dialog_wrapper">
 				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
-					<p class="title">时辰未到</p>
+					<p class="title">活动尚未开始，敬请期待</p>
 				</div>
 			</div>
 		</div>

@@ -31,7 +31,7 @@
 				<img src="@/image/information/position_00000.png" alt />
 			</div>
 			<div class="common_navigation_item">
-				<a href="javascript:;" @click="getLocation"></a>
+				<a href="http://api.map.baidu.com/direction?origin=22.54605355,114.02597366&destination=22.609562,114.029243&mode=driving&region=深圳&output=html" ></a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />

@@ -167,6 +167,7 @@ namespace NLS.ServiceCore.SY.Task
                 var ent = await (from m in context.Prize
                                  join wxuser in context.WxUser.Where(w => w.Id == u_id) on m.Id equals wxuser.Prize_Id into JoinedEmpWxuser
                                  from wxuser in JoinedEmpWxuser.DefaultIfEmpty()
+                                 orderby m.Order ascending
                                  select new Prize
                                  {
                                      Id = m.Id,
@@ -175,7 +176,9 @@ namespace NLS.ServiceCore.SY.Task
                                      Probability = m.Probability,
                                      Remark=m.Remark,
                                      Prize_Content=m.Prize_Content,
-                                     Remaining_Number = m.Remaining_Number
+                                     Remaining_Number = m.Remaining_Number,
+                                     Unit=m.Unit,
+                                     Order=m.Order
                                  }).ToListAsync();
 
                 return ent;

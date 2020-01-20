@@ -21,5 +21,7 @@ namespace NLS.Framework.Entites.SY
         [NotMapped]
         public int DrawCount { get; set; }
         public string Remark { get; set; }
+        public int Order { get; set; }
+        public string Unit { get; set; }
     }
 }

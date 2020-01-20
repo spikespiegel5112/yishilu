@@ -57,7 +57,7 @@ body {
 /*}*/
 
 .m-load2 {
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 1);
 	position: relative;
 	overflow: hidden;
 	border-radius: 10px;
