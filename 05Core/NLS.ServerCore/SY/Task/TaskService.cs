@@ -211,6 +211,7 @@ namespace NLS.ServiceCore.SY.Task
                                     if (count > 0)
                                     {
                                         responseParamters.State = ResultStatusCode.Success;
+                                        ent.DrawCount = 1;
                                         responseParamters.Data = ent;
                                     }
                                 }
@@ -222,8 +223,10 @@ namespace NLS.ServiceCore.SY.Task
                             }
                             else
                             {
-                                responseParamters.State = ResultStatusCode.SaveFailed;
-                                responseParamters.Msg = "您已经参与过抽奖！";
+                                var prize = await prizeRepository.GetAllAsNoTracking().Where(w => w.Id == userinfos.Prize_Id).FirstOrDefaultAsync();
+                                responseParamters.State = ResultStatusCode.Success;
+                                prize.DrawCount =2;
+                                responseParamters.Data = prize;
                             }
                         }
 

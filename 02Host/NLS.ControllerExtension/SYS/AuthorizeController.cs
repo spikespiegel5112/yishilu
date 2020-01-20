@@ -261,7 +261,7 @@ namespace NLS.Host.ControllerExtension.SYS
         [HttpGet("wx.login.user.byopenid")]
         public async Task<JsonResult> GetUserByWXOpenId(string openid)
         {
-            var data =await  authorizeService.GetUserInfoByOpenid(openid, "", "");
+            var data =await  authorizeService.GetUserInfoByOpenid2(openid);
             return Result(data);
         }
 

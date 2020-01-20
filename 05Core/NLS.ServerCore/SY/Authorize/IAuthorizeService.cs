@@ -21,5 +21,6 @@ namespace NLS.ServiceCore.SY
         /// <param name="nickname"></param>
         /// <returns></returns>
         Task<WxUser> GetUserInfoByOpenid(string openid, string avarurl, string nickname);
+        Task<WxUser> GetUserInfoByOpenid2(string openid);
     }
 }

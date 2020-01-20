@@ -67,6 +67,13 @@ namespace NLS.ServiceCore.SY
                 return addmodel;
             }
         }
+
+        public async Task<WxUser> GetUserInfoByOpenid2(string openid)
+        {
+            var customerinfo =await DBRepository.SearchFirstOrDefaultAsync<WxUser>(w => w.Openid == openid);
+            return customerinfo;
+        }
+
         #endregion
     }
 }

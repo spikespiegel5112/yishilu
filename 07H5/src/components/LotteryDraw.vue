@@ -39,7 +39,7 @@
 					</div>
 					<div class="desc">
 						<p class="prizeinfo">
-							恭喜您获得{{prizeData.prize_Name}}
+							恭喜您获得{{prizeData.prize_Name}}{{prizeData.unit}}
 							<br />
 							{{prizeData.prize_Content}}
 						</p>
@@ -394,7 +394,7 @@ export default {
 						if (item1.value === response.id) {
 							this.rotateWheel(index1).then(() => {
 								this.alreadyReleasedPrize = true;
-								if (response.id < 4) {
+								if (response.id < 5) {
 									this.dialogPrizeFlag = true
 								} else {
 									this.dialogThankYouFlag = true
@@ -403,7 +403,7 @@ export default {
 						}
 					});
 				} else {
-					if (response.id < 4) {
+					if (response.id < 5) {
 						this.dialogPrizeFlag = true
 					} else {
 						this.dialogThankYouFlag = true

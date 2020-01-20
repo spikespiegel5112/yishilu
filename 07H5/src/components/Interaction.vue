@@ -179,7 +179,7 @@ export default {
 			})
 		},
 		getlighten() {  //获取用户点亮的任务
-
+			
 			this.$http.get(this.$baseUrl + "h5.get.wxuser.lighten", { params: { u_id: this.userinfo.id } }).then(response => {
 				if (response.data) {
 					this.yan_enabled = response.data.f_eye ? "disabled" : "enabled";

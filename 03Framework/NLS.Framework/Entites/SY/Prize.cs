@@ -18,6 +18,8 @@ namespace NLS.Framework.Entites.SY
         /// </summary>
         [NotMapped]
         public string F_Draw { get; set; }
+        [NotMapped]
+        public int DrawCount { get; set; }
         public string Remark { get; set; }
     }
 }

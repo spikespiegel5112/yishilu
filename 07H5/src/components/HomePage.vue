@@ -28,6 +28,14 @@
 				</li>
 			</ul>
 		</div>
+		<div v-if="collectionNotYetFlag" class="common_dialog_container prompt">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
+				<div class="content">
+					<p class="title">时辰未到</p>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -74,16 +82,20 @@ export default {
 	},
 	methods: {
 		checkCollection() {
-			const time = this.$moment().format('2020-20-11')
-			console.log(this.$moment())
-			debugger
-			if (Date.parse(new Date()) > this.$moment().format('2020-20-11')) {
+			const destinationTimeStamp = this.$moment(new Date('2020-2-11')).valueOf()
+			const currentTimeStamp = Date.parse(new Date())
+			console.log(destinationTimeStamp)
+			console.log(currentTimeStamp)
+			if (currentTimeStamp > destinationTimeStamp) {
 				this.$router.push({
 					name: 'entrance'
 				})
 			} else {
 				this.collectionNotYetFlag = true
 			}
+		},
+		closeDialog() {
+			this.collectionNotYetFlag = false
 		}
 	}
 }
