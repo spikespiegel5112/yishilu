@@ -117,11 +117,11 @@ var wxsdk = {
     this.shareTimeline()
     this.shareQQ()
     this.shareWeibo()
-    /*
-    if (isEmpty(store.state.location)) {
-      this.getLocation()
-    }
-    */
+    
+    // if (isEmpty(store.state.location)) {
+    //   this.getLocation()
+    // }
+   
   },
 
   /**
@@ -242,14 +242,17 @@ var wxsdk = {
   /**
    * 获取用户经伟度
    */
-  getLocation: function (callback) {
+  getLocation: function (callback1, callback2) {
     var _this = this
     wx.getLocation({
       success: function (res) {
-        callback(res)
+        callback1(res)
       },
       cancel: function (res) {
         alert('用户拒绝授权获取地理位置')
+      },
+      fail:function(error){
+        callback2(error)
       }
     })
   },

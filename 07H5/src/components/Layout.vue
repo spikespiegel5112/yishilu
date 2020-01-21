@@ -1,8 +1,9 @@
 <template>
   <div class="common_main_container">
-    <transition name="fade">
+    <transition v-if='userInfoFlag' name="fade">
       <router-view></router-view>
     </transition>
+			<CommonLoading v-else :loading="true" />
   </div>
 </template>
 
@@ -13,7 +14,9 @@ export default {
   data() {
     return {
       code: "",
-      environment: ''
+      environment: '',
+      userInfoFlag:false
+
     };
   },
   computed: {
@@ -35,8 +38,11 @@ export default {
     this.sharePage();
     // this.getUserInfoCache();
     if (this.$checkEnvironment() === 'wechat') {
+      // this.testlogin();//本地测试	
       this.getUserInfo();
     } else {
+            this.userInfoFlag=true
+
       // this.testlogin();//本地测试	
     }
     // 
@@ -46,6 +52,7 @@ export default {
       this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wlKa8Gbr-dxJwWx4GSqG_1g" } }).then(response => {
         if (response.data) {
           this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+
         }
       }).catch(error => {
         console.log(error);
@@ -63,6 +70,8 @@ export default {
         } else {
           if (r.data) {
             this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
+            this.userInfoFlag=true
+
           } else {
             //留在当前页
           }
@@ -106,14 +115,16 @@ export default {
     },
     getUserInfo() {
       this.code = this.getParameter('code');
+
       let userinfo = this.$webStorage.getItem('userInfo');
       if (userinfo) {
+
         userinfo = JSON.parse(userinfo);
         this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: userinfo.openid } }).then(response => {
           if (response.data) {
             this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
-          }
-          else {
+            this.userInfoFlag=true
+          } else {
             // location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" +
             // 	encodeURIComponent(location.href) + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
             console.log(response.data);
@@ -123,6 +134,7 @@ export default {
         });
       } else {
         if (this.code) {
+
           this.auto_login();
         } else {
           location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" +

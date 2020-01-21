@@ -30,8 +30,8 @@
 			<div class="position">
 				<img src="@/image/information/position_00000.png" alt />
 			</div>
-			<div class="common_navigation_item">
-				<a href="http://api.map.baidu.com/direction?origin=22.54605355,114.02597366&destination=22.609562,114.029243&mode=driving&region=深圳&output=html" ></a>
+		<div class="common_navigation_item">
+				<a @click='getLocation'></a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />
@@ -41,15 +41,18 @@
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
 import Swiper from 'swiper';
-
 export default {
 	name: "Information",
 	components: {
 	},
 	data() {
 		return {
-			goToNextflag: false
+			goToNextflag: false,
+			latitude:"",
+			longitude:"",
+			locationData:{}
 		};
 	},
 	computed: {
@@ -78,30 +81,48 @@ export default {
 	},
 
 	mounted() {
-
 		this.init();
-
 	},
 	methods: {
 		init() {
 			// console.log(FrameAnimation)
 			const swiper = new Swiper('.swiper-container', {
 				loop: true, // 循环模式选项
-
 			})
 		},
-		getLocation() {
-			wx.openLocation({
-				latitude: 0, // 纬度，浮点数，范围为90 ~ -90
-				longitude: 0, // 经度，浮点数，范围为180 ~ -180。
-				name: '天安门', // 位置名
-				address: '', // 地址详情说明
-				scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
-				infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
-			});
+		getLocation(){
+			this.initGetLocation().then(response=>{
+				console.log('res+++++++++++++++++', response)
+				var _this=this;
+				console.log("http://api.map.baidu.com/direction?origin="+response.latitude+","+response.longitude+"&destination=31.18846,121.496541&mode=driving&region=上海市&output=html");
+				 location.href="http://api.map.baidu.com/direction?origin="+response.latitude+","+response.longitude+"&destination=31.18846,121.496541&mode=driving&region=上海市&output=html";
+			}).catch(error=>{
+				console.error(error)
+			})
+		},
+		initGetLocation(){
+			return new Promise((resolve, reject)=>{
+				const that=this
 
+				// wx.getLocation({
+				// 	success: function (res) {
+				// 		callback(res)
+				// 	},
+				// 	cancel: function (res) {
+				// 		alert('用户拒绝授权获取地理位置')
+				// 	}
+				// })
+				this.$wxsdk.getLocation(function(res){
 
-		}
+						resolve(res)
+				}, function(error){
+					console.log('error++++++', error)
+					reject(error)
+				});
+			})
+			
+			
+		},
 	}
 }
 </script>

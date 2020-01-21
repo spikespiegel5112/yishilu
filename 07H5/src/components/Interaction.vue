@@ -150,8 +150,10 @@ export default {
 		},
 	},
 
+
 	mounted() {
 		this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
+		console.log("this.$webStorage.getItem('userInfo')++++++",this.$webStorage.getItem('userInfo'))
 		//task_type    1:眼  2:视  3:光
 		this.task_type = this.getParameter('task_type');
 		console.log(this.task_type);
@@ -168,6 +170,7 @@ export default {
 				User_Id: this.userinfo.id,
 				Task_Type: this.task_type
 			}).then(r => {
+				console.log('lighttask+++', r)
 				this.$vux.confirm.show({
 					showCancelButton: false,
 					title: r.msg,
@@ -179,7 +182,6 @@ export default {
 			})
 		},
 		getlighten() {  //获取用户点亮的任务
-			
 			this.$http.get(this.$baseUrl + "h5.get.wxuser.lighten", { params: { u_id: this.userinfo.id } }).then(response => {
 				if (response.data) {
 					this.yan_enabled = response.data.f_eye ? "disabled" : "enabled";

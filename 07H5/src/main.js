@@ -21,7 +21,6 @@ import store from './store/store'
 import CommonGoBack from './components/common/CommonGoBack.vue'
 import CommonLoading from './components/common/CommonLoading.vue'
 
-
 Vue.use(ConfirmPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
@@ -29,7 +28,6 @@ Vue.use(ToastPlugin)
 //
 // Vue.use(Cookies)
 Vue.use(util);
-
 
 moment.locale("zh-cn");
 FastClick.attach(document.body);
