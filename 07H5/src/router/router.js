@@ -14,32 +14,40 @@ const routes = [{
   component: Layout,
   children: [{
     path: '/entrance',
-    name:'entrance',
+    name: 'entrance',
     component: () => import('../components/Entrance.vue')
   }, {
     path: '/homepage',
-    name:'homePage',
+    name: 'homePage',
     component: () => import('../components/HomePage.vue')
   }, {
     path: '/information',
-    name:'information',
+    name: 'information',
     component: () => import('../components/Information.vue')
   }, {
     path: '/customize',
-    name:'customize',
+    name: 'customize',
     component: () => import('../components/Customize.vue')
   }, {
     path: '/interaction',
-    name:'interaction',
+    name: 'interaction',
     component: () => import('../components/Interaction.vue')
   }, {
+    path: '/interactionlogo',
+    name: 'interactionLogo',
+    component: () => import('../components/InteractionLogo.vue')
+  }, {
     path: '/category',
-    name:'category',
+    name: 'category',
     component: () => import('../components/Category.vue')
   }, {
     path: '/lotterydraw',
-    name:'lotteryDraw',
+    name: 'lotteryDraw',
     component: () => import('../components/LotteryDraw.vue')
+  }, {
+    path: '/lotterydrawlogo',
+    name: 'lotteryDrawLogo',
+    component: () => import('../components/LotteryDrawLogo.vue')
   }]
 }, {
   path: '/auth',

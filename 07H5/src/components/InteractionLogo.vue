@@ -1,5 +1,5 @@
 <template>
-	<div class="interaction_main_container">
+	<div class="interactionlogo_main_container">
 		<div class="common_logo_wrapper">
 			<div class="common_logo_item"></div>
 		</div>
@@ -9,104 +9,55 @@
 		<!-- <div class="bg"></div> -->
 		<div class="content">
 			<div class="common_subtitle_item">
-				<img src="@/image/interaction/subtitle_00000.png" alt />
+				<img src="@/image/interactionlogo/subtitle_00000.png" alt />
 			</div>
-			<div class="interaction_status_wrapper">
+			<div class="rules">
+				<ol>
+					<li>请前往下方7个依视路集团子品牌展台，进行扫码打卡签到；</li>
+					<li>您可点击下方Logo查看相关展台展位号，扫码完成后该展台Logo将被点亮；</li>
+					<li>完成任意2个Logo点亮将赢得一次额外的抽奖机会，数量有限领完即止。</li>
+				</ol>
+			</div>
+			<div class="status_wrapper">
 				<ul>
-					<li class="yan" @click="receivetask(1)">
+					<li
+						v-for="(item, index) in logoList"
+						:key="item.name"
+						:class="item.active?'active'+' '+item.name:item.name"
+						@click="receivetask(index)"
+					>
 						<a href="javascript:;">
-							<img class="disabled" src="@/image/interaction/button_interaction_yan_00000.png" alt />
-							<img
-								:class="yan_enabled"
-								src="@/image/interaction/button_interaction_yan_active_00000.png"
-								alt
-							/>
-						</a>
-					</li>
-					<li class="shi" @click="receivetask(2)">
-						<a href="javascript:;">
-							<img class="disabled" src="@/image/interaction/button_interaction_shi_00000.png" alt />
-							<img
-								:class="shi_enabled"
-								src="@/image/interaction/button_interaction_shi_active_00000.png"
-								alt
-							/>
-						</a>
-					</li>
-					<li class="guang" @click="receivetask(3)">
-						<a href="javascript:;">
-							<img class="disabled" src="@/image/interaction/button_interaction_guang_00000.png" alt />
-							<img
-								:class="guang_enabled"
-								src="@/image/interaction/button_interaction_guang_active_00000.png"
-								alt
-							/>
+							<div class="enabled">
+								<img :src="item.enableSrc" />
+							</div>
+							<div class="disabled">
+								<img :src="item.disabledSrc" />
+							</div>
 						</a>
 					</li>
 				</ul>
+				<div class="hint">
+					<p>*排名不分先后</p>
+				</div>
 			</div>
-			<div class="rules">
-				<p>游戏规则：</p>
-				<p>点击上方图标，找到“眼-依视路设备”、“视-优视路”、“光-全视线”展位现场的互动二维码，使用微信的扫一扫功能，扫码点亮本页标签，即可参加抽奖活动，有机会获得暖心礼品一份。</p>
-			</div>
-			<div class="common_navigation_item">
-				<a href="javascript:;" @click="checkStatus">参加抽奖</a>
+			<div class="navigation_wrapper">
+				<div class="common_navigation_item">
+					<a href="javascript:;" @click="checkStatus">点击抽奖</a>
+				</div>
+				<div class="common_navigation_item">
+					<a href="javascript:;" @click="checkStatus">我的奖品</a>
+				</div>
 			</div>
 			<div class="common_goback_wrapper">
-				<CommonGoBack />
+				<CommonGoBack to="lotteryDraw" />
 			</div>
 		</div>
 		<div v-if="dialogNotYetFlag" class="common_dialog_container notyet">
 			<div class="dialog_wrapper">
 				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
-					<p>您尚未完成全部打卡</p>
-					<p>请全部完成后进行抽奖</p>
-				</div>
-			</div>
-		</div>
-		<div v-if="dialogYanFlag" class="common_dialog_container prompt">
-			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closeDialog"></a>
-				<div class="content">
-					<p class="title">
-						<span>眼</span>依视路设备
-					</p>
-					<p class="desc">
-						给大众更全面、更完善的眼健康
-						<br />和视觉质量解决方案。
-					</p>
-					<p class="position">展位号：二号馆2G40-2</p>
-				</div>
-			</div>
-		</div>
-		<div v-if="dialogShiFlag" class="common_dialog_container prompt">
-			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closeDialog"></a>
-				<div class="content">
-					<p class="title">
-						<span>视</span>依视路
-					</p>
-					<p class="desc">
-						依视路改善视力，改善生活，
-						<br />让清晰视觉变得触手可得
-					</p>
-					<p class="position">展位号：一号馆1A02</p>
-				</div>
-			</div>
-		</div>
-		<div v-if="dialogGuangFlag" class="common_dialog_container prompt">
-			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closeDialog"></a>
-				<div class="content">
-					<p class="title">
-						<span>光</span>全视线
-					</p>
-					<p class="desc">
-						全视线第八代感光变色镜片，
-						<br />前沿科技，光彩上市
-					</p>
-					<p class="position">展位号：二号馆2F06</p>
+					<p>请前往相关展台扫码点亮</p>
+					<p>任意两个Logo进行抽奖</p>
 				</div>
 			</div>
 		</div>
@@ -130,7 +81,43 @@ export default {
 			shi_enabled: "enabled",
 			guang_enabled: "enabled",
 			userinfo: {},
-			task_type: 0
+			task_type: 0,
+			logoList: [{
+				name: 'wanxin',
+				enableSrc: require('@/image/interactionlogo/logo_wanxin_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_wanxin_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'yolioptical',
+				enableSrc: require('@/image/interactionlogo/logo_yolioptical_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_yolioptical_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'chemilens',
+				enableSrc: require('@/image/interactionlogo/logo_chemilens_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_chemilens_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'seeworld',
+				enableSrc: require('@/image/interactionlogo/logo_seeworld_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_seeworld_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'creasky',
+				enableSrc: require('@/image/interactionlogo/logo_creasky_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_creasky_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'newtianhongoptical',
+				enableSrc: require('@/image/interactionlogo/logo_newtianhongoptical_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_newtianhongoptical_disabled_00000.png'),
+				active: false
+			}, {
+				name: 'bolon',
+				enableSrc: require('@/image/interactionlogo/logo_bolon_00000.png'),
+				disabledSrc: require('@/image/interactionlogo/logo_bolon_disabled_00000.png'),
+				active: false
+			}]
 		};
 	},
 	computed: {
@@ -230,13 +217,11 @@ export default {
 			}
 		},
 		checkStatus() {
-			if (this.yan_enabled == "disabled" && this.shi_enabled == "disabled" && this.guang_enabled == "disabled") {
-				this.$router.push({
-					name: 'lotteryDraw'
-				})
-			} else {
-				this.dialogNotYetFlag = true
-			}
+			this.dialogNotYetFlag = true
+
+			this.$router.push({
+				name: 'lotteryDrawLogo'
+			})
 		},
 		closeDialog() {
 			this.dialogFlag = false

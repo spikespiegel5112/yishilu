@@ -31,7 +31,7 @@
 				<img src="@/image/information/position_00000.png" alt />
 			</div>
 		<div class="common_navigation_item">
-				<a @click='getLocation'></a>
+				<a @click='getLocation'>一键导航</a>
 			</div>
 			<div class="common_goback_wrapper">
 				<CommonGoBack />

@@ -19,7 +19,7 @@
 				<p>奖品请至依视路展台领取</p>
 			</div>
 			<div class="common_goback_wrapper">
-				<CommonGoBack to="interaction" />
+				<CommonGoBack to="interactionLogo" />
 			</div>
 		</div>
 		<div v-if="dialogThankYouFlag" class="common_dialog_container thankyou">
@@ -67,7 +67,6 @@ export default {
 		return {
 			drawlistRequest: 'h5.get.wxuser.drawlist',
 			drawRequest: 'h5.user.luck.draw',
-			goToNextflag: false,
 			dialogThankYouFlag: false,
 			dialogPrizeFlag: false,
 			status: false,
@@ -124,14 +123,6 @@ export default {
 		}
 	},
 	watch: {
-		goToNextflag(value) {
-			if (value === true) {
-				this.$router.push({
-					name: 'homepage'
-				});
-
-			}
-		},
 		remUnit(value) {
 			this.$nextTick(() => {
 				this.canvasWidth = value * 13.5 + 'px';

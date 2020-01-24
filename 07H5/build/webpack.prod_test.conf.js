@@ -25,7 +25,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
-  devtool: 'cheap-source-map',
+  devtool: 'source-map',
   output: {
     path: config.build.assetsRoot,
     publicPath: "./",

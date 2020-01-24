@@ -1,182 +1,189 @@
 <template>
-  <div></div>
+	<CommonLoading :loading="true" />
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        getUserInfoRequest: 'api/security/login/info',
-        environment: ''
-      }
-    },
-    // beforeCreate(){
-    //   // alert('dsdsds')
-    // },
-    created() {
-      // this.$vux.confirm.show({
-      //   showCancelButton: false,
-      //   title: '$checkDevice' + this.$checkDevice(),
-      //   onConfirm() {
-      //   }
-      // });
-      // debugger
+export default {
+	data() {
+		return {
+			getUserInfoRequest: 'api/security/login/info',
+			environment: '',
+			userInfo: null
+		}
+	},
+	// beforeCreate(){
+	//   // alert('dsdsds')
+	// },
+	created() {
+		// this.$vux.confirm.show({
+		//   showCancelButton: false,
+		//   title: '$checkDevice+++' + this.$checkDevice(),
+		//   onConfirm() {
+		//   }
+		// });
+		// debugger
 
-      this.environment = this.$isEmpty(this.$webStorage.getItem('environment')) ? this.$checkEnvironment() : this.$webStorage.getItem('environment');
-
-
-      console.log('auth', this.environment)
-      // debugger
-      if (this.environment === 'wechat') {
-        // alert('begin auth+++++' + this.environment)
+		this.environment = this.$isEmpty(this.$webStorage.getItem('environment')) ? this.$checkEnvironment() : this.$webStorage.getItem('environment');
+		this.userInfo = this.$webStorage.getItem('userInfo')
+		const authToken = this.$webStorage.getItem('authToken')
 
 
-        let code = this.getParameter('code')
-        let authToken = this.$webStorage.getItem('authToken')
 
-        if (this.$isEmpty(code) && this.$isEmpty(authToken)) {
-          this.$wxsdk.getWeChatAuthUrl()
-        } else {
-          if (!this.$isEmpty(authToken) && authToken !== 'null') {
-            // alert('authToken+++' + authToken)
-            this.getAndStoreUserInfoByAuthToken().then(response => {
-              this.$webStorage.setItem('environment', 'wechat');
-              this.redirectToBackRoute();
+		console.log('auth', this.environment)
+		// debugger
+		console.log('location+++', location)
+		if (this.environment === 'wechat') {
+			// if (this.environment === 'others') {
+			// alert('begin auth+++++' + this.environment)
 
-              // let backRoute = this.$webStorage.getItem('backRoute')
-              // let url = location.href.split('.html')[0] + '.html'
-              // if (!this.$isEmpty(backRoute)) {
-              //   url = location.href.split('.html')[0] + '.html#' + backRoute
-              // }
-              // location.href = url
-            })
+			const code = this.getParameter('code')
+			if (this.$isEmpty(this.userInfo) || this.userInfo === 'null') {
+				debugger
+				if (this.$isEmpty(code)) {
+					debugger
+					location.href = this.getOAuthUrl()
+				} else {
+					console.log('hascode++++++', code)
+					debugger
+					this.getWeChatUserInfoByCode(code).then(response => {
+						debugger
+						this.redirectToBackRoute();
+					}).catch(error => {
+						location.href = this.getOAuthUrl()
+					})
 
-          } else {
-            let state = decodeURIComponent(this.getParameter('state').split('#')[0]);
-            // alert('因为没有缓存token，所以code是' + code)
-            // alert('state是' + state)
-            let params = {
-              code: code,
-              state: state
-            };
-            this.$wxsdk.getWechatAuthTokenByCode(params, () => {
-              this.getAndStoreUserInfoByAuthToken().then(response => {
+				}
+				// this.getAndStoreUserInfoByAuthToken().then(response => {
+				// 	this.$webStorage.setItem('environment', 'wechat');
+				// 	this.redirectToBackRoute();
+				// })
 
-
-                this.redirectToBackRoute();
-                this.$webStorage.setItem('environment', 'wechat');
+			}
 
 
-                // let backRoute = this.$webStorage.getItem('backRoute')
-                // let url = location.href.split('.html')[0] + '.html'
-                // if (!this.$isEmpty(backRoute)) {
-                //   url = location.href.split('.html')[0] + '.html#' + backRoute
-                // }
-                // location.href = url
-              })
-            })
-          }
-
-        }
-      } else {
-
-        console.log('begin auth+++++' + this.environment)
-        this.$webStorage.setItem('environment', 'others');
-
-        let authToken = this.$webStorage.getItem('authToken');
-        if (!this.$isEmpty(authToken)) {
-
-          this.getAndStoreUserInfoByAuthToken().then(response => {
+		} else {
+			console.log('begin auth+++++' + this.environment)
+			this.$webStorage.setItem('environment', 'others');
+			this.redirectToBackRoute();
 
 
-            this.redirectToBackRoute();
-          })
-        } else {
 
-          this.redirectToBackRoute();
-        }
+		}
+	},
+	mounted() {
+		// alert('auth')
+	},
+	methods: {
+		getWeChatUserInfoByCode(code) {
+			return new Promise((resolve, reject) => {
+				this.$http.post('wx.login.openid', { code: code }).then(r => {
+					console.log(r);
+					if (r.state != 200) {
+						reject()
+						// location.href = this.getOAuthUrl()
+					}
+					if (r.data) {
+						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
+						this.userInfoFlag = true
+						resolve(r.data)
+					} else {
+						//留在当前页
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error)
+				});
+			})
+		},
+		getOAuthUrl() {
+			console.log('getOAuthUrl++++++', location)
+			return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" + encodeURIComponent(location.href) + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+		},
+		// 获取用户信息
+		getAndStoreUserInfoByAuthToken(callback) {
+			return new Promise((resolve, reject) => {
+				// debugger
+				this.$http.get(this.$baseUrl + this.getUserInfoRequest).then(response => {
+					response = response.data;
+					console.log('userInfo', response)
+					this.userInfo = response.userDetails;
+					this.$webStorage.setItem('userInfo', JSON.stringify(response.userDetails));
+
+					this.$store.commit('setUserInfo', this.userInfo);
+					// this.sharePage();
+
+					// let backRoute = this.$webStorage.getItem('backRoute')
+					// let url = location.href.split('.html')[0] + '.html'
+					// if (!this.$isEmpty(backRoute)) {
+					//   url = location.href.split('.html')[0] + '.html#' + backRoute
+					// }
+					// location.href = url;
 
 
-      }
-    },
-    mounted(){
-      // alert('auth')
-    },
-    methods: {
-      // 获取用户信息
-      getAndStoreUserInfoByAuthToken(callback) {
-        return new Promise((resolve, reject) => {
-          // debugger
-          this.$http.get(this.$baseUrl + this.getUserInfoRequest).then(response => {
-            response = response.data;
-            console.log('userInfo', response)
-            this.userInfo = response.userDetails;
-            this.$webStorage.setItem('userInfo', JSON.stringify(response.userDetails));
+					resolve(response);
+				}).catch(error => {
+					console.log(error)
 
-            this.$store.commit('setUserInfo', this.userInfo);
-            // this.sharePage();
+					reject(error);
+				})
+			})
 
-            // let backRoute = this.$webStorage.getItem('backRoute')
-            // let url = location.href.split('.html')[0] + '.html'
-            // if (!this.$isEmpty(backRoute)) {
-            //   url = location.href.split('.html')[0] + '.html#' + backRoute
-            // }
-            // location.href = url;
+		},
+		redirectToBackRoute() {
+			let backRoute = this.$webStorage.getItem('backRoute');
 
 
-            resolve(response);
-          }).catch(error => {
-            console.log(error)
-  
-            reject(error);
-          })
-        })
+			let url = '';
+			console.log(location.href.indexOf('.html'))
 
-      },
-      redirectToBackRoute() {
-        let backRoute = this.$webStorage.getItem('backRoute');
+			if (location.href.indexOf('.html') > 0) {
 
+				url = location.href.split('.html')[0] + '.html#' + backRoute;
+			} else {
 
-        let url = '';
-        console.log(location.href.indexOf('.html'))
+				url = location.origin + location.pathname + '#' + backRoute
+			}
 
-        if (location.href.indexOf('.html') > 0) {
+			// alert(this.environment + ' environment url is ' + url)
+			setTimeout(() => {
+				location.replace(url)
 
-          url = location.href.split('.html')[0] + '.html#' + backRoute;
-        } else {
+			}, 100)
+		},
+		getParameter(key) {
+			var url = location.href
+			var paraString = url.substring(url.indexOf('?') + 1, url.length).split('&')
+			var paraObj = {}
+			for (var i = 0, len = paraString.length; i < len; i++) {
+				var j = paraString[i]
+				paraObj[j.substring(0, j.indexOf('=')).toLowerCase()] = j.substring(j.indexOf('=') + 1, j.length)
+			}
+			var returnValue = paraObj[key.toLowerCase()]
+			if (typeof (returnValue) === 'undefined') {
+				return ''
+			} else {
+				return returnValue
+			}
+		},
+		testlogin() {
+			return new Promise((resolve, reject) => {
+				this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wlKa8Gbr-dxJwWx4GSqG_1g" } }).then(response => {
+					debugger
+					if (response.data) {
+						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+						this.userInfoFlag = true
+						resolve(response)
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error)
+				});
+			})
 
-          url = location.origin + location.pathname + '#' + backRoute
-        }
-
-        // alert(this.environment + ' environment url is ' + url)
-        setTimeout(() => {
-          location.href = url;
-
-        }, 100)
-      },
-      getParameter(key) {
-        var url = location.href
-        var paraString = url.substring(url.indexOf('?') + 1, url.length).split('&')
-        var paraObj = {}
-        for (var i = 0, len = paraString.length; i < len; i++) {
-          var j = paraString[i]
-          paraObj[j.substring(0, j.indexOf('=')).toLowerCase()] = j.substring(j.indexOf('=') + 1, j.length)
-        }
-        var returnValue = paraObj[key.toLowerCase()]
-        if (typeof (returnValue) === 'undefined') {
-          return ''
-        } else {
-          return returnValue
-        }
-      },
-      isEmpty(value) {
-        return typeof (value) === 'undefined' || value === null || value === ''
-        // if (typeof (value) === 'undefined' || value === null || value === '') {
-        //   return true
-        // } else {
-        //   return false
-        // }
-      },
-    }
-  }
+		},
+		isEmpty(value) {
+			return typeof (value) === 'undefined' || value === null || value === ''
+		},
+	}
+}
 </script>

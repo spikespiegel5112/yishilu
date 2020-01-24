@@ -60,6 +60,8 @@ router.beforeEach((to, from, next) => {
 
   let authToken = util.$webStorage.getItem('authToken');
   let environment = util.$webStorage.getItem('environment');
+  let userInfo = util.$webStorage.getItem('userInfo');
+
   // let environment = 'others';
   const noAuthWriteList = ['showcase', 'album'];
 
@@ -67,13 +69,13 @@ router.beforeEach((to, from, next) => {
 
   if (to.path !== '/auth' && noAuthWriteList.filter(item => `/${item}` === to.path).length === 0) {
     util.$webStorage.setItem('backRoute', to.fullPath);
-
-    if ((isEmpty(authToken) || isEmpty(environment)) && environment !== 'others') {
-      // next('/auth');
-         next()
+    console.log('environment+++++', environment)
+    if (isEmpty(userInfo) && environment !== 'others') {
+      next('/auth');
+      //  next()
     } else {
-      // debugger
-      next()
+      next();
+
     }
   } else {
     next()

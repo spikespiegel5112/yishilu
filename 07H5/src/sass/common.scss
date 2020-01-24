@@ -124,12 +124,23 @@ input:-webkit-autofill {
   width: 3.3rem;
   height: 3.3rem;
   z-index: 1;
+  background-image: url("image/common/button_bg_00000.png");
+  background-size: contain;
+  position: relative;
+  &:before{
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+  }
   a {
     display: inline-block;
-    width: 100%;
-    height: 100%;
-    background-image: url("image/information/button_shiguangdingzhi_00000.png");
-    background-size: contain;
+    width: 1.5rem;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #fff;
+    vertical-align: middle;
   }
 }
 .common_goback_wrapper {
@@ -217,7 +228,7 @@ input:-webkit-autofill {
   z-index: 1;
   position: relative;
   img {
-    width: 9rem;
+    width: 10rem;
     height: auto;
   }
 }
