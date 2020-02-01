@@ -138,6 +138,9 @@ export default {
 			return {
 				'background-image': "url(" + require('@/image/homepage/navigator_00000.png') + ")"
 			}
+		},
+		userInfo() {
+			return this.$store.state.userInfo
 		}
 	},
 	watch: {
@@ -148,23 +151,31 @@ export default {
 				});
 			}
 		},
+		userInfo(value) {
+			if (value != {}) {
+				this.init()
+
+			}
+		}
 	},
 
 
 	mounted() {
-		this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
-		console.log("this.$webStorage.getItem('userInfo')++++++", this.$webStorage.getItem('userInfo'))
-		//task_type    1:眼  2:视  3:光
-		this.task_type = this.getParameter('task_type');
-		console.log('this.task_type+++', this.task_type);
-		if (this.task_type) {
-			this.lighttask();
-			this.addscancount();
-		} else {
-			this.getlighten();
-		}
 	},
 	methods: {
+		init() {
+			this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
+			console.log("this.$webStorage.getItem('userInfo')++++++", this.$webStorage.getItem('userInfo'))
+			//task_type    1:眼  2:视  3:光
+			this.task_type = this.getParameter('task_type');
+			console.log('this.task_type+++', this.task_type);
+			if (this.task_type) {
+				this.lighttask();
+				this.addscancount();
+			} else {
+				this.getlighten();
+			}
+		},
 		lighttask() {  //点亮任务
 			this.$http.post('h5.user.light.task', {
 				User_Id: this.userinfo.id,

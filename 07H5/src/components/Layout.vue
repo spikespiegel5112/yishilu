@@ -36,14 +36,12 @@ export default {
 		console.log('$webStorage:', this.$webStorage.type);
 		this.sharePage();
 		// this.getUserInfoCache();
-		// if (this.$checkEnvironment() === 'wechat') {
-		// 	// this.testlogin();//本地测试	
-		// 	this.getUserInfo();
-		// } else {
-		// this.testlogin();//本地测试	
-		// }
-		// 
-		// this.testlogin();//本地测试	
+		if (this.$checkEnvironment() === 'wechat') {
+			// this.testlogin();//本地测试	
+			this.getUserInfo();
+		} else {
+			this.testlogin();//本地测试	
+		}
 
 	},
 	methods: {
@@ -51,6 +49,7 @@ export default {
 			this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wlKa8Gbr-dxJwWx4GSqG_1g" } }).then(response => {
 				if (response.data) {
 					this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+					this.$store.commit('setUserInfo', response.data);
 					this.userInfoFlag = true
 
 				}
