@@ -21,12 +21,12 @@
 			<div class="status_wrapper">
 				<ul>
 					<li
-						v-for="(item, index) in logoList"
+						v-for="(item, index) in brandList"
 						:key="item.name"
 						:class="item.active?'active'+' '+item.name:item.name"
 						@click="receivetask(index)"
 					>
-						<a href="javascript:;">
+						<a href="javascript:;" @click="checkBrandInfo(item)">
 							<div class="enabled">
 								<img :src="item.enableSrc" />
 							</div>
@@ -45,7 +45,7 @@
 					<a href="javascript:;" @click="checkStatus">点击抽奖</a>
 				</div>
 				<div class="common_navigation_item">
-					<a href="javascript:;" @click="checkStatus">我的奖品</a>
+					<a href="javascript:;" @click="checkPrize">我的奖品</a>
 				</div>
 			</div>
 			<div class="common_goback_wrapper">
@@ -57,7 +57,40 @@
 				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
 					<p>请前往相关展台扫码点亮</p>
-					<p>任意两个Logo进行抽奖</p>
+					<p>任意两个 Logo 进行抽奖</p>
+				</div>
+			</div>
+		</div>
+		<div v-if="dialogPositionFlag" class="common_dialog_container position">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
+				<div class="content">
+					<p class="brandname">{{currentBrandData.brandName}}</p>
+					<p>展位号</p>
+					<p class="number">{{currentBrandData.positionNumber}}</p>
+					<p class="hint">*奖品数量有限，领完即止</p>
+				</div>
+			</div>
+		</div>
+		<div v-if="dialogLightenFlag" class="common_dialog_container lighten">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
+				<div class="content">
+					<p>您已点亮</p>
+					<p class="brandname">{{currentBrandData.brandName}}</p>
+				</div>
+			</div>
+		</div>
+		<div v-if="dialogPrizeListFlag" class="common_dialog_container prizelist">
+			<div class="dialog_wrapper">
+				<!-- <a href="javascript:;" class="close" @click="closeDialog"></a> -->
+				<div class="content">
+					<p class="title" @click="closeDialog">我的奖品</p>
+					<div class="list">
+						<ul>
+							<li v-for="(item, index) in prizeList" :key="item.name">{{item.name!==''?index+'.':''}}</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -67,53 +100,91 @@
 <script>
 
 export default {
-	name: "Information",
+	name: "InteractionLogo",
 	components: {},
 	data() {
 		return {
+			getLighten2Request: "h5.get.wxuser.lighten2",
+			getDrawprizelist2Request: "h5.get.wxuser.drawprizelist2",
+			getTaskRequest: 'h5.user.light.task',
 			goToNextflag: false,
+			dialogPositionFlag: false,
+			dialogLightenFlag: false,
 			dialogNotYetFlag: false,
-			dialogYanFlag: false,
-			dialogShiFlag: false,
-			dialogGuangFlag: false,
+			dialogPrizeListFlag: false,
 			status: false,
-			yan_enabled: "enabled",
-			shi_enabled: "enabled",
-			guang_enabled: "enabled",
-			userinfo: {},
 			task_type: 0,
-			logoList: [{
+			prizeList: [{
+				name: ''
+			}, {
+				name: ''
+			}, {
+				name: ''
+			}],
+			currentBrandData: {
+				brandName: '',
+				positionNumber: ''
+			},
+			brandList: [{
+				id: 4,
+				code: 'f_four',
 				name: 'wanxin',
+				brandName: '万新',
+				positionNumber: '1G02-1J02',
 				enableSrc: require('@/image/interactionlogo/logo_wanxin_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_wanxin_disabled_00000.png'),
 				active: false
 			}, {
+				id: 5,
+				code: 'f_five',
 				name: 'yolioptical',
+				brandName: '优立',
+				positionNumber: '1T40-1U43',
 				enableSrc: require('@/image/interactionlogo/logo_yolioptical_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_yolioptical_disabled_00000.png'),
 				active: false
 			}, {
+				id: 6,
+				code: 'f_six',
 				name: 'chemilens',
+				brandName: '凯米',
+				positionNumber: '1P32',
 				enableSrc: require('@/image/interactionlogo/logo_chemilens_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_chemilens_disabled_00000.png'),
 				active: false
 			}, {
+				id: 7,
+				code: 'f_seven',
 				name: 'seeworld',
+				brandName: '视悦',
+				positionNumber: '1S22-1T27',
 				enableSrc: require('@/image/interactionlogo/logo_seeworld_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_seeworld_disabled_00000.png'),
 				active: false
 			}, {
+				id: 8,
+				code: 'f_eight',
 				name: 'creasky',
+				brandName: '奥天',
+				positionNumber: '2C30',
 				enableSrc: require('@/image/interactionlogo/logo_creasky_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_creasky_disabled_00000.png'),
 				active: false
 			}, {
+				id: 9,
+				code: 'f_nine',
 				name: 'newtianhongoptical',
+				brandName: '新天鸿',
+				positionNumber: '4B62-4C73',
 				enableSrc: require('@/image/interactionlogo/logo_newtianhongoptical_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_newtianhongoptical_disabled_00000.png'),
 				active: false
 			}, {
+				id: 10,
+				code: 'f_tem',
 				name: 'bolon',
+				brandName: '雅瑞',
+				positionNumber: '1F48-1G55',
 				enableSrc: require('@/image/interactionlogo/logo_bolon_00000.png'),
 				disabledSrc: require('@/image/interactionlogo/logo_bolon_disabled_00000.png'),
 				active: false
@@ -125,6 +196,9 @@ export default {
 			return {
 				'background-image': "url(" + require('@/image/homepage/navigator_00000.png') + ")"
 			}
+		},
+		userInfo() {
+			return this.$store.state.userInfo
 		}
 	},
 	watch: {
@@ -135,67 +209,73 @@ export default {
 				});
 			}
 		},
+
 	},
 
 
 	mounted() {
-		this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
-		console.log("this.$webStorage.getItem('userInfo')++++++", this.$webStorage.getItem('userInfo'))
-		//task_type    1:眼  2:视  3:光
-		this.task_type = this.getParameter('task_type');
-		console.log('this.task_type+++', this.task_type);
-		if (this.task_type) {
-			this.lighttask();
-			this.addscancount();
-		} else {
-			this.getlighten();
-		}
+		this.init()
 	},
 	methods: {
-		lighttask() {  //点亮任务
-			this.$http.post('h5.user.light.task', {
-				User_Id: this.userinfo.id,
+		init() {
+			this.task_type = this.getParameter('task_type');
+			console.log('this.task_type+++', this.task_type);
+			if (this.task_type) {
+				this.lightTask();
+				this.addscancount();
+			} else {
+				this.getLighten();
+			}
+			this.getPrizeList()
+		},
+		lightTask() {  //点亮任务
+			this.$http.post(this.$baseUrl + this.getTaskRequest, {
+				User_Id: this.userInfo.id,
 				Task_Type: this.task_type
-			}).then(r => {
-				console.log('lighttask+++', r)
-				this.$vux.confirm.show({
-					showCancelButton: false,
-					title: r.msg,
-					onConfirm() { }
-				});
-				this.getlighten();
+			}).then(response => {
+				console.log('lightTask+++', response)
+				this.dialogLightenFlag = true
+				this.currentBrandData.brandName = this.brandList.find(item => item.id === Number(response.data)).brandName
+				this.getLighten();
 			}).catch(error => {
 				console.log(error)
 			})
 		},
-		getlighten() {  //获取用户点亮的任务
-			this.$http.get(this.$baseUrl + "h5.get.wxuser.lighten", { params: { u_id: this.userinfo.id } }).then(response => {
+		getLighten() {  //获取用户点亮的任务
+			this.$http.get(this.$baseUrl + this.getLighten2Request, { params: { u_id: this.userInfo.id } }).then(response => {
 				if (response.data) {
-					this.yan_enabled = response.data.f_eye ? "disabled" : "enabled";
-					this.shi_enabled = response.data.f_regard ? "disabled" : "enabled";
-					this.guang_enabled = response.data.f_light ? "disabled" : "enabled";
+					this.brandList.forEach((item1, index1) => {
+						Object.keys(response.data).forEach((item2, index2) => {
+							if (item1.code === item2) {
+								this.brandList[index1].active = response.data[item2]
+							}
+						})
+
+					})
 				}
 			}).catch(error => {
 				console.log(error)
 			})
 		},
-		getParameter(key) {
-			var url = location.href
-			var paraString = url.substring(url.indexOf('?') + 1, url.length).split('&')
-			var paraObj = {}
-			for (var i = 0, len = paraString.length; i < len; i++) {
-				var j = paraString[i]
-				paraObj[j.substring(0, j.indexOf('=')).toLowerCase()] = j.substring(j.indexOf('=') + 1, j.length)
-			}
-			var returnValue = paraObj[key.toLowerCase()]
-			if (typeof (returnValue) === 'undefined') {
-				return ''
-			} else {
-				return returnValue
-			}
+		getPrizeList() {
+			this.$http.get(this.$baseUrl + this.getDrawprizelist2Request, {
+				params: {
+					u_id: this.userInfo.id
+				}
+			}).then(response => {
+				console.log('getPrizeList+++++', response)
+				this.prizeList = this.prizeList.map((item, index) => {
+					return {
+						name: response[index].name
+					}
+				})
+			}).catch(error => {
+				console.log(error)
+			})
 		},
+
 		addscancount() {//增加扫码次数
-			this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userinfo.id, scan_type: this.task_type } }).then(response => {
+			this.$http.get(this.$baseUrl + "h5.wxuser.pageaccess", { params: { u_id: this.userInfo.id, scan_type: this.task_type } }).then(response => {
 				console.log(response)
 			}).catch(error => {
 				console.log(error)
@@ -217,19 +297,46 @@ export default {
 			}
 		},
 		checkStatus() {
-			this.dialogNotYetFlag = true
+			const lightenCount = this.brandList.filter(item => item.active).length
+			const notYetFlag = lightenCount - this.prizeList * 2 < 2
+			if (notYetFlag) {
+				this.dialogNotYetFlag = true
+			} else {
+				this.$router.push({
+					name: 'lotteryDrawLogo'
+				})
+			}
+		},
+		checkPrize() {
+			this.dialogPrizeListFlag = true
 
-			this.$router.push({
-				name: 'lotteryDrawLogo'
-			})
 		},
 		closeDialog() {
 			this.dialogFlag = false
+			this.dialogPositionFlag = false
 			this.dialogNotYetFlag = false
-			this.dialogYanFlag = false
-			this.dialogShiFlag = false
-			this.dialogGuangFlag = false
-		}
+			this.dialogLightenFlag = false
+			this.dialogPrizeListFlag = false
+		},
+		checkBrandInfo(data) {
+			this.currentBrandData = this.brandList.find(item => item.id === data.id)
+			this.dialogPositionFlag = true
+		},
+		getParameter(key) {
+			var url = location.href
+			var paraString = url.substring(url.indexOf('?') + 1, url.length).split('&')
+			var paraObj = {}
+			for (var i = 0, len = paraString.length; i < len; i++) {
+				var j = paraString[i]
+				paraObj[j.substring(0, j.indexOf('=')).toLowerCase()] = j.substring(j.indexOf('=') + 1, j.length)
+			}
+			var returnValue = paraObj[key.toLowerCase()]
+			if (typeof (returnValue) === 'undefined') {
+				return ''
+			} else {
+				return returnValue
+			}
+		},
 
 	}
 }

@@ -120,6 +120,7 @@ export default {
 	components: {},
 	data() {
 		return {
+			getLightenRequest: "h5.get.wxuser.lighten",
 			goToNextflag: false,
 			dialogNotYetFlag: false,
 			dialogYanFlag: false,
@@ -151,21 +152,15 @@ export default {
 				});
 			}
 		},
-		userInfo(value) {
-			if (value != {}) {
-				this.init()
-
-			}
-		}
 	},
 
 
 	mounted() {
+		this.init()
+
 	},
 	methods: {
 		init() {
-			this.userinfo = JSON.parse(this.$webStorage.getItem('userInfo'));
-			console.log("this.$webStorage.getItem('userInfo')++++++", this.$webStorage.getItem('userInfo'))
 			//task_type    1:眼  2:视  3:光
 			this.task_type = this.getParameter('task_type');
 			console.log('this.task_type+++', this.task_type);
@@ -193,7 +188,7 @@ export default {
 			})
 		},
 		getlighten() {  //获取用户点亮的任务
-			this.$http.get(this.$baseUrl + "h5.get.wxuser.lighten", { params: { u_id: this.userinfo.id } }).then(response => {
+			this.$http.get(this.$baseUrl + this.getLightenRequest, { params: { u_id: this.userinfo.id } }).then(response => {
 				if (response.data) {
 					this.yan_enabled = response.data.f_eye ? "disabled" : "enabled";
 					this.shi_enabled = response.data.f_regard ? "disabled" : "enabled";

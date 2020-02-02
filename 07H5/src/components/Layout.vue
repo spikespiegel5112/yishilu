@@ -1,7 +1,8 @@
 <template>
 	<div class="common_main_container">
-		<transition v-if="userInfoFlag" name="fade">
-			<router-view></router-view>
+		<transition name="fade">
+			<router-view v-if="userInfoFlag"></router-view>	
+			<CommonLoading v-else :loading="true" />
 		</transition>
 	</div>
 </template>
@@ -14,7 +15,7 @@ export default {
 		return {
 			code: "",
 			environment: '',
-			userInfoFlag: true
+			userInfoFlag: false
 
 		};
 	},
@@ -24,7 +25,6 @@ export default {
 	watch: {
 	},
 	created() {
-		// this.getUserInfo()
 
 	},
 	mounted() {
@@ -50,7 +50,9 @@ export default {
 				if (response.data) {
 					this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
 					this.$store.commit('setUserInfo', response.data);
-					this.userInfoFlag = true
+					setTimeout(() => {
+						this.userInfoFlag = true
+					}, 200)
 
 				}
 			}).catch(error => {
@@ -68,7 +70,7 @@ export default {
 				} else {
 					if (r.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
-						this.userInfoFlag = true
+						// this.userInfoFlag = true
 
 					} else {
 						//留在当前页

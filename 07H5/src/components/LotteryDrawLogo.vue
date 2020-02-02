@@ -65,8 +65,8 @@ export default {
 	},
 	data() {
 		return {
-			drawlistRequest: 'h5.get.wxuser.drawlist',
-			drawRequest: 'h5.user.luck.draw',
+			drawlist2Request: 'h5.get.wxuser.drawlist2',
+			draw2Request: 'h5.user.luck.draw2',
 			dialogThankYouFlag: false,
 			dialogPrizeFlag: false,
 			status: false,
@@ -111,7 +111,7 @@ export default {
 				value: 30,
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}],
-			userInfo: {},
+			// userInfo: {},
 			prizeData: {}
 		};
 	},
@@ -120,6 +120,9 @@ export default {
 			return {
 				'background-image': "url(" + require('@/image/homepage/navigator_00000.png') + ")"
 			};
+		},
+		userInfo() {
+			return this.$store.state.userInfo
 		}
 	},
 	watch: {
@@ -140,16 +143,16 @@ export default {
 		this.$nextTick(() => {
 			this.remUnit = Number(document.getElementsByTagName('html')[0].style.fontSize.replace('px', ''));
 		});
-		this.getUserInfo();
+		// this.getUserInfo();
 	},
 	methods: {
 		init() {
 			// console.log(FrameAnimation)
 
 		},
-		getUserInfo() {
-			this.userInfo = JSON.parse(this.$webStorage.getItem('userInfo'));
-		},
+		// getUserInfo() {
+		// 	this.userInfo = JSON.parse(this.$webStorage.getItem('userInfo'));
+		// },
 		closeThankYou() {
 			this.dialogThankYouFlag = false;
 		},
@@ -160,7 +163,7 @@ export default {
 			this.loading = true;
 			// this.drawCanvas();
 			// this.getCachedCircleNumber();
-			this.$http.get(this.$baseUrl + this.drawlistRequest, {
+			this.$http.get(this.$baseUrl + this.drawlist2Request, {
 				params: {
 					u_id: this.userInfo.id
 				}
@@ -180,6 +183,16 @@ export default {
 						// image: 'https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png',
 						value: item.id,
 					});
+					// if (response.data.length === 6 && index === 5) {
+					// 	for (let index = 0; index < 2; index++) {
+					// 		this.wheelData.push({
+					// 			name: item.prize_Name,
+					// 			// image: item.rewardImage !== null ? item.rewardImage + '-style_100x100' : '',
+					// 			// image: 'https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png',
+					// 			value: item.id,
+					// 		});
+					// 	}
+					// }
 				});
 
 				this.drawCanvas();
@@ -377,7 +390,7 @@ export default {
 
 
 			console.log(' this.userInfo.id', this.userInfo);
-			this.$http.post(this.drawRequest, {
+			this.$http.post(this.draw2Request, {
 				u_id: this.userInfo.id
 			}).then(response => {
 				console.log(response);
