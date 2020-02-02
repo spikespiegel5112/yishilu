@@ -56,9 +56,6 @@
 						<p class="hint">{{prizeData.remark}}</p>
 					</div>
 				</div>
-				<div class="otheractivity">
-					<router-link :to="{name:'interactionLogo'}">*请点击此处，了解额外互动活动</router-link>
-				</div>
 			</div>
 		</div>
 	</div>

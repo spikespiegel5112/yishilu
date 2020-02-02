@@ -187,7 +187,7 @@ export default {
 				active: false
 			}, {
 				id: 10,
-				code: 'f_tem',
+				code: 'f_ten',
 				name: 'bolon',
 				brandName: '雅瑞',
 				positionNumber: '1F48-1G55',
@@ -286,6 +286,8 @@ export default {
 					}
 					return result
 				})
+				console.log('this.prizeList+++++', this.prizeList)
+
 			}).catch(error => {
 				console.log(error)
 			})
@@ -315,7 +317,13 @@ export default {
 		},
 		checkStatus() {
 			const lightenCount = this.brandList.filter(item => item.active).length
-			const notYetFlag = lightenCount - this.prizeList * 2 < 2
+			let temp1 = this.prizeList.filter(item => item.name !== '').length * 2
+			let temp2 = lightenCount - this.prizeList.filter(item => item.name !== '').length * 2
+			console.log(lightenCount)
+			console.log(temp1)
+			console.log(temp2)
+			const notYetFlag = lightenCount - this.prizeList.filter(item => item.name !== '').length * 2 < 2
+			debugger
 			if (notYetFlag) {
 				this.dialogNotYetFlag = true
 			} else {
