@@ -24,7 +24,7 @@
 		</div>
 		<div v-if="dialogThankYouFlag" class="common_dialog_container thankyou">
 			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closeThankYou"></a>
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
 					<p>谢谢参与</p>
 				</div>
@@ -33,9 +33,17 @@
 				</div>
 			</div>
 		</div>
+		<div v-if="dialogRunOutFlag" class="common_dialog_container runout">
+			<div class="dialog_wrapper">
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
+				<div class="content">
+					<p>您的抽奖机会已用完</p>
+				</div>
+			</div>
+		</div>
 		<div v-if="dialogPrizeFlag" class="common_dialog_container prize">
 			<div class="dialog_wrapper">
-				<a href="javascript:;" class="close" @click="closePrize"></a>
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
 					<div class="title">
 						<img src="@/image/lotterydraw/gift_00000.png" alt />
@@ -69,6 +77,7 @@ export default {
 			draw2Request: 'h5.user.luck.draw2',
 			dialogThankYouFlag: false,
 			dialogPrizeFlag: false,
+			dialogRunOutFlag: false,
 			status: false,
 			wheelCanvas: {},
 			remUnit: '',
@@ -153,10 +162,9 @@ export default {
 		// getUserInfo() {
 		// 	this.userInfo = JSON.parse(this.$webStorage.getItem('userInfo'));
 		// },
-		closeThankYou() {
+		closeDialog() {
 			this.dialogThankYouFlag = false;
-		},
-		closePrize() {
+			this.dialogRunOutFlag = false
 			this.dialogPrizeFlag = false;
 		},
 		getPrizeList() {
@@ -396,26 +404,31 @@ export default {
 				console.log(response);
 				this.loading = false;
 				response = response.data;
-				this.prizeData = response;
-				this.rewardCode = response.rewardCode;
-				if (response.drawCount < 2) {
-					this.wheelData.forEach((item1, index1) => {
-						if (item1.value === response.id) {
-							this.rotateWheel(index1).then(() => {
-								this.alreadyReleasedPrize = true;
-								if (response.id < 5) {
-									this.dialogPrizeFlag = true;
-								} else {
-									this.dialogThankYouFlag = true;
-								}
-							});
-						}
-					});
+
+				if (response === null) {
+					this.dialogRunOutFlag = true
 				} else {
-					if (response.id < 5) {
-						this.dialogPrizeFlag = true;
+					this.prizeData = response;
+					this.rewardCode = response.rewardCode;
+					if (response.prize_Id) {
+						this.wheelData.forEach((item1, index1) => {
+							if (item1.value === response.prize_Id) {
+								this.rotateWheel(index1).then(() => {
+									this.alreadyReleasedPrize = true;
+									if (response.id < 5) {
+										this.dialogPrizeFlag = true;
+									} else {
+										this.dialogThankYouFlag = true;
+									}
+								});
+							}
+						});
 					} else {
-						this.dialogThankYouFlag = true;
+						if (response.prize_Id < 5) {
+							this.dialogPrizeFlag = true;
+						} else {
+							this.dialogThankYouFlag = true;
+						}
 					}
 				}
 

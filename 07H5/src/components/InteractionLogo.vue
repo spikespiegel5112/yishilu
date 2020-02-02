@@ -83,12 +83,15 @@
 		</div>
 		<div v-if="dialogPrizeListFlag" class="common_dialog_container prizelist">
 			<div class="dialog_wrapper">
-				<!-- <a href="javascript:;" class="close" @click="closeDialog"></a> -->
+				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
 					<p class="title" @click="closeDialog">我的奖品</p>
 					<div class="list">
 						<ul>
-							<li v-for="(item, index) in prizeList" :key="item.name">{{item.name!==''?index+'.':''}}</li>
+							<li
+								v-for="(item, index) in prizeList"
+								:key="index"
+							>{{item.name!==''?item.index+'.'+item.name:''}}</li>
 						</ul>
 					</div>
 				</div>
@@ -115,11 +118,14 @@ export default {
 			status: false,
 			task_type: 0,
 			prizeList: [{
-				name: ''
+				name: '',
+				index: ''
 			}, {
-				name: ''
+				name: '',
+				index: ''
 			}, {
-				name: ''
+				name: '',
+				index: ''
 			}],
 			currentBrandData: {
 				brandName: '',
@@ -264,10 +270,21 @@ export default {
 				}
 			}).then(response => {
 				console.log('getPrizeList+++++', response)
+				response = response.data
 				this.prizeList = this.prizeList.map((item, index) => {
-					return {
-						name: response[index].name
+					let result = {}
+					if (response[index]) {
+						result = {
+							name: response[index].prize_Content,
+							index: index + 1
+						}
+					} else {
+						result = {
+							name: '',
+							index: ''
+						}
 					}
+					return result
 				})
 			}).catch(error => {
 				console.log(error)
@@ -308,6 +325,7 @@ export default {
 			}
 		},
 		checkPrize() {
+			this.closeDialog();
 			this.dialogPrizeListFlag = true
 
 		},
