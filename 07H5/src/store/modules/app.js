@@ -12,7 +12,9 @@ const app = {
 
 
   },
-  mutations: {},
+  mutations: {
+
+  },
   actions: {},
 };
 

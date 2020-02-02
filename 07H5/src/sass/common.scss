@@ -403,6 +403,43 @@ input:-webkit-autofill {
       }
     }
   }
+  &.prize2 {
+    .dialog_wrapper {
+      padding: 0;
+      width: 13rem;
+      min-height: 9rem;
+      height: auto;
+
+      .content {
+        color: #fff;
+        .desc {
+          p {
+            margin: 0.2rem 0 0 0;
+            &.congrats {
+              font-size: 0.8rem;
+            }
+            &.degree {
+              font-size: 1.9rem;
+              letter-spacing: 0.7rem;
+              text-indent: 0.7rem;
+              font-weight: bold;
+            }
+            &.prize {
+              font-size: 1.9rem;
+              font-weight: bold;
+            }
+            &.query {
+              font-size: 0.9rem;
+              font-weight: bold;
+            }
+            &.hint {
+              font-size: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
 
   &.thankyou {
     .dialog_wrapper {

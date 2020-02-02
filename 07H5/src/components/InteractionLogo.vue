@@ -131,70 +131,7 @@ export default {
 				brandName: '',
 				positionNumber: ''
 			},
-			brandList: [{
-				id: 4,
-				code: 'f_four',
-				name: 'wanxin',
-				brandName: '万新',
-				positionNumber: '1G02-1J02',
-				enableSrc: require('@/image/interactionlogo/logo_wanxin_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_wanxin_disabled_00000.png'),
-				active: false
-			}, {
-				id: 5,
-				code: 'f_five',
-				name: 'yolioptical',
-				brandName: '优立',
-				positionNumber: '1T40-1U43',
-				enableSrc: require('@/image/interactionlogo/logo_yolioptical_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_yolioptical_disabled_00000.png'),
-				active: false
-			}, {
-				id: 6,
-				code: 'f_six',
-				name: 'chemilens',
-				brandName: '凯米',
-				positionNumber: '1P32',
-				enableSrc: require('@/image/interactionlogo/logo_chemilens_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_chemilens_disabled_00000.png'),
-				active: false
-			}, {
-				id: 7,
-				code: 'f_seven',
-				name: 'seeworld',
-				brandName: '视悦',
-				positionNumber: '1S22-1T27',
-				enableSrc: require('@/image/interactionlogo/logo_seeworld_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_seeworld_disabled_00000.png'),
-				active: false
-			}, {
-				id: 8,
-				code: 'f_eight',
-				name: 'creasky',
-				brandName: '奥天',
-				positionNumber: '2C30',
-				enableSrc: require('@/image/interactionlogo/logo_creasky_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_creasky_disabled_00000.png'),
-				active: false
-			}, {
-				id: 9,
-				code: 'f_nine',
-				name: 'newtianhongoptical',
-				brandName: '新天鸿',
-				positionNumber: '4B62-4C73',
-				enableSrc: require('@/image/interactionlogo/logo_newtianhongoptical_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_newtianhongoptical_disabled_00000.png'),
-				active: false
-			}, {
-				id: 10,
-				code: 'f_ten',
-				name: 'bolon',
-				brandName: '雅瑞',
-				positionNumber: '1F48-1G55',
-				enableSrc: require('@/image/interactionlogo/logo_bolon_00000.png'),
-				disabledSrc: require('@/image/interactionlogo/logo_bolon_disabled_00000.png'),
-				active: false
-			}]
+
 		};
 	},
 	computed: {
@@ -205,6 +142,9 @@ export default {
 		},
 		userInfo() {
 			return this.$store.state.userInfo
+		},
+		brandList() {
+			return this.$store.state.brandList
 		}
 	},
 	watch: {
@@ -220,6 +160,7 @@ export default {
 
 
 	mounted() {
+		console.log(this.$store.state)
 		this.init()
 	},
 	methods: {
@@ -241,7 +182,7 @@ export default {
 			}).then(response => {
 				console.log('lightTask+++', response)
 				this.dialogLightenFlag = true
-				this.currentBrandData.brandName = this.brandList.find(item => item.id === Number(response.data)).brandName
+				this.currentBrandData.brandName = this.brandList.find(item => item.taskType === Number(response.data)).brandName
 				this.getLighten();
 			}).catch(error => {
 				console.log(error)
@@ -253,7 +194,11 @@ export default {
 					this.brandList.forEach((item1, index1) => {
 						Object.keys(response.data).forEach((item2, index2) => {
 							if (item1.code === item2) {
-								this.brandList[index1].active = response.data[item2]
+								this.$store.commit('setBrandActive', {
+									index: index1,
+									active: response.data[item2]
+								})
+								// this.brandList[index1].active = response.data[item2]
 							}
 						})
 
@@ -323,7 +268,6 @@ export default {
 			console.log(temp1)
 			console.log(temp2)
 			const notYetFlag = lightenCount - this.prizeList.filter(item => item.name !== '').length * 2 < 2
-			debugger
 			if (notYetFlag) {
 				this.dialogNotYetFlag = true
 			} else {
@@ -345,7 +289,7 @@ export default {
 			this.dialogPrizeListFlag = false
 		},
 		checkBrandInfo(data) {
-			this.currentBrandData = this.brandList.find(item => item.id === data.id)
+			this.currentBrandData = this.brandList.find(item => item.taskType === data.taskType)
 			this.dialogPositionFlag = true
 		},
 		getParameter(key) {

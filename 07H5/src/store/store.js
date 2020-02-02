@@ -26,7 +26,82 @@ const state = {
   speechFlag: false,
   openEntrance: false,
   currentLoadingPercentage: 0,
+  brandList: [{
+    taskType: 4,
+    prizeId: 14,
+    code: 'f_four',
+    name: 'wanxin',
+    brandName: '万新',
+    positionNumber: '1G02-1J02',
+    enableSrc: require('@/image/interactionlogo/logo_wanxin_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_wanxin_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 5,
+    prizeId: 14,
 
+    code: 'f_five',
+    name: 'yolioptical',
+    brandName: '优立',
+    positionNumber: '1T40-1U43',
+    enableSrc: require('@/image/interactionlogo/logo_yolioptical_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_yolioptical_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 6,
+    prizeId: 14,
+
+    code: 'f_six',
+    name: 'chemilens',
+    brandName: '凯米',
+    positionNumber: '1P32',
+    enableSrc: require('@/image/interactionlogo/logo_chemilens_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_chemilens_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 7,
+    prizeId: 14,
+
+    code: 'f_seven',
+    name: 'seeworld',
+    brandName: '视悦',
+    positionNumber: '1S22-1T27',
+    enableSrc: require('@/image/interactionlogo/logo_seeworld_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_seeworld_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 8,
+    prizeId: 14,
+
+    code: 'f_eight',
+    name: 'creasky',
+    brandName: '奥天',
+    positionNumber: '2C30',
+    enableSrc: require('@/image/interactionlogo/logo_creasky_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_creasky_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 9,
+    prizeId: 14,
+
+    code: 'f_nine',
+    name: 'newtianhongoptical',
+    brandName: '新天鸿',
+    positionNumber: '4B62-4C73',
+    enableSrc: require('@/image/interactionlogo/logo_newtianhongoptical_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_newtianhongoptical_disabled_00000.png'),
+    active: false
+  }, {
+    taskType: 10,
+    prizeId: 14,
+    code: 'f_ten',
+    name: 'bolon',
+    brandName: '雅瑞',
+    positionNumber: '1F48-1G55',
+    enableSrc: require('@/image/interactionlogo/logo_bolon_00000.png'),
+    disabledSrc: require('@/image/interactionlogo/logo_bolon_disabled_00000.png'),
+    active: false
+  }]
 };
 
 const mutations = {
@@ -63,6 +138,9 @@ const mutations = {
   },
   setWeixinJSBridgeReadyFlag(state, payload) {
     state.WeixinJSBridgeReadyFlag = payload;
+  },
+  setBrandActive(state, payload) {
+    state.brandList[payload.index].active = payload.active;
   }
 
 };

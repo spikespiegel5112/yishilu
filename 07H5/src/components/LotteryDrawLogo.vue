@@ -28,9 +28,6 @@
 				<div class="content">
 					<p>谢谢参与</p>
 				</div>
-				<div class="otheractivity">
-					<router-link :to="{name:'interactionLogo'}">*请点击此处，了解额外互动活动</router-link>
-				</div>
 			</div>
 		</div>
 		<div v-if="dialogRunOutFlag" class="common_dialog_container runout">
@@ -41,19 +38,16 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="dialogPrizeFlag" class="common_dialog_container prize">
+		<div v-if="dialogPrize2Flag" class="common_dialog_container prize2">
 			<div class="dialog_wrapper">
 				<a href="javascript:;" class="close" @click="closeDialog"></a>
 				<div class="content">
-					<div class="title">
-						<img src="@/image/lotterydraw/gift_00000.png" alt />
-					</div>
 					<div class="desc">
-						<div class="prizeinfo">
-							<p class="degree">恭喜您获得{{prizeData.prize_Name}}</p>
-							<p class="prize">{{prizeData.prize_Content}}{{prizeData.unit}}</p>
-						</div>
-						<p class="hint">{{prizeData.remark}}</p>
+						<p class="congrats">恭喜您，奖品请前往</p>
+						<p class="degree">{{brandData.brandName}}</p>
+						<p class="prize">{{brandData.positionNumber}}</p>
+						<p class="query">咨询及领取</p>
+						<p class="hint">*奖品数量有限，领完即止</p>
 					</div>
 				</div>
 			</div>
@@ -73,7 +67,7 @@ export default {
 			drawlist2Request: 'h5.get.wxuser.drawlist2',
 			draw2Request: 'h5.user.luck.draw2',
 			dialogThankYouFlag: false,
-			dialogPrizeFlag: false,
+			dialogPrize2Flag: false,
 			dialogRunOutFlag: false,
 			status: false,
 			wheelCanvas: {},
@@ -84,6 +78,7 @@ export default {
 			colorDictionary: ['#E6E6E6', '#1D88C2'],
 			textColorDictionary: ['#1D88C2', '#E6E6E6'],
 			dotsColorDictionary: ['#ffd800', '#fe9166'],
+			loading: true,
 			wheelData: [{
 				name: '比萨饼',
 				value: 10,
@@ -118,7 +113,8 @@ export default {
 				image: 'http://pic.c-ctrip.com/platform/online/home/un_index_supply.png'
 			}],
 			// userInfo: {},
-			prizeData: {}
+			prizeData: {},
+			brandData: {}
 		};
 	},
 	computed: {
@@ -129,6 +125,9 @@ export default {
 		},
 		userInfo() {
 			return this.$store.state.userInfo
+		},
+		brandList() {
+			return this.$store.state.brandList
 		}
 	},
 	watch: {
@@ -162,10 +161,9 @@ export default {
 		closeDialog() {
 			this.dialogThankYouFlag = false;
 			this.dialogRunOutFlag = false
-			this.dialogPrizeFlag = false;
+			this.dialogPrize2Flag = false;
 		},
 		getPrizeList() {
-			this.loading = true;
 			// this.drawCanvas();
 			// this.getCachedCircleNumber();
 			this.$http.get(this.$baseUrl + this.drawlist2Request, {
@@ -367,6 +365,9 @@ export default {
 
 		},
 		drawPrize() {
+			if (this.loading) {
+				return
+			}
 			this.loading = true;
 			// 本地调试代码
 			console.log(Math.random());
@@ -399,8 +400,13 @@ export default {
 				u_id: this.userInfo.id
 			}).then(response => {
 				console.log(response);
-				this.loading = false;
 				response = response.data;
+				// response = {
+				// 	prize_Id: 14,
+				// 	prize_Name: "恭喜中奖",
+				// 	zhanTai: "凯米",
+				// 	zhanTai_Id: 6,
+				// }
 
 				if (response === null) {
 					this.dialogRunOutFlag = true
@@ -409,20 +415,28 @@ export default {
 					this.rewardCode = response.rewardCode;
 					if (response.prize_Id) {
 						this.wheelData.forEach((item1, index1) => {
-							if (item1.value === response.prize_Id) {
+							if (response.prize_Id === item1.value) {
+
 								this.rotateWheel(index1).then(() => {
 									this.alreadyReleasedPrize = true;
-									if (response.id < 5) {
-										this.dialogPrizeFlag = true;
+									this.loading = false;
+
+									const brandData = this.brandList.find(item2 => item2.taskType === response.zhanTai_Id)
+									if (brandData) {
+										this.dialogPrize2Flag = true;
+										this.brandData = brandData
 									} else {
 										this.dialogThankYouFlag = true;
 									}
+
 								});
 							}
+
+
 						});
 					} else {
 						if (response.prize_Id < 5) {
-							this.dialogPrizeFlag = true;
+							this.dialogPrize2Flag = true;
 						} else {
 							this.dialogThankYouFlag = true;
 						}
