@@ -193,6 +193,7 @@ namespace NLS.ServiceCore.SY.SysUser
         {
             ResponseParamters<string> responseParamters = new ResponseParamters<string>();
             int count = DBRepository.Update($"update wx_user set F_Prize=0,Prize_Time=null,Prize_Name=null,Prize_State=1,Prize_Id=0 ");
+            DBRepository.ExecuteSqlReturnRows("truncate table wx_user_prize");
             if (count > 0)
             {
                 responseParamters.State = ResultStatusCode.Success;

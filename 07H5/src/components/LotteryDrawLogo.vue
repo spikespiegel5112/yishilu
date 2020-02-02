@@ -1,8 +1,7 @@
 <template>
 	<div class="lotterydraw_main_container">
-		<div class="common_logo_wrapper">
-			<div class="common_logo_item"></div>
-		</div>
+		<CommonLoading :loading="loadingFlag" />
+
 		<div class="common_title_item">
 			<img src="@/image/common/title_00000.png" alt />
 		</div>
@@ -12,7 +11,12 @@
 				<img src="@/image/interaction/subtitle_00000.png" alt />
 			</div>
 			<div class="wheel">
-				<canvas id="wheelcanvas" :width="remUnit*13.5" :height="remUnit*13.5">抱歉！浏览器不支持。</canvas>
+				<canvas
+					v-if="resetFlag"
+					id="wheelcanvas"
+					:width="remUnit*13.5"
+					:height="remUnit*13.5"
+				>抱歉！浏览器不支持。</canvas>
 				<a class="begin" @click="drawPrize"></a>
 			</div>
 			<div class="hint">
@@ -70,6 +74,8 @@ export default {
 			dialogPrize2Flag: false,
 			dialogRunOutFlag: false,
 			status: false,
+			resetFlag: true,
+			loadingFlag: false,
 			wheelCanvas: {},
 			remUnit: '',
 			alreadyReleasedPrize: false,
@@ -79,6 +85,7 @@ export default {
 			textColorDictionary: ['#1D88C2', '#E6E6E6'],
 			dotsColorDictionary: ['#ffd800', '#fe9166'],
 			loading: true,
+			actualRotate: 0,
 			wheelData: [{
 				name: '比萨饼',
 				value: 10,
@@ -199,7 +206,7 @@ export default {
 				});
 
 				this.drawCanvas();
-				this.getCachedCircleNumber();
+				// this.getCachedCircleNumber();
 
 			}).catch(error => {
 				console.log(error);
@@ -213,154 +220,156 @@ export default {
 			});
 		},
 		drawCanvas() {
+			return new Promise((resolve, reject) => {
+				console.log(this.remUnit);
+				// console.log(this.canvasWidth)
+				// console.log(this.wheelData)
+				this.wheelCanvas = document.getElementById('wheelcanvas');
+				let ctx = this.wheelCanvas.getContext('2d');
+				let ctx2 = this.wheelCanvas.getContext('2d');
 
-			console.log(this.remUnit);
-			// console.log(this.canvasWidth)
-			// console.log(this.wheelData)
-			this.wheelCanvas = document.getElementById('wheelcanvas');
-			let ctx = this.wheelCanvas.getContext('2d');
-			let ctx2 = this.wheelCanvas.getContext('2d');
+				let baseAngle = Math.PI * 2 / this.wheelData.length;
+				// document.querySelector('.wheel_wrapper .wheel').style.width = this.remUnit * 13.5;
+				// document.querySelector('.wheel_wrapper .wheel').style.height = this.remUnit * 13.5;
 
-			let baseAngle = Math.PI * 2 / this.wheelData.length;
-			// document.querySelector('.wheel_wrapper .wheel').style.width = this.remUnit * 13.5;
-			// document.querySelector('.wheel_wrapper .wheel').style.height = this.remUnit * 13.5;
+				let canvasWidth = this.remUnit * 13.5;
+				let canvasHeight = this.remUnit * 13.5;
+				// console.log(canvasWidth)
+				// console.log(canvasHeight)
 
-			let canvasWidth = this.remUnit * 13.5;
-			let canvasHeight = this.remUnit * 13.5;
-			// console.log(canvasWidth)
-			// console.log(canvasHeight)
+				ctx.font = this.remUnit;
 
-			ctx.font = this.remUnit;
+				// ctx2.beginPath();
+				// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.75, 0, Math.PI * 2, true);
+				// ctx2.fillStyle = 'rgba(188,75,61,0.5)';
+				// ctx2.fill();
 
-			// ctx2.beginPath();
-			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.75, 0, Math.PI * 2, true);
-			// ctx2.fillStyle = 'rgba(188,75,61,0.5)';
-			// ctx2.fill();
+				// ctx2.beginPath();
+				// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.57, 0, Math.PI * 2, true);
+				// ctx2.fillStyle = '#bc4b3d';
+				// ctx2.fill();
 
-			// ctx2.beginPath();
-			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.57, 0, Math.PI * 2, true);
-			// ctx2.fillStyle = '#bc4b3d';
-			// ctx2.fill();
-
-			// ctx2.beginPath();
-			// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.35, 0, Math.PI * 2, true);
-			// ctx2.fillStyle = '#f06949';
-			// ctx2.fill();
-
-
-			// ctx2.save();
-
-			// let showDots = () => {
-			// 	for (let i = 0; i < 24; i++) {
-			// 		ctx.beginPath();
-			// 		let angle = Math.PI * 2 / 24 * i;
-			// 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * this.remUnit * 5.9;
-			// 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * this.remUnit * 5.9;
-			// 		ctx.arc(translateX, translateY, this.remUnit * 0.35, this.remUnit, Math.PI * 2, true);
-			// 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
-			// 		ctx.fill();
-			// 	}
-			// };
-			// showDots();
-			// setInterval(() => {
-			// 	showDots();
-			// 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
-			// }, 1000);
-
-			let imageSequence = [];
-
-			this.wheelData.forEach((item, index) => {
-				let imageObj = new Image();
-				imageObj.width = '150';
-				imageObj.height = '150';
-				// imageObj.src = this.$replaceProtocol(this.wheelData[index].image);
-				imageObj.transparency = 0.2;
-				imageSequence.push(imageObj);
-			});
+				// ctx2.beginPath();
+				// ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.35, 0, Math.PI * 2, true);
+				// ctx2.fillStyle = '#f06949';
+				// ctx2.fill();
 
 
-			this.wheelData.forEach((item, index) => {
-				let angle = baseAngle * index;
+				// ctx2.save();
 
-				if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-					angle = angle - Math.PI;
-				} else {
-					angle = angle - Math.PI + baseAngle;
-				}
+				// let showDots = () => {
+				// 	for (let i = 0; i < 24; i++) {
+				// 		ctx.beginPath();
+				// 		let angle = Math.PI * 2 / 24 * i;
+				// 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * this.remUnit * 5.9;
+				// 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * this.remUnit * 5.9;
+				// 		ctx.arc(translateX, translateY, this.remUnit * 0.35, this.remUnit, Math.PI * 2, true);
+				// 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
+				// 		ctx.fill();
+				// 	}
+				// };
+				// showDots();
+				// setInterval(() => {
+				// 	showDots();
+				// 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
+				// }, 1000);
 
-				ctx.beginPath();
-				ctx.moveTo(canvasWidth / 2, canvasHeight / 2);
-				ctx.lineWidth = 3;
-				if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-					ctx.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 5.4, angle + baseAngle - Math.PI / this.wheelData.length, angle - Math.PI / this.wheelData.length, true);
-				} else {
-					ctx.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 5.4, angle + baseAngle, angle, true);
-				}
-				ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
+				let imageSequence = [];
 
-				ctx.strokeStyle = '#4387BD';
-				ctx.stroke();
-				ctx.fillStyle = this.colorDictionary[index % 2];
+				this.wheelData.forEach((item, index) => {
+					let imageObj = new Image();
+					imageObj.width = '150';
+					imageObj.height = '150';
+					// imageObj.src = this.$replaceProtocol(this.wheelData[index].image);
+					imageObj.transparency = 0.2;
+					imageSequence.push(imageObj);
+				});
 
-				ctx.save();
-				ctx.fill();
 
-				// imageSequence[index].onload = () => {};
+				this.wheelData.forEach((item, index) => {
+					let angle = baseAngle * index;
 
-				setTimeout(() => {
-					let translateX, translateY;
 					if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-						translateX = canvasWidth * 0.5 + Math.cos(angle + baseAngle / 2 - Math.PI / 2 - Math.PI / this.wheelData.length) * this.remUnit * 5;
-						translateY = canvasHeight * 0.5 + Math.sin(angle + baseAngle / 2 - Math.PI / 2 - Math.PI / this.wheelData.length) * this.remUnit * 5;
+						angle = angle - Math.PI;
 					} else {
-						translateX = canvasWidth * 0.5 + Math.cos(angle + baseAngle / 2) * this.remUnit * 5;
-						translateY = canvasHeight * 0.5 + Math.sin(angle + baseAngle / 2) * this.remUnit * 5;
+						angle = angle - Math.PI + baseAngle;
 					}
 
-					ctx.font = this.remUnit * 0.6 + "px Georgia";
-					ctx.fillStyle = this.textColorDictionary[index % 2];
-					ctx.translate(translateX, translateY);
-					ctx.rotate(angle);
-					// ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-					const offset = this.remUnit / 1.7;
-					this.wheelData[index].name.split('').forEach((item, index) => {
-						if (index < 6) {
-							ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit / 1.4 + offset);
+					ctx.beginPath();
+					ctx.moveTo(canvasWidth / 2, canvasHeight / 2);
+					ctx.lineWidth = 3;
+					if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
+						ctx.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 5.4, angle + baseAngle - Math.PI / this.wheelData.length, angle - Math.PI / this.wheelData.length, true);
+					} else {
+						ctx.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 5.4, angle + baseAngle, angle, true);
+					}
+					ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
 
+					ctx.strokeStyle = '#4387BD';
+					ctx.stroke();
+					ctx.fillStyle = this.colorDictionary[index % 2];
+
+					ctx.save();
+					ctx.fill();
+
+					// imageSequence[index].onload = () => {};
+
+					setTimeout(() => {
+						let translateX, translateY;
+						if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
+							translateX = canvasWidth * 0.5 + Math.cos(angle + baseAngle / 2 - Math.PI / 2 - Math.PI / this.wheelData.length) * this.remUnit * 5;
+							translateY = canvasHeight * 0.5 + Math.sin(angle + baseAngle / 2 - Math.PI / 2 - Math.PI / this.wheelData.length) * this.remUnit * 5;
+						} else {
+							translateX = canvasWidth * 0.5 + Math.cos(angle + baseAngle / 2) * this.remUnit * 5;
+							translateY = canvasHeight * 0.5 + Math.sin(angle + baseAngle / 2) * this.remUnit * 5;
 						}
-					});
-					ctx.shadowColor = '#000'; // green for demo purposes
-					ctx.shadowBlur = 10;
-					ctx.shadowOffsetX = 0;
-					ctx.shadowOffsetY = 0;
 
+						ctx.font = this.remUnit * 0.6 + "px Georgia";
+						ctx.fillStyle = this.textColorDictionary[index % 2];
+						ctx.translate(translateX, translateY);
+						ctx.rotate(angle);
+						// ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
+						const offset = this.remUnit / 1.7;
+						this.wheelData[index].name.split('').forEach((item, index) => {
+							if (index < 6) {
+								ctx.fillText(item, -ctx.measureText(item).width / 2, index * this.remUnit / 1.4 + offset);
+
+							}
+						});
+						ctx.shadowColor = '#000'; // green for demo purposes
+						ctx.shadowBlur = 10;
+						ctx.shadowOffsetX = 0;
+						ctx.shadowOffsetY = 0;
+
+
+						ctx.restore();
+						ctx.save();
+					}, 500);
+
+
+
+
+					// ctx.restore();
+					// ctx.save();
+					// let pointer = new Image();
+					// pointer.url = 'http://localhost/static/img/pointer_00000.png';
+					// pointer.width = '100';
+					// pointer.height = '100';
+
+
+				});
+				setTimeout(() => {
+					ctx.translate(200, 150);
+					ctx.rotate(-Math.PI / 4);
 
 					ctx.restore();
 					ctx.save();
-				}, 500);
+					resolve()
+				}, 1000);
 
+				// this.getCachedCircleNumber();
+			})
 
-
-
-				// ctx.restore();
-				// ctx.save();
-				// let pointer = new Image();
-				// pointer.url = 'http://localhost/static/img/pointer_00000.png';
-				// pointer.width = '100';
-				// pointer.height = '100';
-
-
-			});
-			setTimeout(() => {
-				ctx.translate(200, 150);
-				ctx.rotate(-Math.PI / 4);
-
-				ctx.restore();
-				ctx.save();
-
-			}, 1000);
-
-			this.getCachedCircleNumber();
 
 
 		},
@@ -468,19 +477,43 @@ export default {
 				this.wheelCanvas.style.transform = 'rotate(' + offsetAngle + 'deg)';
 			}
 		},
-		rotateWheel(offset) {
+		resetWheell() {
 			return new Promise((resolve, reject) => {
+				this.resetFlag = false
+				this.loadingFlag = true
+				setTimeout(() => {
+					this.resetFlag = true
+					this.$nextTick(() => {
+						this.drawCanvas().then(response => {
+							this.loadingFlag = false
+							resolve()
+						})
+					})
+				}, 100)
+			})
+		},
+		rotateWheel(offset) {
+			return new Promise(async (resolve, reject) => {
 				console.log(111, offset);
 
 				//因为canvas绘图顺序为顺时针，旋转顺序也为顺时针的话，旋转过后的个数会从最大值往最小值数，所以索性对偏移的个数进行取反
+				if (this.actualRotate !== 0) {
+					await this.resetWheell()
+				}
+
 
 				offset = this.wheelData.length - offset - 4;
 				let initRotateAngle = 3600;
 				let unitAngle = 360 / this.wheelData.length;
 				console.log(222, initRotateAngle + unitAngle * offset);
 				this.actualRotate = initRotateAngle + unitAngle * offset;
-				// alert(this.actualRotate)
-				this.wheelCanvas.style.transform = 'rotate(-' + this.actualRotate + 'deg)';
+
+				// this.wheelCanvas.style.transition = 'all 0s ease';
+				// this.wheelCanvas.style.transform = 'rotate(-0deg)';
+				// this.wheelCanvas.style.transformOrigin = 'center center';
+
+
+				// this.wheelCanvas.style.transform = 'rotate(-' + this.actualRotate + 'deg)';
 
 				sessionStorage.setItem('actualRotate', this.actualRotate);
 				if (!this.rotatingFlag) {
@@ -490,11 +523,14 @@ export default {
 					setTimeout(() => {
 						this.rotatingFlag = false;
 						this.wheelCanvas.style.transition = 'rotate 0s ease';
+						// debugger
 						resolve();
 					}, this.rotateDuration);
 				} else {
 					reject();
 				}
+
+
 			});
 		},
 

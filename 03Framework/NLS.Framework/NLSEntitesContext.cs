@@ -36,5 +36,6 @@ namespace NLS.Framework
         /// </summary>
         public DbSet<Wx_User_Task> Wx_User_Task { get; set; }
         public DbSet<Prize> Prize { get; set; }
+        public DbSet<Wx_User_Prize> Wx_User_Prize { get; set; }
     }
 }

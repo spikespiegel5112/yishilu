@@ -39,7 +39,6 @@ const state = {
   }, {
     taskType: 5,
     prizeId: 14,
-
     code: 'f_five',
     name: 'yolioptical',
     brandName: '优立',
@@ -50,7 +49,6 @@ const state = {
   }, {
     taskType: 6,
     prizeId: 14,
-
     code: 'f_six',
     name: 'chemilens',
     brandName: '凯米',
@@ -61,7 +59,6 @@ const state = {
   }, {
     taskType: 7,
     prizeId: 14,
-
     code: 'f_seven',
     name: 'seeworld',
     brandName: '视悦',
@@ -72,7 +69,6 @@ const state = {
   }, {
     taskType: 8,
     prizeId: 14,
-
     code: 'f_eight',
     name: 'creasky',
     brandName: '奥天',
@@ -83,7 +79,6 @@ const state = {
   }, {
     taskType: 9,
     prizeId: 14,
-
     code: 'f_nine',
     name: 'newtianhongoptical',
     brandName: '新天鸿',

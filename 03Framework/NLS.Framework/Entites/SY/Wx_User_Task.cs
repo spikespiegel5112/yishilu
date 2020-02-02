@@ -11,7 +11,7 @@ namespace NLS.Framework.Entites.SY
     {
         public int User_Id { get; set; }
         /// <summary>
-        /// 1:眼  2：视  3：光
+        /// 1:眼  2：视  3：光  4:万新光学  5:优立光学  6:凯米  7：world  8:奥天光学  9:新天鸿光学  10：BOLON
         /// </summary>
         public int Task_Type { get; set; }
         /// <summary>

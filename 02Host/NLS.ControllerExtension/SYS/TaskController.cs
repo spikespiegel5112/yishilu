@@ -72,6 +72,32 @@ namespace NLS.Host.ControllerExtension.SYS
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("clear.user.task")]
+        public JsonResult ClearUseTask()
+        {
+            return Result(taskService.ClearUseTask());
+        }
+
+
+        
+
+        /// <summary>
+        /// 获取用户任务是否点亮
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("h5.get.wxuser.lighten2")]
+        public async Task<JsonResult> GetLighten2(int u_id)
+        {
+            return Result(await taskService.GetLighten2(u_id));
+        }
+
+        /// <summary>
         /// 用户抽奖
         /// </summary>
         /// <param name="input"></param>
@@ -89,6 +115,35 @@ namespace NLS.Host.ControllerExtension.SYS
         }
 
         /// <summary>
+        /// 用户抽奖
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("h5.user.luck.draw2")]
+        public async Task<JsonResult> UserLuckDraw2([FromBody]Draw input)
+        {
+            var result = await taskService.UserLuckDraw2(input.u_id);
+            if (result.State == ResultStatusCode.Success)
+            {
+                return Result(result);
+            }
+            return Result(result.State, result.Msg);
+        }
+
+        /// <summary>
+        /// 获取中奖列表
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("h5.get.wxuser.drawprizelist2")]
+        public async Task<JsonResult> GetDrawPrizeList(int u_id)
+        {
+            return Result(await taskService.GetDrawPrizeList(u_id));
+        }
+
+        /// <summary>
         /// 获取抽奖列表
         /// </summary>
         /// <param name="u_id"></param>
@@ -99,6 +154,19 @@ namespace NLS.Host.ControllerExtension.SYS
         {
             return Result(await taskService.GetPrizeList(u_id));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="u_id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("h5.get.wxuser.drawlist2")]
+        public async Task<JsonResult> GetPrizeList2(int u_id)
+        {
+            return Result(await taskService.GetPrizeList2(u_id));
+        }
+
 
         /// <summary>
         /// 

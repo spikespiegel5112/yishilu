@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace NLS.ServiceCore.SY.Task
 {
@@ -17,13 +18,15 @@ namespace NLS.ServiceCore.SY.Task
         private readonly IRepository<Wx_User_Task> usertaskRepository;
         private readonly IRepository<WxUser> wxuserRepository;
         private readonly IRepository<Prize> prizeRepository;
+        private readonly IRepository<Wx_User_Prize> wxuserprizeRepository;
         public NLSEntitesContext context { get; set; }
 
-        public TaskService(IRepository<Prize> prizeRepository, IRepository<WxUser> wxuserRepository, IRepository<Wx_User_Task> usertaskRepositorys)
+        public TaskService(IRepository<Prize> prizeRepository, IRepository<WxUser> wxuserRepository, IRepository<Wx_User_Task> usertaskRepositorys, IRepository<Wx_User_Prize> wxuserprizeRepository)
         {
             this.usertaskRepository = usertaskRepositorys;
             this.wxuserRepository = wxuserRepository;
             this.prizeRepository = prizeRepository;
+            this.wxuserprizeRepository = wxuserprizeRepository;
             context = new NLSEntitesContext();
         }
 
@@ -108,6 +111,27 @@ namespace NLS.ServiceCore.SY.Task
                     case 3:
                         taskname = "\"光\"";
                         break;
+                    case 4:
+                        taskname = "\"万新光学\"";
+                        break;
+                    case 5:
+                        taskname = "\"优立光学\"";
+                        break;
+                    case 6:
+                        taskname = "\"凯米\"";
+                        break;
+                    case 7:
+                        taskname = "\"world\"";
+                        break;
+                    case 8:
+                        taskname = "\"奥天光学\"";
+                        break;
+                    case 9:
+                        taskname = "\"新天鸿光学\"";
+                        break;
+                    case 10:
+                        taskname = "\"BOLON\"";
+                        break;
                     default:
                         break;
                 }
@@ -117,6 +141,7 @@ namespace NLS.ServiceCore.SY.Task
                     if (usertaskinfo.Task_State == 2) {
                         responseParamters.State = ResultStatusCode.Success;
                         responseParamters.Msg = $"{taskname}您已点亮";
+                        responseParamters.Data = usertask.Task_Type.ToString();
                     }
                 }
                 else {
@@ -125,9 +150,11 @@ namespace NLS.ServiceCore.SY.Task
                     {
                         responseParamters.State = ResultStatusCode.Success;
                         responseParamters.Msg = $@"恭喜您，{taskname}点亮成功";
+                        responseParamters.Data = usertask.Task_Type.ToString();
                     }
                     else {
                         responseParamters.State = ResultStatusCode.SaveFailed;
+                        responseParamters.Data = usertask.Task_Type.ToString();
                         responseParamters.Msg = $"抱歉，{taskname}点亮失败";
                     }
                 }
@@ -140,10 +167,18 @@ namespace NLS.ServiceCore.SY.Task
 
             return responseParamters;
         }
-         #endregion
+        #endregion
+
+        public ResponseParamters<string> ClearUseTask()
+        {
+            ResponseParamters<string> responseParamters = new ResponseParamters<string>();
+            DBRepository.ExecuteSqlReturnRows("truncate table wx_user_task");
+            responseParamters.State = ResultStatusCode.Success;
+            return responseParamters;
+        }
 
         #region 获取用户任务是否点亮
-            public async Task<LightenUpModel> GetLighten(int u_id) {
+        public async Task<LightenUpModel> GetLighten(int u_id) {
             LightenUpModel result = new LightenUpModel();
             var lightenlist =await usertaskRepository.GetAllAsNoTracking(w => w.User_Id == u_id&&w.Task_State==2).ToListAsync();
             var eye= lightenlist.Where(w => w.Task_Type == 1).FirstOrDefault();
@@ -157,6 +192,35 @@ namespace NLS.ServiceCore.SY.Task
 
             return result;
         }
+
+        public async Task<LightenUpModel2> GetLighten2(int u_id)
+        {
+            LightenUpModel2 result = new LightenUpModel2();
+            var lightenlist = await usertaskRepository.GetAllAsNoTracking(w => w.User_Id == u_id && w.Task_State == 2).ToListAsync();
+            var eye = lightenlist.Where(w => w.Task_Type == 4).FirstOrDefault();
+            result.f_four = eye != null ? true : false;
+
+            var regard = lightenlist.Where(w => w.Task_Type == 5).FirstOrDefault();
+            result.f_five = regard != null ? true : false;
+
+            var light = lightenlist.Where(w => w.Task_Type ==6).FirstOrDefault();
+            result.f_six = light != null ? true : false;
+
+            var light1 = lightenlist.Where(w => w.Task_Type == 7).FirstOrDefault();
+            result.f_seven = light1 != null ? true : false;
+
+            var light2 = lightenlist.Where(w => w.Task_Type == 8).FirstOrDefault();
+            result.f_eight = light2 != null ? true : false;
+
+            var light3 = lightenlist.Where(w => w.Task_Type == 9).FirstOrDefault();
+            result.f_nine = light3 != null ? true : false;
+
+            var light4 = lightenlist.Where(w => w.Task_Type ==10).FirstOrDefault();
+            result.f_ten = light4 != null ? true : false;
+
+            return result;
+        }
+
         #endregion
 
         #region 转盘抽奖
@@ -167,6 +231,7 @@ namespace NLS.ServiceCore.SY.Task
                 var ent = await (from m in context.Prize
                                  join wxuser in context.WxUser.Where(w => w.Id == u_id) on m.Id equals wxuser.Prize_Id into JoinedEmpWxuser
                                  from wxuser in JoinedEmpWxuser.DefaultIfEmpty()
+                                 where m.Prize_Type==1
                                  orderby m.Order ascending
                                  select new Prize
                                  {
@@ -189,6 +254,142 @@ namespace NLS.ServiceCore.SY.Task
             }
         }
 
+        public async Task<List<Prize>> GetPrizeList2(int u_id)
+        {
+            try
+            {
+                var ent = await (from m in context.Prize
+                                 where m.Prize_Type == 2
+                                 orderby m.Order ascending
+                                 select new Prize
+                                 {
+                                     Id = m.Id,
+                                     Prize_Name = m.Prize_Name,
+                                     Probability = m.Probability,
+                                     Remark = m.Remark,
+                                     Prize_Content = m.Prize_Content,
+                                     Remaining_Number = m.Remaining_Number,
+                                     Unit = m.Unit,
+                                     Order = m.Order
+                                 }).ToListAsync();
+
+                return ent;
+            }
+            catch (Exception)
+            {
+                return new List<Prize>();
+            }
+        }
+
+
+        public async Task<List<Wx_User_Prize>> GetDrawPrizeList(int u_id)
+        {
+            try
+            {
+                return await wxuserprizeRepository.GetAllAsNoTracking().Where(W => W.User_Id == u_id).ToListAsync(); ;
+            }
+            catch (Exception)
+            {
+                return new List<Wx_User_Prize>();
+            }
+        }
+
+        public class PrizeModel {
+            public long Prize_Id { get; set; }
+            public string Prize_Name { get; set; }
+            public string  ZhanTai { get; set; }
+            public int ZhanTai_Id { get; set; }
+        }
+
+        public async Task<ResponseParamters<PrizeModel>> UserLuckDraw2(int u_id)
+        {
+            ResponseParamters<PrizeModel> responseParamters = new ResponseParamters<PrizeModel>();
+            try
+            {
+                if (u_id != 0)
+                {
+                    try
+                    {
+                        string json = "[{ ZhanTai_Id:9,ZhanTai: '新天鸿4B62 - 4C73'},{ ZhanTai_Id:4,ZhanTai: '万新'},{ ZhanTai_Id:5,ZhanTai: '优立'},{ ZhanTai_Id:6,ZhanTai: '凯米'},{ ZhanTai_Id:7,ZhanTai: 'world'},{ ZhanTai_Id:8,ZhanTai: '奥天'},{ ZhanTai_Id:10,ZhanTai: 'BOLON'}]";
+
+
+                        List<PrizeModel> array = JsonConvert.DeserializeObject<List<PrizeModel>>(json);
+                        var userinfos = await wxuserRepository.GetAllAsNoTracking().Where(w => w.Id == u_id).FirstOrDefaultAsync();
+                        if (userinfos != null)
+                        {
+                            var tasklist = await usertaskRepository.GetAllAsNoTracking().Where(w => w.User_Id == u_id && w.Task_Type > 3).ToListAsync();
+
+                            var prizelist = await wxuserprizeRepository.GetAllAsNoTracking().Where(w => w.User_Id == u_id).ToListAsync();
+
+                            if (tasklist.Count >= 2)
+                            {
+                                if ((tasklist.Count / 2 - prizelist.Count) > 0)
+                                {
+                                    var awardlist = await prizeRepository.GetAllAsNoTracking().Where(w => w.Remaining_Number > 0&&w.Prize_Type==2).ToListAsync();
+                                    var ent = GetRandomAwards(awardlist);
+                                    if (ent.Id != 0)
+                                    {
+                                        int count = 0;
+                                        Random rnd = new Random();
+                                        List<PrizeModel> newarray = array.OrderBy(i => rnd.NextDouble()).Take(1).ToList();
+                                        if (ent.Id == 9 || (ent.Id == 10) || (ent.Id == 11) || (ent.Id == 12))
+                                        {
+                                            newarray[0].ZhanTai = "谢谢参与";
+                                            newarray[0].ZhanTai_Id = 0;
+                                        }
+                                        string updatesql = $"insert wx_user_prize (User_Id,Prize_Id,Prize_Content,ZhanTai_Id,CreateTime) values ({u_id},{ent.Id},'{newarray[0].ZhanTai}',{newarray[0].ZhanTai_Id},now());";
+                                        updatesql += $"update prize set Remaining_Number=Remaining_Number-1 where Id={ent.Id};";
+                                        count = DBRepository.ExecuteSqlReturnRows(updatesql);
+                                        if (count > 0)
+                                        {
+                                            PrizeModel nn = new PrizeModel();
+                                            nn.Prize_Id = ent.Id;
+                                            nn.Prize_Name = ent.Prize_Name;
+                                            nn.ZhanTai = newarray[0].ZhanTai;
+                                            nn.ZhanTai_Id= newarray[0].ZhanTai_Id;
+                                            responseParamters.State = ResultStatusCode.Success;
+                                            responseParamters.Data = nn;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        responseParamters.State = ResultStatusCode.SaveFailed;
+                                        responseParamters.Msg = "奖品已被抽完";
+                                    }
+                                }
+                                else {
+                                    responseParamters.State = ResultStatusCode.SaveFailed;
+                                    responseParamters.Msg = "您抽奖机会已用完";
+                                }
+                               
+                            }
+                            else {
+                                responseParamters.State = ResultStatusCode.SaveFailed;
+                                responseParamters.Msg = "您暂无抽奖机会，请前去完成点亮任务";
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        responseParamters.State = ResultStatusCode.UnknowError;
+                        responseParamters.Msg = ex.Message;
+                    }
+                }
+                else
+                {
+                    responseParamters.State = ResultStatusCode.RequestError;
+                    responseParamters.Msg = "参数错误";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseParamters.State = ResultStatusCode.UnknowError;
+                responseParamters.Msg = ex.Message;
+            }
+            return responseParamters;
+        }
+
         public async Task<ResponseParamters<Prize>> UserLuckDraw(int u_id)
         {
             ResponseParamters<Prize> responseParamters = new ResponseParamters<Prize>();
@@ -203,7 +404,7 @@ namespace NLS.ServiceCore.SY.Task
                         {
                             if (userinfos.F_Prize == 0)
                             {
-                                var awardlist = await prizeRepository.GetAllAsNoTracking().Where(w => w.Remaining_Number > 0).ToListAsync();
+                                var awardlist = await prizeRepository.GetAllAsNoTracking().Where(w => w.Remaining_Number > 0 && w.Prize_Type == 1).ToListAsync();
                                 var ent = GetRandomAwards(awardlist);
                                 if (ent.Id != 0)
                                 {

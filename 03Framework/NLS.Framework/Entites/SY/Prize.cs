@@ -23,5 +23,6 @@ namespace NLS.Framework.Entites.SY
         public string Remark { get; set; }
         public int Order { get; set; }
         public string Unit { get; set; }
+        public int Prize_Type { get; set; }
     }
 }

@@ -172,6 +172,19 @@
             <param name="u_id"></param>
             <returns></returns>
         </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.ClearUseTask">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.GetLighten2(System.Int32)">
+            <summary>
+            获取用户任务是否点亮
+            </summary>
+            <param name="u_id"></param>
+            <returns></returns>
+        </member>
         <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.UserLuckDraw(NLS.Host.ControllerExtension.SYS.TaskController.Draw)">
             <summary>
             用户抽奖
@@ -179,9 +192,30 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.UserLuckDraw2(NLS.Host.ControllerExtension.SYS.TaskController.Draw)">
+            <summary>
+            用户抽奖
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.GetDrawPrizeList(System.Int32)">
+            <summary>
+            获取中奖列表
+            </summary>
+            <param name="u_id"></param>
+            <returns></returns>
+        </member>
         <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.GetPrizeList(System.Int32)">
             <summary>
             获取抽奖列表
+            </summary>
+            <param name="u_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NLS.Host.ControllerExtension.SYS.TaskController.GetPrizeList2(System.Int32)">
+            <summary>
+            
             </summary>
             <param name="u_id"></param>
             <returns></returns>
