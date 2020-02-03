@@ -1,7 +1,9 @@
 <template>
-	<div>
-		<div>auth</div>
-		<CommonLoading :loading="true" />
+	<div class="common_auth_cotainer">
+		<div class="content">
+			<CommonLoading :loading="true"></CommonLoading>
+			<div class="title">auth...</div>
+		</div>
 	</div>
 </template>
 
@@ -22,7 +24,7 @@ export default {
 		//   }
 		// });
 		// debugger
-		alert('aaa')
+		// alert('aaa')
 		console.log('environment', this.environment)
 
 		this.environment = this.$isEmpty(this.$webStorage.getItem('environment')) ? this.$checkEnvironment() : this.$webStorage.getItem('environment');
@@ -106,8 +108,6 @@ export default {
 		redirectToBackRoute() {
 			console.log('location+++++', location)
 			let backRoute = this.$webStorage.getItem('backRoute');
-
-
 			let url = '';
 			console.log(location.href.indexOf('.html'))
 
@@ -121,8 +121,7 @@ export default {
 
 			// alert(this.environment + ' environment url is ' + url)
 			setTimeout(() => {
-				location.replace(url)
-
+				// location.replace(url)
 			}, 100)
 		},
 		getParameter(key) {

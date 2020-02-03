@@ -118,7 +118,28 @@ input:-webkit-autofill {
     // opacity: 1;
   }
 }
-
+.common_auth_cotainer {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+  }
+  .content {
+    display: inline-block;
+    vertical-align: middle;
+    .title {
+    }
+    .common_loading_wrapper {
+      display: inline-block;
+      position: relative;
+    }
+  }
+}
 .common_navigation_item {
   margin: auto;
   width: 3.3rem;
