@@ -155,6 +155,7 @@ export default {
 		this.$nextTick(() => {
 			this.remUnit = Number(document.getElementsByTagName('html')[0].style.fontSize.replace('px', ''));
 		});
+		console.log('this.userInfo++++++', this.userInfo)
 		// this.getUserInfo();
 	},
 	methods: {
