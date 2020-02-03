@@ -36,13 +36,15 @@ export default {
 		console.log('layout page++++++');
 		console.log('$webStorage:', this.$webStorage.type);
 		this.sharePage();
-		if (this.$checkEnvironment() === 'wechat') {
-			console.log('environment+++++ wechat');
-			// this.testlogin();//本地测试	
-			this.getUserInfo();
-		} else {
-			this.testlogin();//本地测试	
-		}
+		// if (this.$checkEnvironment() === 'wechat') {
+		// 	console.log('environment+++++ wechat');
+		// 	// this.testlogin();//本地测试	
+		// 	this.getUserInfo();
+		// } else {
+		// 	this.testlogin();//本地测试	
+		// }
+		this.userInfoFlag = true
+
 
 	},
 	methods: {

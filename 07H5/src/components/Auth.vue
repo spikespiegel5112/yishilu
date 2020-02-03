@@ -57,10 +57,6 @@ export default {
 					})
 
 				}
-				// this.getAndStoreUserInfoByAuthToken().then(response => {
-				// 	this.$webStorage.setItem('environment', 'wechat');
-				// 	this.redirectToBackRoute();
-				// })
 
 			}
 
@@ -80,17 +76,17 @@ export default {
 	methods: {
 		getWeChatUserInfoByCode(code) {
 			return new Promise((resolve, reject) => {
-				this.$http.post('wx.login.openid', { code: code }).then(r => {
+				this.$http.post('wx.login.openid', { code: code }).then(response => {
 					console.log(r);
-					if (r.state != 200) {
+					if (response.state != 200) {
 						reject()
 						// location.href = this.getOAuthUrl()
 					}
-					if (r.data) {
-						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
-						this.$store.commit('setUserInfo', this.userInfo)
+					if (response.data) {
+						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+						this.$store.commit('setUserInfo', response.daata)
 						this.userInfoFlag = true
-						resolve(r.data)
+						resolve(response.data)
 					} else {
 						//留在当前页
 					}
@@ -105,35 +101,6 @@ export default {
 			return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" + encodeURIComponent(location.href) + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 		},
 		// 获取用户信息
-		getAndStoreUserInfoByAuthToken(callback) {
-			return new Promise((resolve, reject) => {
-				// debugger
-				this.$http.get(this.$baseUrl + this.getUserInfoRequest).then(response => {
-					response = response.data;
-					console.log('userInfo', response)
-					this.userInfo = response.userDetails;
-					this.$webStorage.setItem('userInfo', JSON.stringify(response.userDetails));
-
-					this.$store.commit('setUserInfo', this.userInfo);
-					// this.sharePage();
-
-					// let backRoute = this.$webStorage.getItem('backRoute')
-					// let url = location.href.split('.html')[0] + '.html'
-					// if (!this.$isEmpty(backRoute)) {
-					//   url = location.href.split('.html')[0] + '.html#' + backRoute
-					// }
-					// location.href = url;
-
-
-					resolve(response);
-				}).catch(error => {
-					console.log(error)
-
-					reject(error);
-				})
-			})
-
-		},
 		redirectToBackRoute() {
 			console.log('location+++++', location)
 			let backRoute = this.$webStorage.getItem('backRoute');
