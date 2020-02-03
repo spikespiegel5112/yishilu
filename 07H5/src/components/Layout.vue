@@ -64,19 +64,20 @@ export default {
 			this.$http.post(
 				'wx.login.openid', {
 				code: this.code,
-			}).then(r => {
-				console.log(r);
-				if (r.state != 200) {
-					location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" + location.href + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+			}).then(response => {
+				console.log(response);
+				// if (response.state != 200) {
+				// 	location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" + location.href + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+				// } else {
+
+				// }
+				if (response.data) {
+					this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+					this.$store.commit('setUserInfo', response.data);
+					// this.userInfoFlag = true
+					this.getUserInfoCache(response.data)
 				} else {
-					if (r.data) {
-						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
-						this.$store.commit('setUserInfo', response.data);
-						// this.userInfoFlag = true
-						this.getUserInfoCache(r.data)
-					} else {
-						//留在当前页
-					}
+					//留在当前页
 				}
 			}).catch(error => {
 				console.log(error);
