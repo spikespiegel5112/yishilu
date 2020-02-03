@@ -4,11 +4,15 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Layout from '../components/Layout'
-import Entrance from '../components/Entrance'
-import HomePage from '../components/HomePage'
+// import Auth from '../components/Auth'
+// import Entrance from '../components/Entrance'
+// import HomePage from '../components/HomePage'
 
 let testPrefix = process.env.NODE_ENV === 'production' ? '/' : '/test';
 const routes = [{
+  path: '/auth',
+  component: () => import('../components/Auth.vue'),
+}, {
   path: '/',
   redirect: '/entrance',
   component: Layout,
@@ -48,15 +52,6 @@ const routes = [{
     path: '/lotterydrawlogo',
     name: 'lotteryDrawLogo',
     component: () => import('../components/LotteryDrawLogo.vue')
-  }]
-}, {
-  path: '/auth',
-  component: Layout,
-  children: [{
-    path: '/',
-    name: 'auth',
-
-    component: () => import('../components/Auth.vue')
   }]
 }];
 

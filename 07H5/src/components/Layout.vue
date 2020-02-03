@@ -1,7 +1,7 @@
 <template>
 	<div class="common_main_container">
 		<transition name="fade">
-			<router-view v-if="userInfoFlag"></router-view>	
+			<router-view v-if="userInfoFlag"></router-view>
 			<CommonLoading v-else :loading="true" />
 		</transition>
 	</div>
@@ -33,10 +33,11 @@ export default {
 			threshold: 768,
 			aligncenter: true,
 		});
+		console.log('layout page++++++');
 		console.log('$webStorage:', this.$webStorage.type);
 		this.sharePage();
-		// this.getUserInfoCache();
 		if (this.$checkEnvironment() === 'wechat') {
+			console.log('environment+++++ wechat');
 			// this.testlogin();//本地测试	
 			this.getUserInfo();
 		} else {
@@ -71,7 +72,7 @@ export default {
 					if (r.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
 						// this.userInfoFlag = true
-
+						this.getUserInfoCache(r.data)
 					} else {
 						//留在当前页
 					}
@@ -108,9 +109,9 @@ export default {
 			};
 			this.$wxsdk.initConfig(params);
 		},
-		getUserInfoCache() {
+		getUserInfoCache(data) {
 			if (!this.$isEmpty(this.$webStorage.getItem('userInfo'))) {
-				this.$store.commit('setUserInfo', JSON.parse(this.$webStorage.getItem('userInfo')));
+				this.$store.commit('setUserInfo', data);
 			}
 		},
 		getUserInfo() {
@@ -122,7 +123,6 @@ export default {
 				userinfo = JSON.parse(userinfo);
 				this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: userinfo.openid } }).then(response => {
 					if (response.data) {
-						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
 						this.userInfoFlag = true
 					} else {
 						// location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" +
@@ -137,8 +137,7 @@ export default {
 
 					this.auto_login();
 				} else {
-					location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" +
-						encodeURIComponent(location.href) + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+					location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2602761a856bbea&redirect_uri=" + encodeURIComponent(location.href) + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 				}
 			}
 		}

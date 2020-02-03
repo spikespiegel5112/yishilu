@@ -8,7 +8,7 @@ import wxsdk from './js/wxsdk'
 
 // import axios from 'axios'
 import moment from 'moment';
-import { ConfirmPlugin, LoadingPlugin, ToastPlugin } from 'vux'
+// import { ConfirmPlugin, LoadingPlugin, ToastPlugin } from 'vux'
 // import Cookies from 'js-cookie'
 
 import App from './App'
@@ -21,9 +21,9 @@ import store from './store/store'
 import CommonGoBack from './components/common/CommonGoBack.vue'
 import CommonLoading from './components/common/CommonLoading.vue'
 
-Vue.use(ConfirmPlugin)
-Vue.use(LoadingPlugin)
-Vue.use(ToastPlugin)
+// Vue.use(ConfirmPlugin)
+// Vue.use(LoadingPlugin)
+// Vue.use(ToastPlugin)
 // Vue.use(Popup)
 //
 // Vue.use(Cookies)

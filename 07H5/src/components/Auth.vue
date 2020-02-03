@@ -1,5 +1,8 @@
 <template>
-	<CommonLoading :loading="true" />
+	<div>
+		<div>auth</div>
+		<CommonLoading :loading="true" />
+	</div>
 </template>
 
 <script>
@@ -11,9 +14,6 @@ export default {
 			userInfo: null
 		}
 	},
-	// beforeCreate(){
-	//   // alert('dsdsds')
-	// },
 	created() {
 		// this.$vux.confirm.show({
 		//   showCancelButton: false,
@@ -22,6 +22,8 @@ export default {
 		//   }
 		// });
 		// debugger
+		alert('aaa')
+		console.log('environment', this.environment)
 
 		this.environment = this.$isEmpty(this.$webStorage.getItem('environment')) ? this.$checkEnvironment() : this.$webStorage.getItem('environment');
 		this.userInfo = this.$webStorage.getItem('userInfo')
@@ -29,12 +31,12 @@ export default {
 
 
 
-		console.log('auth', this.environment)
 		// debugger
 		console.log('location+++', location)
 		if (this.environment === 'wechat') {
 			// if (this.environment === 'others') {
-			// alert('begin auth+++++' + this.environment)
+			alert('begin auth+++++' + this.environment)
+			alert('this.userInfo+++++' + this.userInfo)
 
 			const code = this.getParameter('code')
 			if (this.$isEmpty(this.userInfo) || this.userInfo === 'null') {
@@ -46,9 +48,11 @@ export default {
 					console.log('hascode++++++', code)
 					debugger
 					this.getWeChatUserInfoByCode(code).then(response => {
+						console.log('hascode resolve++++++', code)
 						debugger
 						this.redirectToBackRoute();
 					}).catch(error => {
+						console.log('hascode reject++++++', code)
 						location.href = this.getOAuthUrl()
 					})
 
@@ -130,6 +134,7 @@ export default {
 
 		},
 		redirectToBackRoute() {
+			console.log('location+++++', location)
 			let backRoute = this.$webStorage.getItem('backRoute');
 
 
