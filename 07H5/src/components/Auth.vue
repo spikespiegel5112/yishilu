@@ -79,7 +79,7 @@ export default {
 		getWeChatUserInfoByCode(code) {
 			return new Promise((resolve, reject) => {
 				this.$http.post('wx.login.openid', { code: code }).then(response => {
-					console.log(r);
+					console.log(response);
 					if (response.state != 200) {
 						reject()
 						// location.href = this.getOAuthUrl()
