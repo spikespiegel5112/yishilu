@@ -68,29 +68,46 @@ export default {
 		} else {
 			console.log('begin auth+++++' + this.environment)
 			this.$webStorage.setItem('environment', 'others');
-			this.redirectToBackRoute();
-
+			this.getUserInfoByOpenId("oPxr9wlKa8Gbr-dxJwWx4GSqG_1g").then(response => {
+				if (response.data) {
+					this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+					this.$store.commit('setUserInfo', response.data)
+					// this.userInfoFlag = true
+					this.redirectToBackRoute();
+				}
+			}).catch(error => {
+				console.log(error);
+			})
 
 
 		}
 	},
 	mounted() {
-		// alert('auth')
+		alert('auth')
 	},
 	methods: {
 		getWeChatUserInfoByCode(code) {
 			return new Promise((resolve, reject) => {
 				this.$http.post('wx.login.openid', { code: code }).then(response => {
-					console.log(response);
+					console.log('getWeChatUserInfoByCode++++', response);
 					if (response.state != 200) {
 						reject()
 						// location.href = this.getOAuthUrl()
 					}
 					if (response.data) {
-						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
-						this.$store.commit('setUserInfo', response.data)
-						this.userInfoFlag = true
-						resolve(response.data)
+						const openId = response.data.openId
+						this.getUserInfoByOpenId(openId).then(response => {
+							if (response.data) {
+								this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+								this.$store.commit('setUserInfo', response.data)
+								this.userInfoFlag = true
+								resolve(response.data)
+							}
+						}).catch(error => {
+							console.log(error);
+							reject(error)
+						})
+
 					} else {
 						//留在当前页
 					}
@@ -141,7 +158,22 @@ export default {
 		},
 		testlogin() {
 			return new Promise((resolve, reject) => {
-				this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: "oPxr9wlKa8Gbr-dxJwWx4GSqG_1g" } }).then(response => {
+				this.getUserInfoByOpenId("oPxr9wlKa8Gbr-dxJwWx4GSqG_1g").then(response => {
+					if (response.data) {
+						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
+						this.userInfoFlag = true
+						resolve(response)
+					}
+				}).catch(error => {
+					console.log(error);
+					reject(error)
+				})
+			})
+
+		},
+		getUserInfoByOpenId(openId) {
+			return new Promise((resolve, reject) => {
+				this.$http.get(this.$baseUrl + "wx.login.user.byopenid", { params: { openid: openId } }).then(response => {
 					debugger
 					if (response.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
@@ -153,7 +185,6 @@ export default {
 					reject(error)
 				});
 			})
-
 		},
 		isEmpty(value) {
 			return typeof (value) === 'undefined' || value === null || value === ''

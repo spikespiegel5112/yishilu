@@ -125,7 +125,6 @@ const mutations = {
     state.loginId = payload;
   },
   setUserInfo(state, payload) {
-    // debugger
     state.userInfo = payload;
   },
   setFilmInfoData(state, payload) {

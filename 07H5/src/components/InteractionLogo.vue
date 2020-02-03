@@ -163,7 +163,8 @@ export default {
 
 
 	mounted() {
-		console.log(this.$store.state)
+		console.log('this.$store.state++++', this.$store.state.userInfo)
+		console.log('this.$store.state++++', this.userInfo)
 		this.init()
 	},
 	methods: {
@@ -192,6 +193,7 @@ export default {
 			})
 		},
 		getLighten() {  //获取用户点亮的任务
+			console.log('getLighten+++++++', this.$store.state)
 			this.$http.get(this.$baseUrl + this.getLighten2Request, { params: { u_id: this.userInfo.id } }).then(response => {
 				if (response.data) {
 					this.brandList.forEach((item1, index1) => {
