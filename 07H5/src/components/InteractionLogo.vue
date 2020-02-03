@@ -118,13 +118,13 @@ export default {
 			status: false,
 			task_type: 0,
 			prizeList: [{
-				name: '',
+				name: '暂无中奖信息',
 				index: ''
 			}, {
-				name: '',
+				name: '暂无中奖信息',
 				index: ''
 			}, {
-				name: '',
+				name: '暂无中奖信息',
 				index: ''
 			}],
 			currentBrandData: {
@@ -225,8 +225,8 @@ export default {
 						}
 					} else {
 						result = {
-							name: '',
-							index: ''
+							name: item.name,
+							index: index + 1
 						}
 					}
 					return result
