@@ -37,15 +37,15 @@ export default {
 		console.log('location+++', location)
 		if (this.environment === 'wechat') {
 			// if (this.environment === 'others') {
-			alert('begin auth+++++' + this.environment)
-			alert('this.userInfo+++++' + this.userInfo)
+			// alert('begin auth+++++' + this.environment)
+			// alert('this.userInfo+++++' + this.userInfo)
 
 			const code = this.getParameter('code')
 			if (this.$isEmpty(this.userInfo) || this.userInfo === 'null') {
 				debugger
 				if (this.$isEmpty(code)) {
 					debugger
-					alert('isEmpty code+++++' + code)
+					// alert('isEmpty code+++++' + code)
 
 					location.href = this.getOAuthUrl()
 				} else {
@@ -83,7 +83,7 @@ export default {
 		}
 	},
 	mounted() {
-		alert('auth')
+		// alert('auth')
 	},
 	methods: {
 		getWeChatUserInfoByCode(code) {
