@@ -43,6 +43,8 @@ export default {
 				debugger
 				if (this.$isEmpty(code)) {
 					debugger
+					alert('isEmpty code+++++' + code)
+
 					location.href = this.getOAuthUrl()
 				} else {
 					console.log('hascode++++++', code)
