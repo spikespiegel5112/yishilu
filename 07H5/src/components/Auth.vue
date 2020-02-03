@@ -95,7 +95,7 @@ export default {
 						// location.href = this.getOAuthUrl()
 					}
 					if (response.data) {
-						const openId = response.data.openId
+						const openId = response.data.openid
 						this.getUserInfoByOpenId(openId).then(response => {
 							if (response.data) {
 								this.$webStorage.setItem('userInfo', JSON.stringify(response.data));

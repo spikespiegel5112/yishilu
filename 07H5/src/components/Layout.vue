@@ -52,10 +52,7 @@ export default {
 		getUserInfoCache() {
 			const userInfoCache = JSON.parse(this.$webStorage.getItem('userInfo'))
 			this.$store.commit('setUserInfo', userInfoCache);
-			setTimeout(() => {
-				this.userInfoFlag = true
-
-			}, 500)
+			this.userInfoFlag = true
 		},
 		testlogin() {
 			const userInfoCache = this.$webStorage.getItem('userInfo')
