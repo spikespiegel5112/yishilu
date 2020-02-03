@@ -71,6 +71,7 @@ export default {
 				} else {
 					if (r.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(r.data));
+						this.$store.commit('setUserInfo', response.data);
 						// this.userInfoFlag = true
 						this.getUserInfoCache(r.data)
 					} else {
