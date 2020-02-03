@@ -84,7 +84,7 @@ export default {
 					}
 					if (response.data) {
 						this.$webStorage.setItem('userInfo', JSON.stringify(response.data));
-						this.$store.commit('setUserInfo', response.daata)
+						this.$store.commit('setUserInfo', response.data)
 						this.userInfoFlag = true
 						resolve(response.data)
 					} else {
