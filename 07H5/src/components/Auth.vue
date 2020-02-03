@@ -121,7 +121,7 @@ export default {
 
 			// alert(this.environment + ' environment url is ' + url)
 			setTimeout(() => {
-				// location.replace(url)
+				location.replace(url)
 			}, 100)
 		},
 		getParameter(key) {
