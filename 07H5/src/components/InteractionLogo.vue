@@ -119,13 +119,16 @@ export default {
 			task_type: 0,
 			prizeList: [{
 				name: '暂无中奖信息',
-				index: ''
+				index: '',
+				hasPrize: false
 			}, {
 				name: '暂无中奖信息',
-				index: ''
+				index: '',
+				hasPrize: false
 			}, {
 				name: '暂无中奖信息',
-				index: ''
+				index: '',
+				hasPrize: false
 			}],
 			currentBrandData: {
 				brandName: '',
@@ -221,13 +224,14 @@ export default {
 					if (response[index]) {
 						result = {
 							name: response[index].prize_Content,
-							index: index + 1
+							index: index + 1,
+							hasPrize: true
 						}
 					} else {
-						result = {
+						result = Object.assign(item, {
 							name: item.name,
-							index: index + 1
-						}
+							index: index + 1,
+						})
 					}
 					return result
 				})
@@ -267,7 +271,7 @@ export default {
 			console.log(lightenCount)
 			console.log(temp1)
 			console.log(temp2)
-			const notYetFlag = lightenCount - this.prizeList.filter(item => item.name !== '').length * 2 < 2
+			const notYetFlag = lightenCount - this.prizeList.filter(item => item.hasPrize).length * 2 < 2
 			if (notYetFlag) {
 				this.dialogNotYetFlag = true
 			} else {
