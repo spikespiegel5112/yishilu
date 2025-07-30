@@ -1,13 +1,12 @@
-import $ from 'jquery';
-import wx from 'weixin-js-sdk'
+import $ from "jquery";
+import wx from "weixin-js-sdk";
 // import imageClipper from '../components/common/imageClipper.vue'
 // import mImageCrop from './mic/m-image-crop'
-
 
 // import service from "./request";
 // import {ConfirmPlugin, WechatPlugin} from 'vux'
 // import Vue2 from 'vue'
-import store from '../store/store';
+import store from "../store/store";
 
 //
 // Vue2.use(ConfirmPlugin);
@@ -15,20 +14,19 @@ import store from '../store/store';
 
 let util = {};
 
-
 util.$webStorage = {
-  type: '',
+  type: "",
   setItem(name, payload) {
     // console.log(this.type);
     switch (this.type) {
-      case 'localStorage':
+      case "localStorage":
         localStorage.setItem(name, payload);
         break;
-      case 'sessionStorage':
+      case "sessionStorage":
         sessionStorage.setItem(name, payload);
         break;
       default:
-        alert('未设置存储类型，无法存储');
+        alert("未设置存储类型，无法存储");
         break;
     }
   },
@@ -36,117 +34,128 @@ util.$webStorage = {
     // console.log(this.type);
     let result;
     switch (this.type) {
-      case 'localStorage':
+      case "localStorage":
         result = localStorage.getItem(name);
         break;
-      case 'sessionStorage':
+      case "sessionStorage":
         result = sessionStorage.getItem(name);
         break;
       default:
-        alert('未设置存储类型，无法获取');
+        alert("未设置存储类型，无法获取");
         break;
     }
     return result;
-  }
+  },
 };
 
 util.install = function (Vue) {
-
   Object.keys(util).forEach((item, index) => {
-    if (item !== 'install') {
+    if (item !== "install") {
       Vue.prototype[item] = util[item];
     }
   });
 
   Vue.prototype.$clickSound = () => {
     let audioInstance = new Audio();
-    audioInstance.src = require('../assets/audio/click_sound.mp3');
+    audioInstance.src = require("../assets/audio/click_sound.mp3");
     // audioInstance.src = require('http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_speech.mp3');
     // audioInstance.src = 'http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_speech.mp3';
     audioInstance.play();
-  }
+  };
 
   // Vue.component(imageClipper.name, imageClipper);
   // Vue.component('mImageCrop', mImageCrop);
 
-  Vue.prototype.$audioPlayback = options => {
-    options = Object.assign({
-      play: true,
-      src: '',
-      loop: false,
-      autoplay: false,
-      icon: true,
-      el: 'body'
-    }, options);
+  Vue.prototype.$audioPlayback = (options) => {
+    options = Object.assign(
+      {
+        play: true,
+        src: "",
+        loop: false,
+        autoplay: false,
+        icon: true,
+        el: "body",
+      },
+      options,
+    );
 
     let audioInstance = new Audio();
     audioInstance.src = options.src;
     audioInstance.loop = options.loop;
-    audioInstance.play().then(() => { }).catch(error => {
-      console.log(error)
-    });
+    audioInstance
+      .play()
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      });
 
     const templateString = "<a></a><p class='loading'>音乐载入中</p>";
 
-    let templateNode = document.createElement('div');
-    let instanceId = 'commonAudio' + Date.parse(new Date());
+    let templateNode = document.createElement("div");
+    let instanceId = "commonAudio" + Date.parse(new Date());
 
-    console.log('templateNode', templateString)
+    console.log("templateNode", templateString);
 
-    templateNode.setAttribute('id', instanceId);
-    templateNode.setAttribute('class', 'common_musicbutton_wrapper active');
-    templateNode.setAttribute('active', 'true');
+    templateNode.setAttribute("id", instanceId);
+    templateNode.setAttribute("class", "common_musicbutton_wrapper active");
+    templateNode.setAttribute("active", "true");
     templateNode.innerHTML = templateString;
 
     if (options.icon) {
-      document.querySelector(options.el).appendChild(templateNode)
+      document.querySelector(options.el).appendChild(templateNode);
 
-      let instanceElement = document.getElementById(instanceId)
-      instanceElement.addEventListener('click', () => {
+      let instanceElement = document.getElementById(instanceId);
+      instanceElement.addEventListener("click", () => {
         if (!audioInstance.paused) {
           audioInstance.pause();
-          instanceElement.classList.remove('active');
+          instanceElement.classList.remove("active");
         } else {
           audioInstance.play();
-          instanceElement.classList.add('active')
-
+          instanceElement.classList.add("active");
         }
-      })
+      });
     }
   };
 
   Vue.prototype.$checkDevice = () => {
     const ua = navigator.userAgent;
-    let deviceDictionary = [{
-      name: 'ios',
-      method: "window.webkit.messageHandlers.token.postMessage('')",
-      checker: 'window.webkit',
-      getter: 'window.webkit.messageHandlers.token',
-      status: false
-    }, {
-      name: 'android',
-      method: 'window.android.getToken()',
-      // checker: 'window.android',
-      checker: "ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1",
-      getter: 'window.android.getToken()',
-      status: false
-    }, {
-      name: 'others',
-      checker: "console",
-      getter: '',
-      status: false
-    }];
+    let deviceDictionary = [
+      {
+        name: "ios",
+        method: "window.webkit.messageHandlers.token.postMessage('')",
+        checker: "window.webkit",
+        getter: "window.webkit.messageHandlers.token",
+        status: false,
+      },
+      {
+        name: "android",
+        method: "window.android.getToken()",
+        // checker: 'window.android',
+        checker: "ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1",
+        getter: "window.android.getToken()",
+        status: false,
+      },
+      {
+        name: "others",
+        checker: "console",
+        getter: "",
+        status: false,
+      },
+    ];
     let device;
     let that = this;
     for (let i = 0; i < deviceDictionary.length; i++) {
       let item = deviceDictionary[i];
-      if (item.name === 'ios' && window.webkit !== undefined) {
-        device = eval(item.checker) ? item.name : '';
+      if (item.name === "ios" && window.webkit !== undefined) {
+        device = eval(item.checker) ? item.name : "";
       } else {
         // device = eval(item.checker) !== undefined ? item.name : '';
-        device = eval(item.checker) !== undefined && eval(item.checker) ? item.name : ''
+        device =
+          eval(item.checker) !== undefined && eval(item.checker)
+            ? item.name
+            : "";
       }
-      if (device !== '') {
+      if (device !== "") {
         break;
       }
     }
@@ -158,25 +167,29 @@ util.install = function (Vue) {
 
   Vue.prototype.$checkEnvironment = () => {
     const ua = navigator.userAgent;
-    console.log('us', ua)
-    let environmentDictionary = [{
-      name: 'wechat',
-      checker: ua.toLowerCase().match(/MicroMessenger/i),
-      getter: '',
-      status: false
-    }, {
-      name: 'ios',
-      method: "window.webkit.messageHandlers.token.postMessage('')",
-      checker: !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
-      getter: 'window.webkit.messageHandlers.token',
-      status: false
-    }, {
-      name: 'android',
-      method: 'window.android',
-      checker: ua.match(/(Android)\s+([\d]+)/),
-      getter: 'window.android.getToken()',
-      status: false
-    }];
+    console.log("us", ua);
+    let environmentDictionary = [
+      {
+        name: "wechat",
+        checker: ua.toLowerCase().match(/MicroMessenger/i),
+        getter: "",
+        status: false,
+      },
+      {
+        name: "ios",
+        method: "window.webkit.messageHandlers.token.postMessage('')",
+        checker: !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+        getter: "window.webkit.messageHandlers.token",
+        status: false,
+      },
+      {
+        name: "android",
+        method: "window.android",
+        checker: ua.match(/(Android)\s+([\d]+)/),
+        getter: "window.android.getToken()",
+        status: false,
+      },
+    ];
     let environment;
     let checkerMatchedFlag = false;
     environmentDictionary.forEach((item, index) => {
@@ -184,8 +197,8 @@ util.install = function (Vue) {
         environment = item.name;
       }
     });
-    let result = environmentDictionary.filter(item => item.checker);
-    environment = result.length > 0 ? result[0].name : 'unknown'
+    let result = environmentDictionary.filter((item) => item.checker);
+    environment = result.length > 0 ? result[0].name : "unknown";
     // console.log(environment)
     // alert('environment++++++' + environment)
 
@@ -193,18 +206,18 @@ util.install = function (Vue) {
   };
 
   Vue.prototype.$webStorage = {
-    type: '',
+    type: "",
     setItem(name, payload) {
       // console.log(this.type);
       switch (this.type) {
-        case 'localStorage':
+        case "localStorage":
           localStorage.setItem(name, payload);
           break;
-        case 'sessionStorage':
+        case "sessionStorage":
           sessionStorage.setItem(name, payload);
           break;
         default:
-          alert('未设置存储类型，无法存储');
+          alert("未设置存储类型，无法存储");
           break;
       }
     },
@@ -212,101 +225,112 @@ util.install = function (Vue) {
       // console.log(this.type);
       let result;
       switch (this.type) {
-        case 'localStorage':
+        case "localStorage":
           result = localStorage.getItem(name);
           break;
-        case 'sessionStorage':
+        case "sessionStorage":
           result = sessionStorage.getItem(name);
           break;
         default:
-          alert('未设置存储类型，无法获取');
+          alert("未设置存储类型，无法获取");
           break;
       }
       return result;
-    }
+    },
   };
 
-  Vue.prototype.$isEmpty = value => {
-    return typeof (value) === 'undefined' || value === null || value === ''
+  Vue.prototype.$isEmpty = (value) => {
+    return typeof value === "undefined" || value === null || value === "";
   };
 
   Vue.prototype.$replaceProtocol = (url) => {
     let result;
     // result = process.env.NODE_ENV === 'production' ? url.replace('http://', 'https://').replace('fnvalley.com', 'fnvalley.com') : url;
-    result = url.replace('http://', 'https://').replace('fnvalley.com', 'fnvalley.com');
+    result = url
+      .replace("http://", "https://")
+      .replace("fnvalley.com", "fnvalley.com");
     return result;
-  }
+  };
 
   Vue.prototype.$generateUUID = (options) => {
-    options = Object.assign({
-      len: 32,
-      radix: 16
-    }, options);
+    options = Object.assign(
+      {
+        len: 32,
+        radix: 16,
+      },
+      options,
+    );
     let result;
-    let chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-    let uuid = [], i;
+    let chars =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split(
+        "",
+      );
+    let uuid = [],
+      i;
     let len = options.len;
     let radix = options.radix || chars.length;
 
     if (len) {
       // Compact form
-      for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
+      for (i = 0; i < len; i++) uuid[i] = chars[0 | (Math.random() * radix)];
     } else {
       // rfc4122, version 4 form
       let r;
 
       // rfc4122 requires these characters
-      uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-      uuid[14] = '4';
+      uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+      uuid[14] = "4";
 
       // Fill in random data. At i==19 set the high bits of clock sequence as
       // per rfc4122, sec. 4.1.5
       for (i = 0; i < 36; i++) {
         if (!uuid[i]) {
-          r = 0 | Math.random() * 16;
-          uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+          r = 0 | (Math.random() * 16);
+          uuid[i] = chars[i === 19 ? (r & 0x3) | 0x8 : r];
         }
       }
     }
 
-    result = uuid.join('');
+    result = uuid.join("");
     return result;
-  }
-
+  };
 
   Vue.prototype.$getDevice = (options) => {
     //判断访问终端
     let u = navigator.userAgent,
       app = navigator.appVersion;
     return {
-      trident: u.indexOf('Trident') > -1, //IE内核
-      presto: u.indexOf('Presto') > -1, //opera内核
-      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1,//火狐内核
+      trident: u.indexOf("Trident") > -1, //IE内核
+      presto: u.indexOf("Presto") > -1, //opera内核
+      webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
+      gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") === -1, //火狐内核
       mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
       ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-      android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
-      iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-      iPad: u.indexOf('iPad') > -1, //是否iPad
-      webApp: u.indexOf('Safari') === -1, //是否web应该程序，没有头部与底部
-      weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
-      qq: u.match(/\sQQ/i) === " qq" //是否QQ
+      android: u.indexOf("Android") > -1 || u.indexOf("Adr") > -1, //android终端
+      iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
+      iPad: u.indexOf("iPad") > -1, //是否iPad
+      webApp: u.indexOf("Safari") === -1, //是否web应该程序，没有头部与底部
+      weixin: u.indexOf("MicroMessenger") > -1, //是否微信 （2015-01-22新增）
+      qq: u.match(/\sQQ/i) === " qq", //是否QQ
     };
-  }
+  };
 
   Vue.prototype.$remResizing = (options) => {
-    options = $.extend({
-      fontSize: 16,
-      baseline: 320,
-      threshold: 0,
-      basedonnarrow: false,
-      basedonwide: false,
-      dropoff: false,
-      aligncenter: true,
-      inward: false
-    }, options);
-    var htmlEl = $('html'),
-      bodyEl = $('body');
+    options = $.extend(
+      {
+        fontSize: 16,
+        baseline: 320,
+        threshold: 0,
+        basedonnarrow: false,
+        basedonwide: false,
+        dropoff: false,
+        aligncenter: true,
+        inward: false,
+      },
+      options,
+    );
+    var htmlEl = $("html"),
+      bodyEl = $("body");
     var frontline = $(window).width();
     var orientationSensor = function (options) {
       var windowWidth = $(window).width(),
@@ -314,7 +338,7 @@ util.install = function (Vue) {
       checkoritation();
 
       function checkoritation() {
-        if (typeof (options) !== 'undefined') {
+        if (typeof options !== "undefined") {
           if (windowWidth < windowHeight) {
             return options.portrait();
           } else {
@@ -322,14 +346,16 @@ util.install = function (Vue) {
           }
         } else {
           options = {
-            portrait: function () { },
-            landscape: function () { }
+            portrait: function () {},
+            landscape: function () {},
           };
         }
       }
 
       //console.log((frontline < windowHeight) ? orientation = 'portrait' : orientation = 'landscape')
-      return (windowWidth < windowHeight) ? orientation = 'portrait' : orientation = 'landscape';
+      return windowWidth < windowHeight
+        ? (orientation = "portrait")
+        : (orientation = "landscape");
     };
     var sizeConstraint = function () {
       if (options.basedonnarrow) {
@@ -339,7 +365,7 @@ util.install = function (Vue) {
           },
           landscape: function () {
             frontline = $(window).height();
-          }
+          },
         });
       } else {
         frontline = $(window).width();
@@ -353,7 +379,10 @@ util.install = function (Vue) {
         } else {
           factor = frontline / options.baseline;
         }
-      } else if (frontline > options.baseline && frontline <= options.threshold || options.threshold === 0) {
+      } else if (
+        (frontline > options.baseline && frontline <= options.threshold) ||
+        options.threshold === 0
+      ) {
         if (options.threshold >= 0) {
           if (options.inward) {
             factor = frontline / options.threshold;
@@ -365,7 +394,7 @@ util.install = function (Vue) {
         if (options.aligncenter) {
           bodyEl.css({
             margin: 0,
-            width: 'auto'
+            width: "auto",
           });
         }
       } else if (frontline > options.threshold) {
@@ -373,53 +402,50 @@ util.install = function (Vue) {
         if (options.aligncenter) {
           factor = options.threshold / options.baseline;
           bodyEl.css({
-            margin: '0 auto',
-            width: options.threshold
+            margin: "0 auto",
+            width: options.threshold,
           });
         } else {
           factor = frontline / options.baseline;
           bodyEl.css({
             margin: 0,
-            width: options.threshold
+            width: options.threshold,
           });
         }
 
-
         if (options.dropoff) {
-          htmlEl.css('font-size', 'none');
+          htmlEl.css("font-size", "none");
           return;
         }
       }
-      htmlEl.css('font-size', options.fontSize * factor);
+      htmlEl.css("font-size", options.fontSize * factor);
       if (options.dropoff && frontline > options.threshold) {
         // alert('dsadas')
-        htmlEl.css('font-size', '');
+        htmlEl.css("font-size", "");
       }
     };
     if (options.baseline <= 0) {
       options.baseline = 1;
     }
     sizeConstraint();
-    $(window).on('resize', function () {
+    $(window).on("resize", function () {
       sizeConstraint();
     });
+  };
 
-  }
-
-  Vue.prototype.$generateUrlParams = data => {
-    let result = '?';
+  Vue.prototype.$generateUrlParams = (data) => {
+    let result = "?";
     Object.keys(data).forEach((item, index) => {
       if (index < Object.keys(data).length - 1) {
-        result += item + '=' + data[item] + '&';
+        result += item + "=" + data[item] + "&";
       } else {
-        result += item + '=' + data[item];
+        result += item + "=" + data[item];
       }
     });
     return result;
   };
 
-
-  Vue.prototype.$generateRandomList = count => {
+  Vue.prototype.$generateRandomList = (count) => {
     let orderedArr = [];
     let upsetArr = [];
     let loopTimes = count;
@@ -443,25 +469,30 @@ util.install = function (Vue) {
     return upsetArr;
   };
 
-
   Vue.prototype.$autoHeight = (options) => {
-    options = $.extend({
-      reference: '',
-      target: '',
-      content: 'body',
-      offset: 0,
-      scale: 1,
-      minHeight: 0,
-      returnValue: false,
-      force: false
-    }, options);
+    options = $.extend(
+      {
+        reference: "",
+        target: "",
+        content: "body",
+        offset: 0,
+        scale: 1,
+        minHeight: 0,
+        returnValue: false,
+        force: false,
+      },
+      options,
+    );
     let windowHeight = $(window).height();
     let targetHeight = 0;
     let referenceHeight = $(options.reference).height();
     let contentHeight = $(options.content).height();
     let pageHeight = document.body.scrollHeight;
     let offset = Number(options.offset);
-    if (referenceHeight < options.minHeight || windowHeight < options.minHeight) {
+    if (
+      referenceHeight < options.minHeight ||
+      windowHeight < options.minHeight
+    ) {
       targetHeight = options.minHeight * options.scale;
     } else if (referenceHeight > windowHeight) {
       targetHeight = referenceHeight * options.scale + offset;
@@ -497,22 +528,19 @@ util.install = function (Vue) {
     //   $(options.target).height(targetHeight);
     // }
 
-
     if (options.returnValue) {
       return targetHeight;
     } else {
       if (document.body.scrollHeight > targetHeight) {
-
         if (options.force) {
           $(options.target).height(targetHeight);
         }
       } else {
         $(options.target).height(targetHeight);
-
       }
     }
-    console.log('document.body.scrollHeight', document.body.scrollHeight)
-    console.log('targetHeight', targetHeight)
+    console.log("document.body.scrollHeight", document.body.scrollHeight);
+    console.log("targetHeight", targetHeight);
   };
 
   Vue.prototype.$quickSort = (arr) => {
@@ -537,25 +565,29 @@ util.install = function (Vue) {
       }
     }
     //递归
-    return Vue.prototype.$quickSort(left).concat([pivot], Vue.prototype.$quickSort(right));
+    return Vue.prototype
+      .$quickSort(left)
+      .concat([pivot], Vue.prototype.$quickSort(right));
   };
 
-
   Vue.prototype.$align = (options) => {
-    options = $.extend({
-      position: 'both',
-      target: '',
-      container: '',
-      positive: false,
-      isImage: false,
-      offsetX: 0,
-      offsetY: 0,
-      ignoreY: 0,
-      ignoreX: 0
-    }, options);
+    options = $.extend(
+      {
+        position: "both",
+        target: "",
+        container: "",
+        positive: false,
+        isImage: false,
+        offsetX: 0,
+        offsetY: 0,
+        ignoreY: 0,
+        ignoreX: 0,
+      },
+      options,
+    );
 
     let that = $(options.target),
-      imgSrc = that.attr('src'),
+      imgSrc = that.attr("src"),
       reload = false,
       container = $(options.container),
       thisWidth = 0,
@@ -568,30 +600,33 @@ util.install = function (Vue) {
       offsetY = Number(options.offsetY),
       ignoreX = Number(options.ignoreX),
       ignoreY = Number(options.ignoreY),
-      ignoredElX = '',
-      ignoredElY = '',
+      ignoredElX = "",
+      ignoredElY = "",
       windowWidth = $(window).width(),
       windowHeight = $(window).height();
     //_this.attr('src', imgSrc + '?' + Date.parse(new Date()))
     let tools = {
       calculateIgnore: function () {
-        if (typeof options.ignoreY === 'string' || typeof options.ignoreX === 'string') {
-          let ignoreArrX = options.ignoreX.split(','),
-            ignoreArrY = options.ignoreY.split(',');
+        if (
+          typeof options.ignoreY === "string" ||
+          typeof options.ignoreX === "string"
+        ) {
+          let ignoreArrX = options.ignoreX.split(","),
+            ignoreArrY = options.ignoreY.split(",");
           for (let i = 0; i < ignoreArrX.length; i++) {
             ignoreX += $(ignoreArrX[i]).width();
           }
           for (let i = 0; i < ignoreArrY.length; i++) {
             ignoreY += $(ignoreArrY[i]).height();
           }
-          ignoredElX = $(ignoreArrX.join(','));
-          ignoredElY = $(ignoreArrY.join(','));
+          ignoredElX = $(ignoreArrX.join(","));
+          ignoredElY = $(ignoreArrY.join(","));
           console.log(ignoreY);
         } else {
           ignoreX = options.ignoreX;
           ignoreY = options.ignoreY;
         }
-      }
+      },
     };
     initAligning();
     $(window).resize(function () {
@@ -600,12 +635,12 @@ util.install = function (Vue) {
 
     function initAligning() {
       //当居中元素是img标签时，特殊处理！
-      if (that.is('img')) {
+      if (that.is("img")) {
         //递归判断需要居中的图片是否加载完成，如果没有就重载
         let checkImageLoaded = function () {
           that.each(function (index) {
             let $this = $(options.target);
-            let imageSrc = $this.attr('src');
+            let imageSrc = $this.attr("src");
             containerWidth = container.eq(index).width();
             containerHeight = container.eq(index).height();
             if ($this.height() <= 0) {
@@ -621,17 +656,16 @@ util.install = function (Vue) {
         checkImageLoaded();
         //缺省情况
       } else {
-
         //需要遍历每个居中对象，判断其每个container尺寸不同时，需分别处理
         //当设置了container时，以container尺寸大小居中
-        if (options.container != '') {
+        if (options.container != "") {
           for (let i = 0; i < that.length; i++) {
             let $this = $(options.target);
             containerHeight = container.eq(i).height();
             containerWidth = container.eq(i).width();
             console.log(containerHeight);
 
-            if ($this.is(':hidden')) {
+            if ($this.is(":hidden")) {
               return true;
             } else {
               checkPosition($this);
@@ -643,7 +677,7 @@ util.install = function (Vue) {
           containerHeight = $(window).height();
           that.each(function (index) {
             let $this = $(options.target);
-            if ($this.is(':hidden')) {
+            if ($this.is(":hidden")) {
               return true;
             } else {
               checkPosition($this);
@@ -662,68 +696,84 @@ util.install = function (Vue) {
         },
         other: function () {
           clearTimeout(timer);
-        }
+        },
       });
 
       if (arguments[1] != null && arguments[2] != null) {
         thisWidth = imageWidth;
         thisHeight = imageHeight;
-
       } else {
         thisWidth = _this.outerWidth();
         thisHeight = _this.outerHeight();
       }
 
       switch (options.position) {
-        case 'both':
+        case "both":
           // console.log(thisHeight)
           marginY = (containerHeight - thisHeight) / 2;
           marginX = (containerWidth - thisWidth) / 2;
-          if (options.positive && marginY < 0 || marginX < 0) {
+          if ((options.positive && marginY < 0) || marginX < 0) {
             marginY = marginX = 0;
           }
           if (thisWidth <= containerWidth) {
             if (options.offsetX !== 0) {
               _this.css({
-                'margin': marginY + offsetY - ignoreY + 'px ' + (containerWidth - thisWidth) / 2 + offsetX - ignoreX + 'px'
+                margin:
+                  marginY +
+                  offsetY -
+                  ignoreY +
+                  "px " +
+                  (containerWidth - thisWidth) / 2 +
+                  offsetX -
+                  ignoreX +
+                  "px",
               });
             } else {
               _this.css({
-                'margin': marginY + offsetY - ignoreY + 'px auto'
+                margin: marginY + offsetY - ignoreY + "px auto",
               });
             }
           } else {
             let marginX = (containerWidth - thisWidth) / 2;
             _this.css({
-              'margin': marginY + offsetY - ignoreY + 'px ' + (marginX + options.offsetX) + 'px'
+              margin:
+                marginY +
+                offsetY -
+                ignoreY +
+                "px " +
+                (marginX + options.offsetX) +
+                "px",
             });
           }
           break;
-        case 'top':
+        case "top":
           aligning(function (thisWidth, thisHeight) {
             _this.css({
-              'margin': '0 ' + ((containerWidth - thisWidth) / 2 + offsetX - ignoreX) + 'px'
+              margin:
+                "0 " +
+                ((containerWidth - thisWidth) / 2 + offsetX - ignoreX) +
+                "px",
             });
           });
           break;
-        case 'right':
+        case "right":
           if (thisHeight <= containerHeight) {
             if (options.offsetY !== 0) {
               _this.css({
-                'margin': marginY + offsetY - ignoreY + 'px 0'
+                margin: marginY + offsetY - ignoreY + "px 0",
               });
             } else {
               _this.css({
-                'margin': marginY + offsetY - ignoreY + 'px 0'
+                margin: marginY + offsetY - ignoreY + "px 0",
               });
             }
           } else {
             marginX = (containerWidth - thisWidth) / 2;
             _this.css({
-              'margin': (containerHeight - thisHeight) / 2 + offsetY - ignoreY + 'px 0'
+              margin:
+                (containerHeight - thisHeight) / 2 + offsetY - ignoreY + "px 0",
             });
           }
-
 
           // aligning(function(thisWidth, thisHeight) {
           // 	_this.css({
@@ -731,23 +781,23 @@ util.install = function (Vue) {
           // 	});
           // });
           break;
-        case 'bottom':
+        case "bottom":
           aligning(function (thisWidth, thisHeight) {
             tools.calculateIgnore();
             if (ignoreY <= windowHeight) {
               _this.css({
-                'margin': (windowHeight - thisHeight + offsetY - ignoreY) + 'px auto 0'
+                margin:
+                  windowHeight - thisHeight + offsetY - ignoreY + "px auto 0",
               });
               console.log(ignoreY);
               console.log(windowHeight);
             }
-            ;
           });
           break;
-        case 'left':
+        case "left":
           aligning(function (thisWidth, thisHeight) {
             _this.css({
-              'margin': (windowHeight - thisHeight) / 2 + 'px 0 0 0'
+              margin: (windowHeight - thisHeight) / 2 + "px 0 0 0",
             });
           });
           break;
@@ -761,14 +811,15 @@ util.install = function (Vue) {
     }
 
     function checkBrowser(callback) {
-      callback = $.extend({
-        ie: function () {
+      callback = $.extend(
+        {
+          ie: function () {},
+          other: function () {},
         },
-        other: function () {
-        }
-      }, callback);
-      if (navigator.appName.indexOf('Explorer') > -1) {
-        console.log('IE');
+        callback,
+      );
+      if (navigator.appName.indexOf("Explorer") > -1) {
+        console.log("IE");
         callback.ie();
       } else {
         // console.log('other')
@@ -780,15 +831,15 @@ util.install = function (Vue) {
     function orientationSensor(callback) {
       let windowWidth = $(window).width(),
         windowHeight = $(window).height(),
-        orientation = '';
-      callback = $.extend({
-        portrait: function () {
+        orientation = "";
+      callback = $.extend(
+        {
+          portrait: function () {},
+          landscape: function () {},
+          orientationchange: function (windowWidth, windowHeight) {},
         },
-        landscape: function () {
-        },
-        orientationchange: function (windowWidth, windowHeight) {
-        }
-      }, callback);
+        callback,
+      );
 
       checkoritation();
       $(window).resize(function () {
@@ -804,10 +855,10 @@ util.install = function (Vue) {
         }
       }
 
-      return (windowWidth < windowHeight) ? orientation = 'portrait' : orientation = 'landscape';
+      return windowWidth < windowHeight
+        ? (orientation = "portrait")
+        : (orientation = "landscape");
     }
-
-
   };
 
   Vue.prototype.$getDevice = (options) => {
@@ -815,21 +866,19 @@ util.install = function (Vue) {
     let u = navigator.userAgent,
       app = navigator.appVersion;
     return {
-      trident: u.indexOf('Trident') > -1, //IE内核
-      presto: u.indexOf('Presto') > -1, //opera内核
-      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1,//火狐内核
+      trident: u.indexOf("Trident") > -1, //IE内核
+      presto: u.indexOf("Presto") > -1, //opera内核
+      webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
+      gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") === -1, //火狐内核
       mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
       ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-      android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
-      iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-      iPad: u.indexOf('iPad') > -1, //是否iPad
-      webApp: u.indexOf('Safari') === -1, //是否web应该程序，没有头部与底部
-      weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
-      qq: u.match(/\sQQ/i) === " qq" //是否QQ
+      android: u.indexOf("Android") > -1 || u.indexOf("Adr") > -1, //android终端
+      iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
+      iPad: u.indexOf("iPad") > -1, //是否iPad
+      webApp: u.indexOf("Safari") === -1, //是否web应该程序，没有头部与底部
+      weixin: u.indexOf("MicroMessenger") > -1, //是否微信 （2015-01-22新增）
+      qq: u.match(/\sQQ/i) === " qq", //是否QQ
     };
-  }
-
-
+  };
 };
 export default util;

@@ -1,8 +1,0 @@
-{
-  "ConnectionStrings": {
-    "main_db": "Server=118.31.244.60;database=yishilu;uid=root;pwd=nUObiao123;SslMode=None"
-  },
-  "AppSettings": {
-    "XMLPath": "..\\Xml\\NLS.Host.ControllerExtension.xml"
-  }
-}

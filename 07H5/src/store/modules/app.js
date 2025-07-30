@@ -1,21 +1,20 @@
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 const app = {
   state: {
-    deviceTypeDictionary: [{
-      name: 'Android',
-      code: 'android'
-    }, {
-      name: 'iOS',
-      code: 'ios'
-    }],
-
-
+    deviceTypeDictionary: [
+      {
+        name: "Android",
+        code: "android",
+      },
+      {
+        name: "iOS",
+        code: "ios",
+      },
+    ],
   },
-  mutations: {
-
-  },
+  mutations: {},
   actions: {},
 };
 
-export default app
+export default app;
