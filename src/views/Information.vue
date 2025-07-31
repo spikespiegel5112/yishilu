@@ -4,12 +4,12 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
-      <img src alt />
+      <img src="@/assets/image/common/title_00000.png" />
+      <img src />
     </div>
     <div class="content">
       <div class="common_subtitle_item">
-        <img src="@/assets/image/information/subtitle_00000.png" alt />
+        <img src="@/assets/image/information/subtitle_00000.png" />
       </div>
       <div class="frame_wrapper">
         <!-- <div class="frame"></div> -->
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="position">
-        <img src="@/assets/image/information/position_00000.png" alt />
+        <img src="@/assets/image/information/position_00000.png" />
       </div>
       <div class="common_navigation_item">
         <a @click="getLocation">一键导航</a>

@@ -4,12 +4,12 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
-      <img src alt />
+      <img src="@/assets/image/common/title_00000.png" />
+      <img src />
     </div>
     <div class="content">
       <div class="common_subtitle_item">
-        <img src="@/assets/image/customize/subtitle_00000.png" alt />
+        <img src="@/assets/image/customize/subtitle_00000.png" />
       </div>
       <div class="longpicture_wrapper">
         <div class="swiper-container">
@@ -36,7 +36,7 @@
               >
                 <span></span>
               </a>
-              <img src="@/assets/image/customize/long_picture_00000.jpg" alt />
+              <img src="@/assets/image/customize/long_picture_00000.jpg" />
             </li>
           </ul>
         </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="desc">
             <div class="picture">
-              <img :src="state.dialogData[state.dialogIndex].image" alt />
+              <img :src="state.dialogData[state.dialogIndex].image" />
             </div>
             <div class="main">
               <p v-for="item in state.dialogData[state.dialogIndex].paragraph">

@@ -4,12 +4,12 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
+      <img src="@/assets/image/common/title_00000.png" />
     </div>
     <!-- <div class="bg"></div> -->
     <div class="content">
       <div class="common_subtitle_item">
-        <img src="@/assets/image/interactionlogo/subtitle_00000.png" alt />
+        <img src="@/assets/image/interactionlogo/subtitle_00000.png" />
       </div>
       <div class="rules">
         <ol>
@@ -250,7 +250,7 @@ const getPrizeList = () => {
   global.$http
     .get(global.$baseUrl + state.getDrawprizelist2Request, {
       params: {
-       u_id: global.$store.state.user.userInfo
+        u_id: global.$store.state.user.userInfo,
       },
     })
     .then((response: any) => {
@@ -283,7 +283,10 @@ const addscancount = () => {
   //增加扫码次数
   global.$http
     .get(global.$baseUrl + "h5.wxuser.pageaccess", {
-      params: {u_id: global.$store.state.user.userInfo ,scan_type: state.task_type },
+      params: {
+        u_id: global.$store.state.user.userInfo,
+        scan_type: state.task_type,
+      },
     })
     .then((response: any) => {
       console.log(response);

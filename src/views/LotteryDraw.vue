@@ -4,18 +4,18 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
+      <img src="@/assets/image/common/title_00000.png" />
     </div>
     <!-- <div class="bg"></div> -->
     <div class="content">
       <div class="common_subtitle_item">
-        <img src="@/assets/image/interaction/subtitle_00000.png" alt />
+        <img src="@/assets/image/interaction/subtitle_00000.png" />
       </div>
       <div class="wheel">
         <canvas
           id="wheelcanvas"
-          :width="remUnit * 13.5"
-          :height="remUnit * 13.5"
+          :width="state.remUnit * 13.5"
+          :height="state.remUnit * 13.5"
           >抱歉！浏览器不支持。</canvas
         >
         <a class="begin" @click="drawPrize"></a>
@@ -24,187 +24,189 @@
         <p>奖品请至依视路展台领取</p>
       </div>
       <div class="common_goback_wrapper">
-        <CommonGoBack to="interaction" />
+        <CommonGoBack to="Interaction" />
       </div>
     </div>
-    <div v-if="dialogThankYouFlag" class="common_dialog_container thankyou">
+    <div
+      v-if="state.dialogThankYouFlag"
+      class="common_dialog_container thankyou"
+    >
       <div class="dialog_wrapper">
         <a href="javascript:;" class="close" @click="closeThankYou"></a>
         <div class="content">
           <p>谢谢参与</p>
         </div>
         <div class="otheractivity">
-          <router-link :to="{ name: 'interactionLogo' }"
-            >*请点击此处，了解额外互动活动</router-link
-          >
+          <router-link :to="{ name: 'InteractionLogo' }">
+            *请点击此处，了解额外互动活动
+          </router-link>
         </div>
       </div>
     </div>
-    <div v-if="dialogPrizeFlag" class="common_dialog_container prize">
+    <div v-if="state.dialogPrizeFlag" class="common_dialog_container prize">
       <div class="dialog_wrapper">
         <a href="javascript:;" class="close" @click="closePrize"></a>
         <div class="content">
           <div class="title">
-            <img src="@/assets/image/lotterydraw/gift_00000.png" alt />
+            <img src="@/assets/image/lotterydraw/gift_00000.png" />
           </div>
           <div class="desc">
             <div class="prizeinfo">
-              <p class="degree">恭喜您获得{{ prizeData.prize_Name }}</p>
+              <p class="degree">恭喜您获得{{ state.prizeData.prize_Name }}</p>
               <p class="prize">
-                {{ prizeData.prize_Content }}{{ prizeData.unit }}
+                {{ state.prizeData.prize_Content }}{{ state.prizeData.unit }}
               </p>
             </div>
-            <p class="hint">{{ prizeData.remark }}</p>
+            <p class="hint">{{ state.prizeData.remark }}</p>
           </div>
         </div>
         <div class="otheractivity">
-          <router-link :to="{ name: 'interactionLogo' }"
-            >*请点击此处，了解额外互动活动</router-link
-          >
+          <router-link :to="{ name: 'InteractionLogo' }">
+            *请点击此处，了解额外互动活动
+          </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang='tsx' setup>
-export default {
-  name: "LotteryDraw",
-  components: {},
-  data() {
-    return {
-      drawlistRequest: "h5.get.wxuser.drawlist",
-      drawRequest: "h5.user.luck.draw",
-      goToNextflag: false,
-      dialogThankYouFlag: false,
-      dialogPrizeFlag: false,
-      status: false,
-      wheelCanvas: {},
-      remUnit: "",
-      alreadyReleasedPrize: false,
-      alreadyReceivedPrize: false,
-      rotateDuration: 3600,
-      colorDictionary: ["#E6E6E6", "#1D88C2"],
-      textColorDictionary: ["#1D88C2", "#E6E6E6"],
-      dotsColorDictionary: ["#ffd800", "#fe9166"],
-      wheelData: [
-        {
-          name: "比萨饼",
-          value: 10,
-          image:
-            "https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png",
-        },
-        {
-          name: "酱肘子",
-          value: 20,
-          image:
-            "http://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png",
-        },
-        {
-          name: "红烧肉",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-        {
-          name: "炖排骨",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-        {
-          name: "小鸡炖蘑菇",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-        {
-          name: "牛排",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-        {
-          name: "小鸡炖蘑菇",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-        {
-          name: "牛排",
-          value: 30,
-          image:
-            "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-        },
-      ],
-      userInfo: {
+<script lang="tsx" setup>
+import {
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  getCurrentInstance,
+  ref,
+  nextTick,
+} from "vue";
+import type { ComponentInternalInstance } from "vue";
+
+const currentInstance = getCurrentInstance() as ComponentInternalInstance;
+const global = currentInstance.appContext.config.globalProperties;
+
+const state = reactive({
+  drawlistRequest: "h5.get.wxuser.drawlist",
+  drawRequest: "h5.user.luck.draw",
+  goToNextflag: false,
+  dialogThankYouFlag: false,
+  dialogPrizeFlag: false,
+  status: false,
+  wheelCanvas: {},
+  remUnit: "",
+  alreadyReleasedPrize: false,
+  alreadyReceivedPrize: false,
+  rotateDuration: 3600,
+  colorDictionary: ["#E6E6E6", "#1D88C2"],
+  textColorDictionary: ["#1D88C2", "#E6E6E6"],
+  dotsColorDictionary: ["#ffd800", "#fe9166"],
+  wheelData: [
+    {
+      name: "比萨饼",
+      value: 10,
+      image:
+        "https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png",
+    },
+    {
+      name: "酱肘子",
+      value: 20,
+      image:
+        "http://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png",
+    },
+    {
+      name: "红烧肉",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    },
+    {
+      name: "炖排骨",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    },
+    {
+      name: "小鸡炖蘑菇",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    },
+    {
+      name: "牛排",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    },
+    {
+      name: "小鸡炖蘑菇",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    },
+    {
+      name: "牛排",
+      value: 30,
+      image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
+    }
+  ],
+  userInfo: {
     id: "",
   },
-      prizeData: {},
-    };
-  },
-  computed: {
-    navigatorStyle() {
-      return {
-        "background-image":
-          "url(" + require("@/assets/image/homepage/navigator_00000.png") + ")",
-      };
-    },
-  },
-  watch: {
-    goToNextflag(value) {
-      if (value === true) {
-        global.$router.push({
-          name: "HomePage",
-        });
-      }
-    },
-    remUnit(value) {
-      nextTick(() => {
-        state.canvasWidth = value * 13.5 + "px";
-        state.canvasHeight = value * 13.5 + "px";
-        getPrizeList();
-      });
-    },
-  },
+  prizeData: {},
+    remUnit: 0,
+  canvasWidth: "",
+  canvasHeight: "",
+});
 
-  mounted() {
-    setTimeout(() => {
-      init();
-    }, 100);
+const navigatorStyle = computed(() => {
+  return {
+    "background-image":
+      "url(" + require("@/assets/image/homepage/navigator_00000.png") + ")",
+  };
+});
+
+watch(
+  () => state.goToNextflag,
+  (newValue: any) => {
+    if (newValue === true) {
+      global.$router.push({
+        name: "HomePage",
+      });
+    }
+  }
+);
+
+watch(
+  () => state.remUnit,
+  (newValue: any) => {
     nextTick(() => {
-      this.remUnit = Number(
-        document
-          .getElementsByTagName("html")[0]
-          .style.fontSize.replace("px", ""),
-      );
+      state.canvasWidth = newValue * 13.5 + "px";
+      state.canvasHeight = newValue * 13.5 + "px";
+      getPrizeList();
     });
-    this.getUserInfo();
-  },
-  methods: {
-    init() {
+  }
+);
+
+
+    const init=(source)=>{
       // console.log(FrameAnimation)
-    },
-    getUserInfo() {
-      state.userInfo= JSON.parse(sessionStorage.getItem("userInfo"))
-    },
-    closeThankYou() {
+    }
+    const getUserInfo=(source)=>{
+      state.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    }
+    const closeThankYou=(source)=>{
       this.dialogThankYouFlag = false;
-    },
-    closePrize() {
+    }
+    const closePrize=(source)=>{
       this.dialogPrizeFlag = false;
-    },
-    getPrizeList() {
+    }
+   const  getPrizeList=(source)=>{
       state.loading = true;
       // this.drawCanvas();
       // this.getCachedCircleNumber();
       global.$http
         .get(global.$baseUrl + this.drawlistRequest, {
           params: {
-           u_id: global.$store.state.user.userInfo
-          },
+            u_id: global.$store.state.user.userInfo,
+          }
         })
-        .then((response:any) => {
+        .then((response: any) => {
           console.log("getPrizeList+++++++=", response);
           state.loading = false;
           this.wheelData = [];
@@ -213,7 +215,7 @@ export default {
           // if (JSON.parse(sessionStorage.getItem('dailyLimit') === 'null')) {
           // 	this.dailyLimit = response.activityInfo.dailyLimit;
           // }
-          response.data.forEach((item:any, index:number) => {
+          response.data.forEach((item: any, index: number) => {
             this.wheelData.push({
               name: item.prize_Name,
               // image: item.rewardImage !== null ? item.rewardImage + '-style_100x100' : '',
@@ -225,18 +227,18 @@ export default {
           this.drawCanvas();
           this.getCachedCircleNumber();
         })
-        .catch((error:any) => {
+        .catch((error: any) => {
           console.log(error);
           state.loading = false;
           global.$vux.confirm.show({
             showCancelButton: false,
             title: error.data.message,
-            onConfirm() {},
+            onConfirm() {}
           });
         });
-    },
-    drawCanvas() {
-      console.log(this.remUnit);
+    }
+  const   drawCanvas=(source)=>{
+      console.log(state.remUnit);
       // console.log(state.canvasWidth)
       // console.log(this.wheelData)
       this.wheelCanvas = document.getElementById("wheelcanvas");
@@ -244,28 +246,28 @@ export default {
       let ctx2 = this.wheelCanvas.getContext("2d");
 
       let baseAngle = (Math.PI * 2) / this.wheelData.length;
-      // document.querySelector('.wheel_wrapper .wheel').style.width = this.remUnit * 13.5;
-      // document.querySelector('.wheel_wrapper .wheel').style.height = this.remUnit * 13.5;
+      // document.querySelector('.wheel_wrapper .wheel').style.width = state.remUnit * 13.5;
+      // document.querySelector('.wheel_wrapper .wheel').style.height = state.remUnit * 13.5;
 
-      let canvasWidth = this.remUnit * 13.5;
-      let canvasHeight = this.remUnit * 13.5;
+      let canvasWidth = state.remUnit * 13.5;
+      let canvasHeight = state.remUnit * 13.5;
       // console.log(canvasWidth)
       // console.log(canvasHeight)
 
-      ctx.font = this.remUnit;
+      ctx.font = state.remUnit;
 
       // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.75, 0, Math.PI * 2, true);
+      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.75, 0, Math.PI * 2, true);
       // ctx2.fillStyle = 'rgba(188,75,61,0.5)';
       // ctx2.fill();
 
       // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.57, 0, Math.PI * 2, true);
+      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.57, 0, Math.PI * 2, true);
       // ctx2.fillStyle = '#bc4b3d';
       // ctx2.fill();
 
       // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, this.remUnit * 6.35, 0, Math.PI * 2, true);
+      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.35, 0, Math.PI * 2, true);
       // ctx2.fillStyle = '#f06949';
       // ctx2.fill();
 
@@ -275,9 +277,9 @@ export default {
       // 	for (let i = 0; i < 24; i++) {
       // 		ctx.beginPath();
       // 		let angle = Math.PI * 2 / 24 * i;
-      // 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * this.remUnit * 5.9;
-      // 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * this.remUnit * 5.9;
-      // 		ctx.arc(translateX, translateY, this.remUnit * 0.35, this.remUnit, Math.PI * 2, true);
+      // 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * state.remUnit * 5.9;
+      // 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * state.remUnit * 5.9;
+      // 		ctx.arc(translateX, translateY, state.remUnit * 0.35, state.remUnit, Math.PI * 2, true);
       // 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
       // 		ctx.fill();
       // 	}
@@ -286,11 +288,11 @@ export default {
       // setInterval(() => {
       // 	showDots();
       // 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
-      // }, 1000);
+      // } 1000);
 
       let imageSequence = [];
 
-      this.wheelData.forEach((item:any, index:number) => {
+      this.wheelData.forEach((item: any, index: number) => {
         let imageObj = new Image();
         imageObj.width = "150";
         imageObj.height = "150";
@@ -299,7 +301,7 @@ export default {
         imageSequence.push(imageObj);
       });
 
-      this.wheelData.forEach((item:any, index:number) => {
+      this.wheelData.forEach((item: any, index: number) => {
         let angle = baseAngle * index;
 
         if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
@@ -315,19 +317,19 @@ export default {
           ctx.arc(
             canvasWidth / 2,
             canvasHeight / 2,
-            this.remUnit * 5.4,
+            state.remUnit * 5.4,
             angle + baseAngle - Math.PI / this.wheelData.length,
             angle - Math.PI / this.wheelData.length,
-            true,
+            true
           );
         } else {
           ctx.arc(
             canvasWidth / 2,
             canvasHeight / 2,
-            this.remUnit * 5.4,
+            state.remUnit * 5.4,
             angle + baseAngle,
             angle,
-            true,
+            true
           );
         }
         ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
@@ -350,9 +352,9 @@ export default {
                 angle +
                   baseAngle / 2 -
                   Math.PI / 2 -
-                  Math.PI / this.wheelData.length,
+                  Math.PI / this.wheelData.length
               ) *
-                this.remUnit *
+                state.remUnit *
                 5;
             translateY =
               canvasHeight * 0.5 +
@@ -360,34 +362,36 @@ export default {
                 angle +
                   baseAngle / 2 -
                   Math.PI / 2 -
-                  Math.PI / this.wheelData.length,
+                  Math.PI / this.wheelData.length
               ) *
-                this.remUnit *
+                state.remUnit *
                 5;
           } else {
             translateX =
               canvasWidth * 0.5 +
-              Math.cos(angle + baseAngle / 2) * this.remUnit * 5;
+              Math.cos(angle + baseAngle / 2) * state.remUnit * 5;
             translateY =
               canvasHeight * 0.5 +
-              Math.sin(angle + baseAngle / 2) * this.remUnit * 5;
+              Math.sin(angle + baseAngle / 2) * state.remUnit * 5;
           }
 
-          ctx.font = this.remUnit * 0.6 + "px Georgia";
+          ctx.font = state.remUnit * 0.6 + "px Georgia";
           ctx.fillStyle = this.textColorDictionary[index % 2];
           ctx.translate(translateX, translateY);
           ctx.rotate(angle);
           // ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-          const offset = this.remUnit / 1.7;
-          this.wheelData[index].name.split("").forEach((item:any, index:number) => {
-            if (index < 6) {
-              ctx.fillText(
-                item,
-                -ctx.measureText(item).width / 2,
-                (index * this.remUnit) / 1.4 + offset,
-              );
-            }
-          });
+          const offset = state.remUnit / 1.7;
+          this.wheelData[index].name
+            .split("")
+            .forEach((item: any, index: number) => {
+              if (index < 6) {
+                ctx.fillText(
+                  item,
+                  -ctx.measureText(item).width / 2,
+                  (index * state.remUnit) / 1.4 + offset
+                );
+              }
+            });
           ctx.shadowColor = "#000"; // green for demo purposes
           ctx.shadowBlur = 10;
           ctx.shadowOffsetX = 0;
@@ -395,7 +399,7 @@ export default {
 
           ctx.restore();
           ctx.save();
-        }, 500);
+        } 500);
 
         // ctx.restore();
         // ctx.save();
@@ -410,11 +414,11 @@ export default {
 
         ctx.restore();
         ctx.save();
-      }, 1000);
+      } 1000);
 
       this.getCachedCircleNumber();
-    },
-    drawPrize() {
+    }
+   const  drawPrize() {
       state.loading = true;
       // 本地调试代码
       console.log(Math.random());
@@ -422,8 +426,8 @@ export default {
       console.log(
         this.wheelData.find(
           (item, index) =>
-            index === Math.ceil((this.wheelData.length - 1) * Math.random()),
-        ),
+            index === Math.ceil((this.wheelData.length - 1) * Math.random())
+        )
       );
       // let index = 0
       // this.wheelData.forEach((item1, index1) => {
@@ -448,9 +452,9 @@ export default {
       console.log(" userInfo.value.id", userInfo.value);
       global.$http
         .post(this.drawRequest, {
-         u_id: global.$store.state.user.userInfo
+          u_id: global.$store.state.user.userInfo,
         })
-        .then((response:any) => {
+        .then((response: any) => {
           console.log(response);
           state.loading = false;
           response = response.data;
@@ -477,12 +481,12 @@ export default {
             }
           }
         })
-        .catch((error:any) => {
+        .catch((error: any) => {
           state.loading = false;
           console.log(error);
         });
-    },
-    checkLowestCommonDivisorWith2(source) {
+    }
+   const  checkLowestCommonDivisorWith2=(source)=>{
       let flag = true;
       for (let i = 2; i < source; i++) {
         source = source / 2;
@@ -491,8 +495,8 @@ export default {
         }
       }
       return flag;
-    },
-    getCachedCircleNumber() {
+    }
+   const  getCachedCircleNumber=()=>{
       if (
         sessionStorage.getItem("actualRotate") !== undefined &&
         sessionStorage.getItem("actualRotate") !== 0
@@ -503,8 +507,8 @@ export default {
         // this.wheelCanvas.style.transform = 'rotate(' + this.actualRotate + 'deg)';
         this.wheelCanvas.style.transform = "rotate(" + offsetAngle + "deg)";
       }
-    },
-    rotateWheel(offset) {
+    }
+   const  rotateWheel(offset) {
       return new Promise((resolve, reject) => {
         console.log(111, offset);
 
@@ -530,14 +534,25 @@ export default {
             this.rotatingFlag = false;
             this.wheelCanvas.style.transition = "rotate 0s ease";
             resolve();
-          }, this.rotateDuration);
+          } this.rotateDuration);
         } else {
           reject();
         }
       });
-    },
-  },
-};
+    }
+
+
+onMounted(() => {
+  setTimeout(() => {
+    init();
+  } 100);
+  nextTick(() => {
+    state.remUnit = Number(
+      document.getElementsByTagName("html")[0].style.fontSize.replace("px", "")
+    );
+  });
+  getUserInfo();
+});
 </script>
 
 <style scoped></style>

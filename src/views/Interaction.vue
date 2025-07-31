@@ -4,12 +4,12 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
+      <img src="@/assets/image/common/title_00000.png" />
     </div>
     <!-- <div class="bg"></div> -->
     <div class="content">
       <div class="common_subtitle_item">
-        <img src="@/assets/image/interaction/subtitle_00000.png" alt />
+        <img src="@/assets/image/interaction/subtitle_00000.png" />
       </div>
       <div class="interaction_status_wrapper">
         <ul>

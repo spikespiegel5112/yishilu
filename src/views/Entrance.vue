@@ -2,7 +2,7 @@
   <div class="entrance_main_container">
     <div class="content">
       <CommonLoading :loading="state.loading" />
-      <img :src="state.entranceImage" alt />
+      <img :src="state.entranceImage" />
     </div>
   </div>
 </template>

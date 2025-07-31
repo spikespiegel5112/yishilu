@@ -4,18 +4,18 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/assets/image/common/title_00000.png" alt />
+      <img src="@/assets/image/common/title_00000.png" />
     </div>
     <div class="content">
       <div class="bg" :style="navigatorStyle"></div>
 
-      <!-- <img src="@/assets/image/homepage/navigator_00000.png" alt /> -->
+      <!-- <img src="@/assets/image/homepage/navigator_00000.png" /> -->
       <ul class="links">
         <li class="link1">
           <router-link :to="{ name: 'Information' }" />
         </li>
         <li class="link2">
-          <router-link :to="{ name: 'interaction' }" />
+          <router-link :to="{ name: 'Interaction' }" />
         </li>
         <li class="link3">
           <router-link :to="{ name: 'Category' }" />
