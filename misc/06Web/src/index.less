@@ -1,0 +1,134 @@
+//适配手机端布局
+@media screen and (max-width: 768px) {
+}
+@media screen and (min-width: 768px) {
+}
+@import "~iview/src/styles/index.less";
+@menu-dark-title: #001529;
+@menu-dark-active-bg: #000c17;
+@layout-sider-background: #001529;
+
+// .theme()
+
+//全局滚动条样式
+::-webkit-scrollbar {
+  width: 0;
+  height: 1;
+}
+select::-ms-expand {
+  display: none;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: 1px 1px 5px #e6e6e6 inset;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 10px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px #b9b9b9 inset;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+::-webkit-scrollbar-track-piece {
+  background: #ffffff;
+}
+
+@-moz-document url-prefix(http://),url-prefix(https://)
+{
+  /* 滚动条颜色 */
+  scrollbar {
+    -moz-appearance: none !important;
+    background: rgb(0, 255, 0) !important;
+  }
+  /* 滚动条按钮颜色 */
+  thumb,
+  scrollbarbutton {
+    -moz-appearance: none !important;
+    background-color: rgb(0, 0, 255) !important;
+  }
+  /* 鼠标悬停时按钮颜色 */
+
+  thumb:hover,
+  scrollbarbutton:hover {
+    -moz-appearance: none !important;
+    background-color: rgb(255, 0, 0) !important;
+  }
+  /* 隐藏上下箭头 */
+  scrollbarbutton {
+    display: none !important;
+  }
+  /* 纵向滚动条宽度 */
+  scrollbar[orient="vertical"] {
+    min-width: 2px !important;
+  }
+}
+
+//加载的动画样式
+.demo-spin-icon-load {
+  animation: ani-demo-spin 1s linear infinite;
+  font-size: 80px;
+}
+.demo-spin-icon-load:before {
+  content: "\F45B";
+}
+@keyframes ani-demo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.demo-spin-col {
+  height: 100px;
+  position: relative;
+  border: 1px solid #eee;
+}
+.ivu-spin-fix {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+//模态框内容可以滚动
+.Modal .ivu-modal {
+  height: 80%;
+}
+.Modal .ivu-modal-content {
+  height: 100%;
+}
+.Modal .ivu-modal-body {
+  max-height: 86%;
+  overflow-y: auto;
+}
+.Modal .ivu-modal-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+}
+//边距
+.margin_bottom_15 {
+  margin-bottom: 15px;
+}
+//图片
+.img-thumbnail {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  padding: 2px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
