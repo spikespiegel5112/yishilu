@@ -338,7 +338,7 @@ var wxsdk = {
           callback && callback(res.data);
           // location.href = location.href.split('.html')[0] + '.html'
         })
-        .catch((error) => {
+        .catch((error:any) => {
           console.log(error);
           // alert('获取accessToken失败啦！！！'+error)
           reject(error);

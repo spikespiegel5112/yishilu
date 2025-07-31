@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script>
+<script lang="tsx" setup>
 export default {
   name: "CommonLoading",
   props: {

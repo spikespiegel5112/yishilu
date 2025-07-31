@@ -49,7 +49,7 @@ util.$webStorage = {
 };
 
 util.install = function (Vue) {
-  Object.keys(util).forEach((item, index) => {
+  Object.keys(util).forEach((item:any, index:number) => {
     if (item !== "install") {
       Vue.prototype[item] = util[item];
     }
@@ -85,7 +85,7 @@ util.install = function (Vue) {
     audioInstance
       .play()
       .then(() => {})
-      .catch((error) => {
+      .catch((error:any) => {
         console.log(error);
       });
 
@@ -192,7 +192,7 @@ util.install = function (Vue) {
     ];
     let environment;
     let checkerMatchedFlag = false;
-    environmentDictionary.forEach((item, index) => {
+    environmentDictionary.forEach((item:any, index:number) => {
       if (item.checker) {
         environment = item.name;
       }
@@ -435,7 +435,7 @@ util.install = function (Vue) {
 
   Vue.prototype.$generateUrlParams = (data) => {
     let result = "?";
-    Object.keys(data).forEach((item, index) => {
+    Object.keys(data).forEach((item:any, index:number) => {
       if (index < Object.keys(data).length - 1) {
         result += item + "=" + data[item] + "&";
       } else {

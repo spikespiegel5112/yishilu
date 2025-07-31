@@ -3,16 +3,16 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-import Layout from "../components/Layout";
-// import Auth from '../components/Auth'
-// import Entrance from '../components/Entrance'
-// import HomePage from '../components/HomePage'
+import Layout from "../views/Layout";
+// import Auth from '../views/Auth'
+// import Entrance from '../views/Entrance'
+// import HomePage from '../views/HomePage'
 
 let testPrefix = process.env.NODE_ENV === "production" ? "/" : "/test";
 const routes = [
   {
     path: "/auth",
-    component: () => import("../components/Auth.vue"),
+    component: () => import("../views/Auth.vue"),
   },
   {
     path: "/",
@@ -20,49 +20,49 @@ const routes = [
     component: Layout,
     children: [
       {
-        path: "/entrance",
-        name: "entrance",
-        component: () => import("../components/Entrance.vue"),
+        path: "/Entrance",
+        name: "Entrance",
+        component: () => import("../views/Entrance.vue"),
       },
       {
-        path: "/homepage",
-        name: "homePage",
-        component: () => import("../components/HomePage.vue"),
+        path: "/HomePage",
+        name: "HomePage",
+        component: () => import("../views/HomePage.vue"),
       },
       {
-        path: "/information",
-        name: "information",
-        component: () => import("../components/Information.vue"),
+        path: "/Information",
+        name: "Information",
+        component: () => import("../views/Information.vue"),
       },
       {
-        path: "/customize",
-        name: "customize",
-        component: () => import("../components/Customize.vue"),
+        path: "/Customize",
+        name: "Customize",
+        component: () => import("../views/Customize.vue"),
       },
       {
-        path: "/interaction",
-        name: "interaction",
-        component: () => import("../components/Interaction.vue"),
+        path: "/Interaction",
+        name: "Interaction",
+        component: () => import("../views/Interaction.vue"),
       },
       {
-        path: "/interactionlogo",
-        name: "interactionLogo",
-        component: () => import("../components/InteractionLogo.vue"),
+        path: "/InteractionLogo",
+        name: "InteractionLogo",
+        component: () => import("../views/InteractionLogo.vue"),
       },
       {
-        path: "/category",
-        name: "category",
-        component: () => import("../components/Category.vue"),
+        path: "/Category",
+        name: "Category",
+        component: () => import("../views/Category.vue"),
       },
       {
-        path: "/lotterydraw",
-        name: "lotteryDraw",
-        component: () => import("../components/LotteryDraw.vue"),
+        path: "/LotteryDraw",
+        name: "LotteryDraw",
+        component: () => import("../views/LotteryDraw.vue"),
       },
       {
-        path: "/lotterydrawlogo",
-        name: "lotteryDrawLogo",
-        component: () => import("../components/LotteryDrawLogo.vue"),
+        path: "/LotteryDrawLogo",
+        name: "LotteryDrawLogo",
+        component: () => import("../views/LotteryDrawLogo.vue"),
       },
     ],
   },

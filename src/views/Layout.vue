@@ -12,10 +12,10 @@ import {
   onMounted,
   onBeforeUnmount,
   getCurrentInstance,
-  ComponentInternalInstance,
   ref,
   nextTick,
 } from "vue";
+import type { ComponentInternalInstance } from "vue";
 
 const currentInstance = getCurrentInstance() as ComponentInternalInstance;
 const global = currentInstance.appContext.config.globalProperties;
@@ -38,5 +38,10 @@ const state = reactive({
       active: true,
     },
   ],
+});
+
+onMounted(() => {
+  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  global.$store.commit("user/updateUserInfo", userInfo);
 });
 </script>

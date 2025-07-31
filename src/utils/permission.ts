@@ -1,22 +1,14 @@
-import { getBaiduTokenRequest } from "@/api/auth";
-import { getUserInfoRequest } from "@/api/user";
-import { getCurrentInstance, ComponentInternalInstance } from "vue";
 import router from "@/router";
 // import { store } from "@/store";
 // import { mapGetters, useStore } from "vuex";
-
-// const currentInstance = getCurrentInstance() as ComponentInternalInstance;
-// const global = currentInstance.appContext.config.globalProperties;
+import { utils } from "./utils";
 
 router.beforeEach((to: any, from: any, next: any) => {
-  console.log("+++++++++++++++++++++++++++++");
   next();
 });
 
-router.afterEach((to, from) => {
-  console.log("finsh", to);
-});
+router.afterEach((to: any, from: any) => {});
 
-router.onError((error) => {
+router.onError((error: any) => {
   console.log("router.onError", error);
 });

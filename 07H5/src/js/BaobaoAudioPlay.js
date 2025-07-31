@@ -15,7 +15,7 @@ function _BaobaoAudioPlayback(options) {
     options,
   );
 
-  this.loading = true;
+  state.loading = true;
   this.el = options.el;
   this.audioInstance = document.createElement("audio");
   // this.audioInstance = new Audio();
@@ -51,19 +51,19 @@ function _BaobaoAudioPlayback(options) {
             console.log("audioInstance play success");
             resolve(data);
           })
-          .catch((error) => {
+          .catch((error:any) => {
             console.log("audioInstance error", error);
             reject(error);
           });
       };
       if (_BaobaoAudioPlayback.prototype.checkOS() !== "ios") {
         console.log("checkOS", _BaobaoAudioPlayback.prototype.checkOS());
-        if (this.loading) {
+        if (state.loading) {
           this.audioInstance.addEventListener(
             "canplaythrough",
             (e) => {
               play();
-              this.loading = false;
+              state.loading = false;
             },
             false,
           );
@@ -71,7 +71,7 @@ function _BaobaoAudioPlayback(options) {
           play();
         }
       } else {
-        this.loading = false;
+        state.loading = false;
         play();
       }
     });
@@ -122,7 +122,7 @@ _BaobaoAudioPlayback.prototype.checkOS = function () {
     },
   ];
   let environment;
-  environmentDictionary.forEach((item, index) => {
+  environmentDictionary.forEach((item:any, index:number) => {
     if (item.checker) {
       environment = item.name;
     }

@@ -4,12 +4,12 @@
       <div class="common_logo_item"></div>
     </div>
     <div class="common_title_item">
-      <img src="@/image/common/title_00000.png" alt />
+      <img src="@/assets/image/common/title_00000.png" alt />
     </div>
     <div class="content">
       <div class="bg" :style="navigatorStyle"></div>
 
-      <!-- <img src="@/image/homepage/navigator_00000.png" alt /> -->
+      <!-- <img src="@/assets/image/homepage/navigator_00000.png" alt /> -->
       <ul class="links">
         <li class="link1">
           <router-link href="javascript:;" :to="{ name: 'information' }" />
@@ -28,10 +28,7 @@
         </li>
       </ul>
     </div>
-    <div
-      v-if="state.collectionNotYetFlag"
-      class="common_dialog_container collection"
-    >
+    <div v-if="state.collectionNotYetFlag" class="common_dialog_container collection">
       <div class="dialog_wrapper">
         <a href="javascript:;" class="close" @click="closeDialog"></a>
         <div class="content">
@@ -42,7 +39,73 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+<script lang="tsx" setup>
+import {
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  getCurrentInstance,
+  ref,
+  nextTick,
+} from "vue";
+
+import type { ComponentInternalInstance } from "vue";
+
+const currentInstance = getCurrentInstance() as ComponentInternalInstance;
+const global = currentInstance.appContext.config.globalProperties;
+
+const state = reactive({
+  goToNextflag: false,
+  collectionNotYetFlag: false,
+  remUnit: 0,
+  canvasWidth: "",
+  canvasHeight: "",
+});
+
+const navigatorStyle = computed(() => {
+  return {
+    "background-image":
+      "url(" + require("@/assets/image/homepage/navigator_00000.png") + ")",
+  };
+});
+
+watch(
+  () => state.remUnit,
+  (newValue: any) => {
+    nextTick(() => {
+      let windowWidth = document.body.clientWidth.toString().replace("px", "");
+      state.canvasWidth = document.body.clientWidth + "px";
+      state.canvasHeight = document.body.clientHeight + "px";
+    });
+  }
+);
+
+onMounted(() => {
+  nextTick(() => {
+    state.remUnit = Number(
+      document.getElementsByTagName("html")[0].style.fontSize.replace("px", "")
+    );
+  });
+});
+
+const checkCollection = () => {
+  const destinationTimeStamp = global.$moment(new Date("2020-2-11")).valueOf();
+  const currentTimeStamp = Date.parse(new Date());
+  console.log(destinationTimeStamp);
+  console.log(currentTimeStamp);
+  if (currentTimeStamp > destinationTimeStamp) {
+    global.$router.push({
+      name: "entrance",
+    });
+  } else {
+    global.collectionNotYetFlag = true;
+  }
+};
+const closeDialog = () => {
+  global.collectionNotYetFlag = false;
+};
 </script>
+
+<style scoped></style>

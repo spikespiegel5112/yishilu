@@ -2,27 +2,31 @@
   <router-view></router-view>
 </template>
 
-<script>
+<script lang="tsx" setup>
+import {
+  reactive,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  getCurrentInstance,
+  ref,
+  nextTick,
+} from "vue";
+
+import type { ComponentInternalInstance } from "vue";
+
+const currentInstance = getCurrentInstance() as ComponentInternalInstance;
+const global = currentInstance.appContext.config.globalProperties;
 // import {getAndStoreUserInfo} from '../api/auth.js'
 
-export default {
-  name: "app",
-  components: {},
-  data() {
-    return {};
-  },
-  mounted() {},
-  methods: {
-    // 设置sharePage分享信息
-    getUserInfoCache() {
-      if (!this.$isEmpty(this.$webStorage.getItem("userInfo"))) {
-        this.$store.commit(
-          "setUserInfo",
-          JSON.parse(this.$webStorage.getItem("userInfo")),
-        );
-      }
-    },
-  },
+const getUserInfoCache = () => {
+  if (!global.$isEmpty(sessionStorage.getItem("userInfo"))) {
+    global.$store.commit(
+      "setUserInfo",
+      JSON.parse(sessionStorage.getItem("userInfo"))
+    );
+  }
 };
 </script>
 

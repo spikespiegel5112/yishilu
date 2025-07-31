@@ -7,25 +7,30 @@
     "dev": "vite",
     "dev:test": "vite --mode test",
     "build:development": "vite build  --mode development",
-    "build:qudongkeji": "vite build  --mode qudongkeji",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit",
     "lint": "npx prettier -w -u . && eslint --ext .ts,.vue src/** --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "axios": "^1.11.0",
+    "dayjs": "^1.11.13",
     "normalize.css": "^8.0.1",
-    "vue": "^3.5.17"
+    "swiper": "^11.2.10",
+    "vue": "^3.5.17",
+    "vue-router": "^4.5.1",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
     "sass": "^1.89.2",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4",
-    "vue-tsc": "^2.2.12",
     "sass-loader": "12.6.0",
+    "typescript": "~5.8.3",
     "unplugin-auto-import": "^0.16.6",
-    "unplugin-vue-components": "^0.25.2"
+    "unplugin-vue-components": "^0.25.2",
+    "vite": "^7.0.4",
+    "vite-plugin-require-transform": "^1.0.21",
+    "vue-tsc": "^2.2.12"
   }
 }
