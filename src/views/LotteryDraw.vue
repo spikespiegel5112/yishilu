@@ -100,7 +100,7 @@ const state = reactive({
   rotateDuration: 3600,
   colorDictionary: ["#E6E6E6", "#1D88C2"],
   textColorDictionary: ["#1D88C2", "#E6E6E6"],
-  dotsColorDictionary: ["#ffd800", "#fe9166"],
+  dotsColorDictionary: ["#1D88C2", "#E6E6E6"],
   wheelData: [
     {
       name: "比萨饼",
@@ -149,10 +149,10 @@ const state = reactive({
     id: "",
   },
   prizeData: {
-    prize_Name: "dasdass",
-    prize_Content: "dasdass",
-    unit: "dasdass",
-    remark: "dasdass",
+    prize_Name: "",
+    prize_Content: "",
+    unit: "",
+    remark: "",
   },
   rewardCode: "",
   remUnit: 0,
@@ -256,7 +256,7 @@ const drawCanvas = () => {
     Math.PI * 2,
     true
   );
-  ctx2.fillStyle = "rgba(188,75,61,0.5)";
+  ctx2.fillStyle = "#51a5ff";
   ctx2.fill();
 
   ctx2.beginPath();
@@ -268,7 +268,7 @@ const drawCanvas = () => {
     Math.PI * 2,
     true
   );
-  ctx2.fillStyle = "#bc4b3d";
+  ctx2.fillStyle = "#003e81";
   ctx2.fill();
 
   ctx2.beginPath();
@@ -280,7 +280,7 @@ const drawCanvas = () => {
     Math.PI * 2,
     true
   );
-  ctx2.fillStyle = "#f06949";
+  ctx2.fillStyle = "#0b57aa";
   ctx2.fill();
 
   ctx2.save();
@@ -464,11 +464,11 @@ const drawPrizeLocalPromise = () => {
           resolve({
             drawCount: 2,
             id: 2,
-            rewardCode: "dasdasd",
-            prize_Name: "dasdass",
-            prize_Content: "dasdass",
-            unit: "dasdass",
-            remark: "dasdass",
+            rewardCode: "",
+            prize_Name: state.wheelData[index].name,
+            prize_Content: "",
+            unit: 1,
+            remark: "",
           });
         })
         .catch((error) => {
