@@ -11,76 +11,55 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //------------------------------------------------------------------------
 
-(function ($) {
-  var opt;
+(function($) {
+    var opt;
 
-  $.fn.jqprint = function (options) {
-    opt = $.extend({}, $.fn.jqprint.defaults, options);
+    $.fn.jqprint = function (options) {
+        opt = $.extend({}, $.fn.jqprint.defaults, options);
 
-    var $element = this instanceof jQuery ? this : $(this);
+        var $element = (this instanceof jQuery) ? this : $(this);
 
-    var $iframe = $("<iframe  />");
+        var $iframe = $("<iframe  />");
 
-    if (!opt.debug) {
-      $iframe.css({
-        position: "absolute",
-        width: "0px",
-        height: "0px",
-        left: "-600px",
-        top: "-600px",
-      });
+        if (!opt.debug) { $iframe.css({ position: "absolute", width: "0px", height: "0px", left: "-600px", top: "-600px" }); }
+
+        $iframe.appendTo("body");
+        var doc = $iframe[0].contentWindow.document;
+        
+        
+        if (opt.importCSS)
+        {
+            if ($("link[media=print]").length > 0) 
+            {
+                $("link[media=print]").each( function() {
+                    doc.write("<link type='text/css' rel='stylesheet' href='" + $(this).attr("href") + "' media='print' />");
+                });
+            }
+            else 
+            {
+                $("link").each( function() {
+                    doc.write("<link type='text/css' rel='stylesheet' href='" + $(this).attr("href") + "' />");
+                });
+            }
+        }
+        
+        if (opt.printContainer) { doc.write($element.outer()); }
+        else { $element.each( function() { doc.write($(this).html()); }); }
+        
+        doc.close();
+        
+        $iframe[0].contentWindow.focus();
+        setTimeout( function() { $iframe[0].contentWindow.print(); if (tab) { tab.close(); } }, 500);
     }
+    
+    $.fn.jqprint.defaults = {
+		debug: false,
+		importCSS: true, 
+		printContainer: true,
+		operaSupport: true
+	};
 
-    $iframe.appendTo("body");
-    var doc = $iframe[0].contentWindow.document;
-
-    if (opt.importCSS) {
-      if ($("link[media=print]").length > 0) {
-        $("link[media=print]").each(function () {
-          doc.write(
-            "<link type='text/css' rel='stylesheet' href='" +
-              $(this).attr("href") +
-              "' media='print' />",
-          );
-        });
-      } else {
-        $("link").each(function () {
-          doc.write(
-            "<link type='text/css' rel='stylesheet' href='" +
-              $(this).attr("href") +
-              "' />",
-          );
-        });
-      }
-    }
-
-    if (opt.printContainer) {
-      doc.write($element.outer());
-    } else {
-      $element.each(function () {
-        doc.write($(this).html());
-      });
-    }
-
-    doc.close();
-
-    $iframe[0].contentWindow.focus();
-    setTimeout(function () {
-      $iframe[0].contentWindow.print();
-      if (tab) {
-        tab.close();
-      }
-    }, 500);
-  };
-
-  $.fn.jqprint.defaults = {
-    debug: false,
-    importCSS: true,
-    printContainer: true,
-    operaSupport: true,
-  };
-
-  jQuery.fn.outer = function () {
-    return $($("<div></div>").html(this.clone())).html();
-  };
+    jQuery.fn.outer = function() {
+      return $($('<div></div>').html(this.clone())).html();
+    } 
 })(jQuery);

@@ -5,24 +5,16 @@
         <Card>
           <div class="i18n-card-box">
             <DatePicker type="date" placeholder="Select date"></DatePicker>
-            <TimePicker
-              type="timerange"
-              placement="bottom-end"
-              placeholder="Select time"
-              style="display: block; margin-top: 10px"
-            ></TimePicker>
-            <Button
-              type="primary"
-              @click="modalVisible = true"
-              style="margin-top: 10px"
-              >{{ $t("buttonText") }}</Button
-            >
-            <Modal v-model="modalVisible" :title="$t('modalTitle')">
-              <p>{{ content }}</p>
-              <p>{{ content }}</p>
-              <p>{{ content }}</p>
+            <TimePicker type="timerange" placement="bottom-end" placeholder="Select time" style="display: block;margin-top: 10px;"></TimePicker>
+            <Button type="primary" @click="modalVisible = true" style="margin-top: 10px;">{{ $t('buttonText') }}</Button>
+            <Modal
+                v-model="modalVisible"
+                :title="$t('modalTitle')">
+                <p>{{ content }}</p>
+                <p>{{ content }}</p>
+                <p>{{ content }}</p>
             </Modal>
-            <i class="tip">{{ $t("i18n-tip") }}</i>
+            <i class="tip">{{ $t('i18n-tip') }}</i>
           </div>
         </Card>
       </i-col>
@@ -32,24 +24,24 @@
 
 <script>
 export default {
-  name: "i18n_page",
-  data() {
+  name: 'i18n_page',
+  data () {
     return {
-      modalVisible: false,
-    };
+      modalVisible: false
+    }
   },
   computed: {
-    content() {
-      return this.$t("content");
-    },
-  },
-};
+    content () {
+      return this.$t('content')
+    }
+  }
+}
 </script>
 
 <style lang="less">
-.i18n-card-box {
+.i18n-card-box{
   height: 200px;
-  .tip {
+  .tip{
     color: gray;
     display: block;
     margin-top: 20px;

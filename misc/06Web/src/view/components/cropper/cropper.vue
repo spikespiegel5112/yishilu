@@ -17,32 +17,32 @@
 </template>
 
 <script>
-import Cropper from "@/components/cropper";
-import { uploadImg } from "@/api/data";
+import Cropper from '@/components/cropper'
+import { uploadImg } from '@/api/data'
 export default {
-  name: "cropper_page",
+  name: 'cropper_page',
   components: {
-    Cropper,
+    Cropper
   },
-  data() {
+  data () {
     return {
-      exampleImageSrc: "",
-    };
+      exampleImageSrc: ''
+    }
   },
   methods: {
-    handleCroped(blob) {
-      const formData = new FormData();
-      formData.append("croppedImg", blob);
+    handleCroped (blob) {
+      const formData = new FormData()
+      formData.append('croppedImg', blob)
       uploadImg(formData).then(() => {
-        this.$Message.success("Upload success~");
-      });
-    },
-  },
-};
+        this.$Message.success('Upload success~')
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less">
-.cropper-example {
+.cropper-example{
   height: 400px;
 }
 </style>
