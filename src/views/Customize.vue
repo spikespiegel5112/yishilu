@@ -50,7 +50,7 @@
     </div>
     <div v-if="state.dialogFlag" class="common_dialog_container">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="close"></a>
+        <a class="close" @click="close"></a>
         <div class="content">
           <div class="title">
             {{ state.dialogData[state.dialogIndex].title }}

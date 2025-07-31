@@ -24,7 +24,7 @@
           <router-link :to="{ name: 'Customize' }" />
         </li>
         <li class="link5">
-          <a href="javascript:;" @click="checkCollection"></a>
+          <a @click="checkCollection"></a>
         </li>
       </ul>
     </div>
@@ -33,7 +33,7 @@
       class="common_dialog_container collection"
     >
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="title">活动尚未开始，敬请期待</p>
         </div>

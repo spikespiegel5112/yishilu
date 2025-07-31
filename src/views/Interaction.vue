@@ -14,7 +14,7 @@
       <div class="interaction_status_wrapper">
         <ul>
           <li class="yan" @click="receivetask(1)">
-            <a href="javascript:;">
+            <a>
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_yan_00000.png"
@@ -28,7 +28,7 @@
             </a>
           </li>
           <li class="shi" @click="receivetask(2)">
-            <a href="javascript:;">
+            <a>
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_shi_00000.png"
@@ -42,7 +42,7 @@
             </a>
           </li>
           <li class="guang" @click="receivetask(3)">
-            <a href="javascript:;">
+            <a>
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_guang_00000.png"
@@ -64,7 +64,7 @@
         </p>
       </div>
       <div class="common_navigation_item">
-        <a href="javascript:;" @click="checkStatus">参加抽奖</a>
+        <a @click="checkStatus">参加抽奖</a>
       </div>
       <div class="common_goback_wrapper">
         <CommonGoBack />
@@ -72,7 +72,7 @@
     </div>
     <div v-if="state.dialogNotYetFlag" class="common_dialog_container notyet">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p>您尚未完成全部打卡</p>
           <p>请全部完成后进行抽奖</p>
@@ -81,7 +81,7 @@
     </div>
     <div v-if="state.dialogYanFlag" class="common_dialog_container prompt">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="title"><span>眼</span>依视路设备</p>
           <p class="desc">
@@ -94,7 +94,7 @@
     </div>
     <div v-if="state.dialogShiFlag" class="common_dialog_container prompt">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="title"><span>视</span>依视路</p>
           <p class="desc">
@@ -107,7 +107,7 @@
     </div>
     <div v-if="state.dialogGuangFlag" class="common_dialog_container prompt">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="title"><span>光</span>全视线</p>
           <p class="desc">
@@ -167,7 +167,7 @@ const navigatorStyle = computed(() => {
 });
 
 const userInfo = computed(() => {
-  return global.$store.userInfo.value;
+  return global.$store.state.user.userInfo;
 });
 
 watch(
@@ -231,7 +231,7 @@ const getLighten = () => {
       console.log(error);
     });
 };
-const getParameter = (key) => {
+const getParameter = (key:any) => {
   var url = location.href;
   var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
   var paraObj = {};
@@ -254,7 +254,7 @@ const addscancount = () => {
   global.$http
     .get(global.$baseUrl + "h5.wxuser.pageaccess", {
       params: {
-        u_id: global.$store.state.user.userInfo,
+        u_id: userInfo.value,
         scan_type: state.task_type,
       },
     })

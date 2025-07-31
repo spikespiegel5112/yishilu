@@ -32,7 +32,7 @@
       class="common_dialog_container thankyou"
     >
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeThankYou"></a>
+        <a class="close" @click="closeThankYou"></a>
         <div class="content">
           <p>谢谢参与</p>
         </div>
@@ -45,7 +45,7 @@
     </div>
     <div v-if="state.dialogPrizeFlag" class="common_dialog_container prize">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closePrize"></a>
+        <a class="close" @click="closePrize"></a>
         <div class="content">
           <div class="title">
             <img src="@/assets/image/lotterydraw/gift_00000.png" />
@@ -94,7 +94,7 @@ const state = reactive({
   dialogPrizeFlag: false,
   status: false,
   wheelCanvas: {},
-  remUnit: "",
+  rotatingFlag: false,
   alreadyReleasedPrize: false,
   alreadyReceivedPrize: false,
   rotateDuration: 3600,
@@ -143,15 +143,16 @@ const state = reactive({
       name: "牛排",
       value: 30,
       image: "http://pic.c-ctrip.com/platform/online/home/un_index_supply.png",
-    }
+    },
   ],
   userInfo: {
     id: "",
   },
   prizeData: {},
-    remUnit: 0,
+  remUnit: 0,
   canvasWidth: "",
   canvasHeight: "",
+  loading: false,
 });
 
 const navigatorStyle = computed(() => {
@@ -183,369 +184,360 @@ watch(
   }
 );
 
+const init = () => {
+  // console.log(FrameAnimation)
+};
+const getUserInfo = () => {
+  state.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+};
+const closeThankYou = () => {
+  state.dialogThankYouFlag = false;
+};
+const closePrize = () => {
+  state.dialogPrizeFlag = false;
+};
+const getPrizeList = () => {
+  state.loading = true;
+  // drawCanvas();
+  // getCachedCircleNumber();
+  global.$http
+    .get(global.$baseUrl + state.drawlistRequest, {
+      params: {
+        u_id: global.$store.state.user.userInfo,
+      },
+    })
+    .then((response: any) => {
+      console.log("getPrizeList+++++++=", response);
+      state.loading = false;
+      state.wheelData = [];
+      // this.activityInfo = response.activityInfo;
 
-    const init=(source)=>{
-      // console.log(FrameAnimation)
-    }
-    const getUserInfo=(source)=>{
-      state.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-    }
-    const closeThankYou=(source)=>{
-      this.dialogThankYouFlag = false;
-    }
-    const closePrize=(source)=>{
-      this.dialogPrizeFlag = false;
-    }
-   const  getPrizeList=(source)=>{
-      state.loading = true;
-      // this.drawCanvas();
-      // this.getCachedCircleNumber();
-      global.$http
-        .get(global.$baseUrl + this.drawlistRequest, {
-          params: {
-            u_id: global.$store.state.user.userInfo,
-          }
-        })
-        .then((response: any) => {
-          console.log("getPrizeList+++++++=", response);
-          state.loading = false;
-          this.wheelData = [];
-          // this.activityInfo = response.activityInfo;
-
-          // if (JSON.parse(sessionStorage.getItem('dailyLimit') === 'null')) {
-          // 	this.dailyLimit = response.activityInfo.dailyLimit;
-          // }
-          response.data.forEach((item: any, index: number) => {
-            this.wheelData.push({
-              name: item.prize_Name,
-              // image: item.rewardImage !== null ? item.rewardImage + '-style_100x100' : '',
-              // image: 'https://pic5.40017.cn/01/000/79/0a/rBLkBVpVuxmAUQqmAAARnUFXcFc487.png',
-              value: item.id,
-            });
-          });
-
-          this.drawCanvas();
-          this.getCachedCircleNumber();
-        })
-        .catch((error: any) => {
-          console.log(error);
-          state.loading = false;
-          global.$vux.confirm.show({
-            showCancelButton: false,
-            title: error.data.message,
-            onConfirm() {}
-          });
-        });
-    }
-  const   drawCanvas=(source)=>{
-      console.log(state.remUnit);
-      // console.log(state.canvasWidth)
-      // console.log(this.wheelData)
-      this.wheelCanvas = document.getElementById("wheelcanvas");
-      let ctx = this.wheelCanvas.getContext("2d");
-      let ctx2 = this.wheelCanvas.getContext("2d");
-
-      let baseAngle = (Math.PI * 2) / this.wheelData.length;
-      // document.querySelector('.wheel_wrapper .wheel').style.width = state.remUnit * 13.5;
-      // document.querySelector('.wheel_wrapper .wheel').style.height = state.remUnit * 13.5;
-
-      let canvasWidth = state.remUnit * 13.5;
-      let canvasHeight = state.remUnit * 13.5;
-      // console.log(canvasWidth)
-      // console.log(canvasHeight)
-
-      ctx.font = state.remUnit;
-
-      // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.75, 0, Math.PI * 2, true);
-      // ctx2.fillStyle = 'rgba(188,75,61,0.5)';
-      // ctx2.fill();
-
-      // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.57, 0, Math.PI * 2, true);
-      // ctx2.fillStyle = '#bc4b3d';
-      // ctx2.fill();
-
-      // ctx2.beginPath();
-      // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.35, 0, Math.PI * 2, true);
-      // ctx2.fillStyle = '#f06949';
-      // ctx2.fill();
-
-      // ctx2.save();
-
-      // let showDots = () => {
-      // 	for (let i = 0; i < 24; i++) {
-      // 		ctx.beginPath();
-      // 		let angle = Math.PI * 2 / 24 * i;
-      // 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * state.remUnit * 5.9;
-      // 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * state.remUnit * 5.9;
-      // 		ctx.arc(translateX, translateY, state.remUnit * 0.35, state.remUnit, Math.PI * 2, true);
-      // 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
-      // 		ctx.fill();
-      // 	}
-      // };
-      // showDots();
-      // setInterval(() => {
-      // 	showDots();
-      // 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
-      // } 1000);
-
-      let imageSequence = [];
-
-      this.wheelData.forEach((item: any, index: number) => {
-        let imageObj = new Image();
-        imageObj.width = "150";
-        imageObj.height = "150";
-        // imageObj.src = this.$replaceProtocol(this.wheelData[index].image);
-        imageObj.transparency = 0.2;
-        imageSequence.push(imageObj);
-      });
-
-      this.wheelData.forEach((item: any, index: number) => {
-        let angle = baseAngle * index;
-
-        if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-          angle = angle - Math.PI;
-        } else {
-          angle = angle - Math.PI + baseAngle;
-        }
-
-        ctx.beginPath();
-        ctx.moveTo(canvasWidth / 2, canvasHeight / 2);
-        ctx.lineWidth = 3;
-        if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-          ctx.arc(
-            canvasWidth / 2,
-            canvasHeight / 2,
-            state.remUnit * 5.4,
-            angle + baseAngle - Math.PI / this.wheelData.length,
-            angle - Math.PI / this.wheelData.length,
-            true
-          );
-        } else {
-          ctx.arc(
-            canvasWidth / 2,
-            canvasHeight / 2,
-            state.remUnit * 5.4,
-            angle + baseAngle,
-            angle,
-            true
-          );
-        }
-        ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
-
-        ctx.strokeStyle = "#4387BD";
-        ctx.stroke();
-        ctx.fillStyle = this.colorDictionary[index % 2];
-
-        ctx.save();
-        ctx.fill();
-
-        // imageSequence[index].onload = () => {};
-
-        setTimeout(() => {
-          let translateX, translateY;
-          if (this.checkLowestCommonDivisorWith2(this.wheelData.length)) {
-            translateX =
-              canvasWidth * 0.5 +
-              Math.cos(
-                angle +
-                  baseAngle / 2 -
-                  Math.PI / 2 -
-                  Math.PI / this.wheelData.length
-              ) *
-                state.remUnit *
-                5;
-            translateY =
-              canvasHeight * 0.5 +
-              Math.sin(
-                angle +
-                  baseAngle / 2 -
-                  Math.PI / 2 -
-                  Math.PI / this.wheelData.length
-              ) *
-                state.remUnit *
-                5;
-          } else {
-            translateX =
-              canvasWidth * 0.5 +
-              Math.cos(angle + baseAngle / 2) * state.remUnit * 5;
-            translateY =
-              canvasHeight * 0.5 +
-              Math.sin(angle + baseAngle / 2) * state.remUnit * 5;
-          }
-
-          ctx.font = state.remUnit * 0.6 + "px Georgia";
-          ctx.fillStyle = this.textColorDictionary[index % 2];
-          ctx.translate(translateX, translateY);
-          ctx.rotate(angle);
-          // ctx.fillText(this.wheelData[index].name, -ctx.measureText(this.wheelData[index].name).width / 2, 22);
-          const offset = state.remUnit / 1.7;
-          this.wheelData[index].name
-            .split("")
-            .forEach((item: any, index: number) => {
-              if (index < 6) {
-                ctx.fillText(
-                  item,
-                  -ctx.measureText(item).width / 2,
-                  (index * state.remUnit) / 1.4 + offset
-                );
-              }
-            });
-          ctx.shadowColor = "#000"; // green for demo purposes
-          ctx.shadowBlur = 10;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowOffsetY = 0;
-
-          ctx.restore();
-          ctx.save();
-        } 500);
-
-        // ctx.restore();
-        // ctx.save();
-        // let pointer = new Image();
-        // pointer.url = 'http://localhost/static/img/pointer_00000.png';
-        // pointer.width = '100';
-        // pointer.height = '100';
-      });
-      setTimeout(() => {
-        ctx.translate(200, 150);
-        ctx.rotate(-Math.PI / 4);
-
-        ctx.restore();
-        ctx.save();
-      } 1000);
-
-      this.getCachedCircleNumber();
-    }
-   const  drawPrize() {
-      state.loading = true;
-      // 本地调试代码
-      console.log(Math.random());
-      console.log(Math.ceil((this.wheelData.length - 1) * Math.random()));
-      console.log(
-        this.wheelData.find(
-          (item, index) =>
-            index === Math.ceil((this.wheelData.length - 1) * Math.random())
-        )
-      );
-      // let index = 0
-      // this.wheelData.forEach((item1, index1) => {
-      // 	if (index1 === Math.ceil((this.wheelData.length - 1) * Math.random())) {
-      // 		index = index1
-      // 		console.log('match+++++++', item1)
-      // 		console.log('match+++++++', index)
-
-      // 	}
-      // })
-      // if (!this.alreadyReleasedPrize) {
-      // 	this.rotateWheel(index).then(() => {
-
-      // 		this.alreadyReleasedPrize = true;
-
-      // 		this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
-
-      // 	}).catch(error => {
-      // 	})
+      // if (JSON.parse(sessionStorage.getItem('dailyLimit') === 'null')) {
+      // 	this.dailyLimit = response.activityInfo.dailyLimit;
       // }
+      response.data.forEach((item: any, index: number) => {
+        state.wheelData.push({
+          name: item.prize_Name,
+          value: item.id,
+        });
+      });
 
-      console.log(" userInfo.value.id", userInfo.value);
-      global.$http
-        .post(this.drawRequest, {
-          u_id: global.$store.state.user.userInfo,
-        })
-        .then((response: any) => {
-          console.log(response);
-          state.loading = false;
-          response = response.data;
-          this.prizeData = response;
-          this.rewardCode = response.rewardCode;
-          if (response.drawCount < 2) {
-            this.wheelData.forEach((item1, index1) => {
-              if (item1.value === response.id) {
-                this.rotateWheel(index1).then(() => {
-                  this.alreadyReleasedPrize = true;
-                  if (response.id < 5) {
-                    this.dialogPrizeFlag = true;
-                  } else {
-                    this.dialogThankYouFlag = true;
-                  }
-                });
+      drawCanvas();
+      getCachedCircleNumber();
+    })
+    .catch((error: any) => {
+      console.log(error);
+      state.loading = false;
+    });
+};
+const drawCanvas = () => {
+  console.log(state.remUnit);
+  // console.log(state.canvasWidth)
+  // console.log(state.wheelData)
+  state.wheelCanvas = document.getElementById("wheelcanvas");
+  let ctx = state.wheelCanvas.getContext("2d");
+  let ctx2 = state.wheelCanvas.getContext("2d");
+
+  let baseAngle = (Math.PI * 2) / state.wheelData.length;
+  // document.querySelector('.wheel_wrapper .wheel').style.width = state.remUnit * 13.5;
+  // document.querySelector('.wheel_wrapper .wheel').style.height = state.remUnit * 13.5;
+
+  let canvasWidth = state.remUnit * 13.5;
+  let canvasHeight = state.remUnit * 13.5;
+  // console.log(canvasWidth)
+  // console.log(canvasHeight)
+
+  ctx.font = state.remUnit;
+
+  // ctx2.beginPath();
+  // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.75, 0, Math.PI * 2, true);
+  // ctx2.fillStyle = 'rgba(188,75,61,0.5)';
+  // ctx2.fill();
+
+  // ctx2.beginPath();
+  // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.57, 0, Math.PI * 2, true);
+  // ctx2.fillStyle = '#bc4b3d';
+  // ctx2.fill();
+
+  // ctx2.beginPath();
+  // ctx2.arc(canvasWidth / 2, canvasHeight / 2, state.remUnit * 6.35, 0, Math.PI * 2, true);
+  // ctx2.fillStyle = '#f06949';
+  // ctx2.fill();
+
+  // ctx2.save();
+
+  // let showDots = () => {
+  // 	for (let i = 0; i < 24; i++) {
+  // 		ctx.beginPath();
+  // 		let angle = Math.PI * 2 / 24 * i;
+  // 		let translateX = canvasWidth * 0.5 + Math.cos(angle) * state.remUnit * 5.9;
+  // 		let translateY = canvasHeight * 0.5 + Math.sin(angle) * state.remUnit * 5.9;
+  // 		ctx.arc(translateX, translateY, state.remUnit * 0.35, state.remUnit, Math.PI * 2, true);
+  // 		ctx.fillStyle = i % 2 === 0 ? this.dotsColorDictionary[0] : this.dotsColorDictionary[1];
+  // 		ctx.fill();
+  // 	}
+  // };
+  // showDots();
+  // setInterval(() => {
+  // 	showDots();
+  // 	this.dotsColorDictionary = this.dotsColorDictionary.reverse();
+  // } 1000);
+
+  let imageSequence = [];
+
+  state.wheelData.forEach((item: any, index: number) => {
+    let imageObj = new Image();
+    imageObj.width = "150";
+    imageObj.height = "150";
+    // imageObj.src = this.$replaceProtocol(state.wheelData[index].image);
+    imageObj.transparency = 0.2;
+    imageSequence.push(imageObj);
+  });
+
+  state.wheelData.forEach((item: any, index: number) => {
+    let angle = baseAngle * index;
+
+    if (checkLowestCommonDivisorWith2(state.wheelData.length)) {
+      angle = angle - Math.PI;
+    } else {
+      angle = angle - Math.PI + baseAngle;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(canvasWidth / 2, canvasHeight / 2);
+    ctx.lineWidth = 3;
+    if (checkLowestCommonDivisorWith2(state.wheelData.length)) {
+      ctx.arc(
+        canvasWidth / 2,
+        canvasHeight / 2,
+        state.remUnit * 5.4,
+        angle + baseAngle - Math.PI / state.wheelData.length,
+        angle - Math.PI / state.wheelData.length,
+        true
+      );
+    } else {
+      ctx.arc(
+        canvasWidth / 2,
+        canvasHeight / 2,
+        state.remUnit * 5.4,
+        angle + baseAngle,
+        angle,
+        true
+      );
+    }
+    ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
+
+    ctx.strokeStyle = "#4387BD";
+    ctx.stroke();
+    ctx.fillStyle = state.colorDictionary[index % 2];
+
+    ctx.save();
+    ctx.fill();
+
+    // imageSequence[index].onload = () => {};
+
+    setTimeout(() => {
+      let translateX, translateY;
+      if (checkLowestCommonDivisorWith2(state.wheelData.length)) {
+        translateX =
+          canvasWidth * 0.5 +
+          Math.cos(
+            angle +
+              baseAngle / 2 -
+              Math.PI / 2 -
+              Math.PI / state.wheelData.length
+          ) *
+            state.remUnit *
+            5;
+        translateY =
+          canvasHeight * 0.5 +
+          Math.sin(
+            angle +
+              baseAngle / 2 -
+              Math.PI / 2 -
+              Math.PI / state.wheelData.length
+          ) *
+            state.remUnit *
+            5;
+      } else {
+        translateX =
+          canvasWidth * 0.5 +
+          Math.cos(angle + baseAngle / 2) * state.remUnit * 5;
+        translateY =
+          canvasHeight * 0.5 +
+          Math.sin(angle + baseAngle / 2) * state.remUnit * 5;
+      }
+
+      ctx.font = state.remUnit * 0.6 + "px Georgia";
+      ctx.fillStyle = state.textColorDictionary[index % 2];
+      ctx.translate(translateX, translateY);
+      ctx.rotate(angle);
+      // ctx.fillText(state.wheelData[index].name, -ctx.measureText(state.wheelData[index].name).width / 2, 22);
+      const offset = state.remUnit / 1.7;
+      state.wheelData[index].name
+        .split("")
+        .forEach((item: any, index: number) => {
+          if (index < 6) {
+            ctx.fillText(
+              item,
+              -ctx.measureText(item).width / 2,
+              (index * state.remUnit) / 1.4 + offset
+            );
+          }
+        });
+      ctx.shadowColor = "#000"; // green for demo purposes
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+
+      ctx.restore();
+      ctx.save();
+    }, 500);
+
+    // ctx.restore();
+    // ctx.save();
+    // let pointer = new Image();
+    // pointer.url = 'http://localhost/static/img/pointer_00000.png';
+    // pointer.width = '100';
+    // pointer.height = '100';
+  });
+  setTimeout(() => {
+    ctx.translate(200, 150);
+    ctx.rotate(-Math.PI / 4);
+
+    ctx.restore();
+    ctx.save();
+  }, 1000);
+
+  getCachedCircleNumber();
+};
+const drawPrize = () => {
+  state.loading = true;
+  // 本地调试代码
+  console.log(Math.random());
+  console.log(Math.ceil((state.wheelData.length - 1) * Math.random()));
+  console.log(
+    state.wheelData.find(
+      (item, index) =>
+        index === Math.ceil((state.wheelData.length - 1) * Math.random())
+    )
+  );
+  // let index = 0
+  // state.wheelData.forEach((item1, index1) => {
+  // 	if (index1 === Math.ceil((state.wheelData.length - 1) * Math.random())) {
+  // 		index = index1
+  // 		console.log('match+++++++', item1)
+  // 		console.log('match+++++++', index)
+
+  // 	}
+  // })
+  // if (!state.alreadyReleasedPrize) {
+  // 	this.rotateWheel(index).then(() => {
+
+  // 		state.alreadyReleasedPrize = true;
+
+  // 		this.dailyLimit = Number(this.dailyLimit) > 0 ? Number(this.dailyLimit) - 1 : this.dailyLimit;
+
+  // 	}).catch(error => {
+  // 	})
+  // }
+
+  console.log(" userInfo.value.id", userInfo.value);
+  global.$http
+    .post(this.drawRequest, {
+      u_id: global.$store.state.user.userInfo,
+    })
+    .then((response: any) => {
+      console.log(response);
+      state.loading = false;
+      response = response.data;
+      state.prizeData = response;
+      state.rewardCode = response.rewardCode;
+      if (response.drawCount < 2) {
+        state.wheelData.forEach((item1, index1) => {
+          if (item1.value === response.id) {
+            this.rotateWheel(index1).then(() => {
+              state.alreadyReleasedPrize = true;
+              if (response.id < 5) {
+                state.dialogPrizeFlag = true;
+              } else {
+                state.dialogThankYouFlag = true;
               }
             });
-          } else {
-            if (response.id < 5) {
-              this.dialogPrizeFlag = true;
-            } else {
-              this.dialogThankYouFlag = true;
-            }
           }
-        })
-        .catch((error: any) => {
-          state.loading = false;
-          console.log(error);
         });
-    }
-   const  checkLowestCommonDivisorWith2=(source)=>{
-      let flag = true;
-      for (let i = 2; i < source; i++) {
-        source = source / 2;
-        if (source !== 2) {
-          flag = source % 2 === 0;
-        }
-      }
-      return flag;
-    }
-   const  getCachedCircleNumber=()=>{
-      if (
-        sessionStorage.getItem("actualRotate") !== undefined &&
-        sessionStorage.getItem("actualRotate") !== 0
-      ) {
-        this.actualRotate = sessionStorage.getItem("actualRotate");
-        let offsetAngle = this.actualRotate % 360;
-        // alert(offsetAngle)
-        // this.wheelCanvas.style.transform = 'rotate(' + this.actualRotate + 'deg)';
-        this.wheelCanvas.style.transform = "rotate(" + offsetAngle + "deg)";
-      }
-    }
-   const  rotateWheel(offset) {
-      return new Promise((resolve, reject) => {
-        console.log(111, offset);
-
-        //因为canvas绘图顺序为顺时针，旋转顺序也为顺时针的话，旋转过后的个数会从最大值往最小值数，所以索性对偏移的个数进行取反
-
-        offset = this.wheelData.length - offset - 4;
-        let initRotateAngle = 3600;
-        let unitAngle = 360 / this.wheelData.length;
-        console.log(222, initRotateAngle + unitAngle * offset);
-        this.actualRotate = initRotateAngle + unitAngle * offset;
-        // alert(this.actualRotate)
-        this.wheelCanvas.style.transform =
-          "rotate(-" + this.actualRotate + "deg)";
-
-        sessionStorage.setItem("actualRotate", this.actualRotate);
-        if (!this.rotatingFlag) {
-          this.rotatingFlag = true;
-          this.wheelCanvas.style.transition =
-            "all " + this.rotateDuration / 1000 + "s ease";
-          this.wheelCanvas.style.transform =
-            "rotate(" + this.actualRotate + "deg)";
-          setTimeout(() => {
-            this.rotatingFlag = false;
-            this.wheelCanvas.style.transition = "rotate 0s ease";
-            resolve();
-          } this.rotateDuration);
+      } else {
+        if (response.id < 5) {
+          state.dialogPrizeFlag = true;
         } else {
-          reject();
+          state.dialogThankYouFlag = true;
         }
-      });
+      }
+    })
+    .catch((error: any) => {
+      state.loading = false;
+      console.log(error);
+    });
+};
+const checkLowestCommonDivisorWith2 = (source: number) => {
+  let flag = true;
+  for (let i = 2; i < source; i++) {
+    source = source / 2;
+    if (source !== 2) {
+      flag = source % 2 === 0;
     }
+  }
+  return flag;
+};
+const getCachedCircleNumber = () => {
+  if (
+    sessionStorage.getItem("state.actualRotate") !== undefined &&
+    sessionStorage.getItem("state.actualRotate") !== 0
+  ) {
+    state.actualRotate = sessionStorage.getItem("state.actualRotate");
+    let offsetAngle = state.actualRotate % 360;
+    // alert(offsetAngle)
+    // state.wheelCanvas.style.transform = 'rotate(' + state.actualRotate + 'deg)';
+    state.wheelCanvas.style.transform = "rotate(" + offsetAngle + "deg)";
+  }
+};
+const rotateWheel = (offset) => {
+  return new Promise((resolve, reject) => {
+    console.log(111, offset);
 
+    //因为canvas绘图顺序为顺时针，旋转顺序也为顺时针的话，旋转过后的个数会从最大值往最小值数，所以索性对偏移的个数进行取反
+
+    offset = state.wheelData.length - offset - 4;
+    let initRotateAngle = 3600;
+    let unitAngle = 360 / state.wheelData.length;
+    console.log(222, initRotateAngle + unitAngle * offset);
+    state.actualRotate = initRotateAngle + unitAngle * offset;
+    // alert(state.actualRotate)
+    state.wheelCanvas.style.transform =
+      "rotate(-" + state.actualRotate + "deg)";
+
+    sessionStorage.setItem("state.actualRotate", state.actualRotate);
+    if (!state.rotatingFlag) {
+      state.rotatingFlag = true;
+      state.wheelCanvas.style.transition =
+        "all " + state.rotateDuration / 1000 + "s ease";
+      state.wheelCanvas.style.transform =
+        "rotate(" + state.actualRotate + "deg)";
+      setTimeout(() => {
+        state.rotatingFlag = false;
+        state.wheelCanvas.style.transition = "rotate 0s ease";
+        resolve();
+      }, state.rotateDuration);
+    } else {
+      reject();
+    }
+  });
+};
 
 onMounted(() => {
   setTimeout(() => {
     init();
-  } 100);
+  }, 100);
   nextTick(() => {
     state.remUnit = Number(
       document.getElementsByTagName("html")[0].style.fontSize.replace("px", "")

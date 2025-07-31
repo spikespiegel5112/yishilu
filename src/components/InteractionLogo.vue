@@ -6,7 +6,6 @@
     <div class="common_title_item">
       <img src="@/assets/image/common/title_00000.png" />
     </div>
-    <!-- <div class="bg"></div> -->
     <div class="content">
       <div class="common_subtitle_item">
         <img src="@/assets/image/interactionlogo/subtitle_00000.png" />
@@ -30,7 +29,7 @@
             :class="item.active ? 'active' + ' ' + item.name : item.name"
             @click="receivetask(index)"
           >
-            <a href="javascript:;" @click="checkBrandInfo(item)">
+            <a @click="checkBrandInfo(item)">
               <div class="enabled">
                 <img :src="item.enableSrc" />
               </div>
@@ -46,10 +45,10 @@
       </div>
       <div class="navigation_wrapper">
         <div class="common_navigation_item">
-          <a href="javascript:;" @click="checkStatus">点击抽奖</a>
+          <a @click="checkStatus">点击抽奖</a>
         </div>
         <div class="common_navigation_item">
-          <a href="javascript:;" @click="checkPrize">我的奖品</a>
+          <a @click="checkPrize">我的奖品</a>
         </div>
       </div>
       <div class="common_goback_wrapper">
@@ -58,7 +57,7 @@
     </div>
     <div v-if="state.dialogNotYetFlag" class="common_dialog_container notyet">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p>请前往相关展台扫码点亮</p>
           <p>任意两个 Logo 进行抽奖</p>
@@ -70,7 +69,7 @@
       class="common_dialog_container position"
     >
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="brandname">{{ state.currentBrandData.brandName }}</p>
           <p>展位号</p>
@@ -81,7 +80,7 @@
     </div>
     <div v-if="state.dialogLightenFlag" class="common_dialog_container lighten">
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p>您已点亮</p>
           <p class="brandname">{{ state.currentBrandData.brandName }}</p>
@@ -93,7 +92,7 @@
       class="common_dialog_container prizelist"
     >
       <div class="dialog_wrapper">
-        <a href="javascript:;" class="close" @click="closeDialog"></a>
+        <a class="close" @click="closeDialog"></a>
         <div class="content">
           <p class="title" @click="closeDialog">我的奖品</p>
           <div class="list">
@@ -162,6 +161,9 @@ const state = reactive({
   remUnit: 0,
   canvasWidth: "",
   canvasHeight: "",
+  dialogYanFlag: false,
+  dialogShiFlag: false,
+  dialogGuangFlag: false,
 });
 
 const navigatorStyle = computed(() => {
@@ -212,7 +214,7 @@ const lightTask = () => {
       console.log("lightTask+++", response);
       state.dialogLightenFlag = true;
       state.currentBrandData.brandName = brandList.value.find(
-        (item) => item.taskType === Number(response.data)
+        (item: any) => item.taskType === Number(response.data)
       ).brandName;
       getLighten();
     })
@@ -312,22 +314,26 @@ const receivetask = (type) => {
   }
 };
 const checkStatus = () => {
-  const lightenCount = brandList.value.filter((item) => item.active).length;
-  let temp1 = state.prizeList.filter((item) => item.name !== "").length * 2;
+  const lightenCount = brandList.value.filter(
+    (item: any) => item.active
+  ).length;
+  let temp1 =
+    state.prizeList.filter((item: any) => item.name !== "").length * 2;
   let temp2 =
     lightenCount -
-    state.prizeList.filter((item) => item.name !== "").length * 2;
+    state.prizeList.filter((item: any) => item.name !== "").length * 2;
   console.log(lightenCount);
   console.log(temp1);
   console.log(temp2);
   const notYetFlag =
-    lightenCount - state.prizeList.filter((item) => item.hasPrize).length * 2 <
+    lightenCount -
+      state.prizeList.filter((item: any) => item.hasPrize).length * 2 <
     2;
   if (notYetFlag) {
     state.dialogNotYetFlag = true;
   } else {
     global.$router.push({
-      name: "lotteryDrawLogo",
+      name: "LotteryDrawLogo",
     });
   }
 };
@@ -342,13 +348,13 @@ const closeDialog = () => {
   state.dialogLightenFlag = false;
   state.dialogPrizeListFlag = false;
 };
-const checkBrandInfo = (data) => {
+const checkBrandInfo = (data: any) => {
   state.currentBrandData = brandList.value.find(
-    (item) => item.taskType === data.taskType
+    (item: any) => item.taskType === data.taskType
   );
   state.dialogPositionFlag = true;
 };
-const getParameter = (key) => {
+const getParameter = (key: any) => {
   var url = location.href;
   var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
   var paraObj = {};
@@ -372,4 +378,102 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.interactionlogo_main_container {
+  > .content {
+    .common_subtitle_item {
+      margin: 0.9rem auto 0;
+    }
+    .rules {
+      margin: 0.5rem auto;
+      padding: 0 0 0 1rem;
+      width: 13.5rem;
+      text-align: left;
+      font-size: 0.4rem;
+      ol {
+        li {
+          margin: 0 0 0.2rem 0;
+        }
+      }
+    }
+  }
+  .status_wrapper {
+    ul {
+      li {
+        display: inline-block;
+        margin: 0.5rem 0;
+        padding: 0 0.8rem;
+        vertical-align: middle;
+        &.active {
+          a {
+            .enabled {
+              display: block;
+            }
+            .disabled {
+              display: none;
+            }
+          }
+        }
+        a {
+          display: block;
+          position: relative;
+          img {
+            display: inline-block;
+            width: 100%;
+            height: auto;
+          }
+          .enabled {
+            display: none;
+          }
+          .disabled {
+            // position: absolute;
+            // left: 0;
+            // top: 0;
+          }
+        }
+        &.wanxin {
+          margin-left: 1.5rem;
+          width: 4rem;
+        }
+        &.yolioptical {
+          margin-right: 1.5rem;
+          width: 3rem;
+        }
+        &.chemilens {
+          width: 1.8rem;
+        }
+        &.seeworld {
+          width: 3rem;
+        }
+        &.creasky {
+          width: 4.5rem;
+        }
+        &.newtianhongoptical {
+          width: 4rem;
+        }
+        &.bolon {
+          width: 3rem;
+        }
+      }
+    }
+    .hint {
+      margin: 0 auto;
+      width: 12.5rem;
+      text-align: right;
+      font-size: 0.4rem;
+      color: #4d4d4d;
+    }
+  }
+  .navigation_wrapper {
+    margin: 0.5rem 0 0 0;
+    width: 100%;
+    text-align: center;
+    .common_navigation_item {
+      display: inline-block;
+      margin: 0 0.5rem;
+    }
+  }
+  .common_dialog_container {
+  }
+}
+</style>
