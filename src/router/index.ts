@@ -13,13 +13,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    redirect: "/entrance",
+    redirect: "/Entrance",
     component: () =>
       import(/* webpackChunkName: "Layout" */ "@/views/Layout.vue"),
     children: [
       {
         path: "/Entrance",
-      name: "Entrance",
+        name: "Entrance",
         component: () =>
           import(/* webpackChunkName: "Entrance" */ "@/views/Entrance.vue"),
       },

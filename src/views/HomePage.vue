@@ -15,7 +15,7 @@
           <router-link :to="{ name: 'Information' }" />
         </li>
         <li class="link2">
-          <router-link :to="{ name: 'Interaction' }" />
+          <router-link :to="{ name: 'LotteryDraw' }" />
         </li>
         <li class="link3">
           <router-link :to="{ name: 'Category' }" />
@@ -24,7 +24,8 @@
           <router-link :to="{ name: 'Customize' }" />
         </li>
         <li class="link5">
-          <a @click="checkCollection"></a>
+          <router-link :to="{ name: 'Interaction' }" />
+          <!-- <a @click="checkCollection"></a> -->
         </li>
       </ul>
     </div>

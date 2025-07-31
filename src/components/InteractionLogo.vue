@@ -174,7 +174,7 @@ const navigatorStyle = computed(() => {
 });
 
 const userInfo = computed(() => {
-  return global.$store.userInfo.value;
+  return global.$store.state.user.userInfo;
 });
 
 const brandList = computed(() => {

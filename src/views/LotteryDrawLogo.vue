@@ -155,7 +155,7 @@ const navigatorStyle = computed(() => {
 });
 
 const userInfo = computed(() => {
-  return global.$store.userInfo.value;
+  return global.$store.state.user.userInfo;
 });
 const brandList = computed(() => {
   return global.$store.brandList.value;
@@ -540,7 +540,7 @@ const resetWheel = () => {
     }, 100);
   });
 };
-const rotateWheel = (offset) => {
+const rotateWheel = (offset:any) => {
   return new Promise(async (resolve, reject) => {
     console.log(111, offset);
 
