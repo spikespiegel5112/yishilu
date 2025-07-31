@@ -43,5 +43,11 @@ const state = reactive({
 onMounted(() => {
   const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   global.$store.commit("user/updateUserInfo", userInfo);
+
+  global.$remResizing({
+    baseline: 320,
+    fontSize: 20,
+    threshold: 640,
+  });
 });
 </script>

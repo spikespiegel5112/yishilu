@@ -7,9 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CommonGoBack: typeof import('./components/common/CommonGoBack.vue')['default']
-    CommonLoading: typeof import('./components/common/CommonLoading.vue')['default']
-    CommonShareHint: typeof import('./components/common/CommonShareHint.vue')['default']
+    CommonGoBack: typeof import('./components/CommonGoBack.vue')['default']
+    CommonLoading: typeof import('./components/CommonLoading.vue')['default']
+    CommonShareHint: typeof import('./components/CommonShareHint.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -90,7 +90,6 @@ const goToNextPage = () => {
 };
 
 onMounted(() => {
-  state.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   getImage();
 
   addscancount();

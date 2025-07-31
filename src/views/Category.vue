@@ -80,4 +80,27 @@ watch(
 );
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.category_main_container {
+  width: 100%;
+
+  .common_title_item {
+    margin-top: 1rem;
+  }
+
+  .main {
+    width: 100%;
+    .describe {
+      margin: 0.5rem auto 0;
+      width: 12rem;
+      font-size: 0.4rem;
+      text-align: left;
+    }
+    img {
+      display: block;
+      margin: 0.2rem auto 3rem;
+      width: 12rem;
+    }
+  }
+}
+</style>

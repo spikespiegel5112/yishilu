@@ -210,7 +210,7 @@ const lighttask = () => {
       });
       getLighten();
     })
-    .catch((error:any) => {
+    .catch((error: any) => {
       console.log(error);
     });
 };
@@ -227,7 +227,7 @@ const getLighten = () => {
         state.guang_enabled = response.data.f_light ? "disabled" : "enabled";
       }
     })
-    .catch((error:any) => {
+    .catch((error: any) => {
       console.log(error);
     });
 };
@@ -253,12 +253,15 @@ const addscancount = () => {
   //增加扫码次数
   global.$http
     .get(global.$baseUrl + "h5.wxuser.pageaccess", {
-      params: {u_id: global.$store.state.user.userInfo ,scan_type: state.task_type },
+      params: {
+        u_id: global.$store.state.user.userInfo,
+        scan_type: state.task_type,
+      },
     })
     .then((response: any) => {
       console.log(response);
     })
-    .catch((error:any) => {
+    .catch((error: any) => {
       console.log(error);
     });
 };
@@ -304,4 +307,152 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.interaction_main_container {
+  width: 100%;
+  overflow: hidden;
+
+  .bg {
+    width: 100%;
+    height: 100vh;
+    background-image: url("image/interaction/bg_interaction_00000.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  > .content {
+    margin: 1rem 0 0 0;
+    position: relative;
+
+    .rules {
+      margin: 1.5rem auto 1rem;
+      width: 13rem;
+      text-align: left;
+      font-size: 0.55rem;
+    }
+
+    .interaction_status_wrapper {
+      ul {
+        margin: auto;
+        width: 7rem;
+        font-size: 0;
+
+        li {
+          display: inline-block;
+          width: 3.5rem;
+          height: 3rem;
+          overflow: hidden;
+          background-image: url("image/interaction/button_interaction_bg_00000.png");
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+
+          &:first-child {
+            width: 4.5rem;
+          }
+
+          a {
+            display: inline-block;
+            width: 3.5rem;
+            height: auto;
+            position: relative;
+
+            img {
+              display: inline-block;
+              width: 3rem;
+              position: absolute;
+              left: 0.25rem;
+            }
+
+            .enabled {
+              display: none;
+            }
+          }
+
+          &.active {
+            a {
+              .disbled {
+                display: none;
+              }
+
+              .enabled {
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .common_navigation_item {
+      a {
+        // background-image: url("image/interaction/button_drawalottery_00000.png");
+      }
+    }
+  }
+
+  .common_dialog_container {
+    &.notyet {
+      .dialog_wrapper {
+        width: 10rem;
+        height: 4rem;
+
+        .content {
+          padding: 1rem 0 0 0;
+
+          p {
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+
+    &.prompt {
+      .dialog_wrapper {
+        padding: 0.2rem;
+        width: auto;
+        height: auto;
+      }
+      .content {
+        padding: 0.5rem 0.75rem 0.2rem 0.75rem;
+        p {
+          font-size: 0.7rem;
+          text-align: left;
+        }
+        .title {
+          font-size: 0.75rem;
+          span {
+            display: inline-block;
+            padding: 0 0.2rem 0 0;
+            font-size: 2rem;
+            font-weight: bold;
+          }
+        }
+        .desc {
+          font-size: 0.55rem;
+          line-height: 0.6rem;
+        }
+        .position {
+          padding: 0.4rem 0 0 0;
+          font-size: 0.7rem;
+          line-height: 0.6rem;
+          border-top: 2px solid #fff;
+        }
+      }
+    }
+
+    &.position {
+      .dialog_wrapper {
+        .content {
+          .brandname {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

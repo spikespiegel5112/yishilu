@@ -188,4 +188,127 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.customize_main_container {
+  width: 100%;
+
+  .common_title_item {
+    margin-top: 1rem;
+  }
+
+  .longpicture_wrapper {
+    width: 100%;
+
+    .swiper-slide {
+      width: 30rem;
+      height: 100%;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+
+      a {
+        display: inline-block;
+        width: 1.2rem;
+        height: 1.2rem;
+        position: absolute;
+        top: 3rem;
+        background-image: url("image/customize/dot_00000.png");
+        background-size: contain;
+
+        &.point {
+          animation: blink 1s infinite;
+
+          @keyframes blink {
+            from {
+              opacity: 0;
+            }
+
+            to {
+              opacity: 1;
+            }
+          }
+        }
+
+        &.point1 {
+          left: 7.5rem;
+        }
+
+        &.point2 {
+          left: 15.5rem;
+        }
+
+        &.point3 {
+          left: 25.5rem;
+        }
+      }
+
+      img {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        // overflow: hidden;
+      }
+    }
+  }
+
+  .hint {
+    padding: 0.5rem;
+    width: 100%;
+    height: 2rem;
+    color: #4387bd;
+    box-sizing: border-box;
+
+    p {
+      font-size: 0.5rem;
+    }
+  }
+
+  .common_dialog_container {
+    .dialog_wrapper {
+      width: 14rem;
+      height: auto;
+
+      .content {
+        padding: 0.5rem 0.5rem 0.3rem 0.5rem;
+        color: #fff;
+
+        .title {
+          display: block;
+          padding: 0.5rem 0;
+          font-size: 1.5rem;
+        }
+
+        .desc {
+          display: flex;
+
+          .picture {
+            display: inline-block;
+            padding: 0 0 0.3rem 0.5rem;
+            width: 6rem;
+            height: 100%;
+            box-sizing: border-box;
+
+            img {
+              display: inline-block;
+              width: 100%;
+              height: auto;
+            }
+          }
+
+          .main {
+            display: inline-block;
+            flex: 1;
+            padding: 0 0.3rem;
+            overflow: auto;
+            text-align: left;
+
+            p {
+              margin: 0 0 0.6rem 0;
+              font-size: 0.6rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</style>

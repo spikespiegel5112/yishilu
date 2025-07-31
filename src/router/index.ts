@@ -19,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "/Entrance",
-        name: "Entrance",
+      name: "Entrance",
         component: () =>
           import(/* webpackChunkName: "Entrance" */ "@/views/Entrance.vue"),
       },

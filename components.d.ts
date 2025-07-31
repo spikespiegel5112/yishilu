@@ -7,9 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    CommonGoBack: typeof import('./src/components/common/CommonGoBack.vue')['default']
-    CommonLoading: typeof import('./src/components/common/CommonLoading.vue')['default']
-    CommonShareHint: typeof import('./src/components/common/CommonShareHint.vue')['default']
+    CommonGoBack: typeof import('./src/components/CommonGoBack.vue')['default']
+    CommonLoading: typeof import('./src/components/CommonLoading.vue')['default']
+    CommonShareHint: typeof import('./src/components/CommonShareHint.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     InteractionLogo: typeof import('./src/components/InteractionLogo.vue')['default']
     LotteryDrawLogo: typeof import('./src/components/LotteryDrawLogo.vue')['default']

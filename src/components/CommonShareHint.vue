@@ -4,10 +4,6 @@
   </div>
 </template>
 
-<script lang='tsx' setup>
-export default {
-  name: "CommonShareHint",
-};
-</script>
+<script lang="tsx" setup></script>
 
 <style scoped></style>

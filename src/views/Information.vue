@@ -5,7 +5,6 @@
     </div>
     <div class="common_title_item">
       <img src="@/assets/image/common/title_00000.png" />
-      <img src />
     </div>
     <div class="content">
       <div class="common_subtitle_item">
@@ -16,22 +15,13 @@
         <div class="swiper-container">
           <ul class="swiper-wrapper">
             <li class="swiper-slide">
-              <img
-                src="@/assets/image/information/slide_item_2_00000.png"
-                alt
-              />
+              <img src="@/assets/image/information/slide_item_2_00000.png" />
             </li>
             <li class="swiper-slide">
-              <img
-                src="@/assets/image/information/slide_item_3_00000.png"
-                alt
-              />
+              <img src="@/assets/image/information/slide_item_3_00000.png" />
             </li>
             <li class="swiper-slide">
-              <img
-                src="@/assets/image/information/slide_item_4_00000.png"
-                alt
-              />
+              <img src="@/assets/image/information/slide_item_4_00000.png" />
             </li>
           </ul>
         </div>
@@ -50,7 +40,6 @@
 </template>
 
 <script lang="tsx" setup>
-import wx from "weixin-js-sdk";
 import {
   reactive,
   watch,
@@ -132,7 +121,7 @@ const getLocation = () => {
         response.longitude +
         "&destination=31.18846,121.496541&mode=driving&region=上海市&output=html";
     })
-    .catch((error:any) => {
+    .catch((error: any) => {
       console.error(error);
     });
 };
