@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="common_goback_wrapper">
-        <CommonGoBack to="lotteryDraw" />
+        <CommonGoBack to="LotteryDraw" />
       </div>
     </div>
     <div v-if="state.dialogNotYetFlag" class="common_dialog_container notyet">
@@ -178,7 +178,7 @@ const userInfo = computed(() => {
 });
 
 const brandList = computed(() => {
-  return global.$store.brandList.value;
+  return global.$store.state.app.brandList;
 });
 
 watch(
@@ -231,7 +231,7 @@ const getLighten = () => {
     })
     .then((response: any) => {
       if (response.data) {
-        brandList.value.forEach((item1, index1) => {
+        brandList.value.forEach((item1: any, index1: number) => {
           Object.keys(response.data).forEach((item2, index2) => {
             if (item1.code === item2) {
               global.$store.commit("setBrandActive", {
@@ -297,7 +297,7 @@ const addscancount = () => {
       console.log(error);
     });
 };
-const receivetask = (type) => {
+const receivetask = (type: number) => {
   //领取任务
   switch (type) {
     case 1:
@@ -355,18 +355,18 @@ const checkBrandInfo = (data: any) => {
   state.dialogPositionFlag = true;
 };
 const getParameter = (key: any) => {
-  var url = location.href;
-  var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
-  var paraObj = {};
-  for (var i = 0, len = paraString.length; i < len; i++) {
-    var j = paraString[i];
+  let url = location.href;
+  let paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+  let paraObj = {};
+  for (let i = 0, len = paraString.length; i < len; i++) {
+    let j = paraString[i];
     paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(
       j.indexOf("=") + 1,
       j.length
     );
   }
-  var returnValue = paraObj[key.toLowerCase()];
-  if (typeof returnValue === "undefined") {
+  let returnValue = paraObj[key.toLowerCase()];
+  if (!returnValue) {
     return "";
   } else {
     return returnValue;
@@ -386,7 +386,7 @@ onMounted(() => {
     }
     .rules {
       margin: 0.5rem auto;
-      padding: 0 0 0 1rem;
+      padding: 0;
       width: 13.5rem;
       text-align: left;
       font-size: 0.4rem;
@@ -399,6 +399,7 @@ onMounted(() => {
   }
   .status_wrapper {
     ul {
+      padding: 0;
       li {
         display: inline-block;
         margin: 0.5rem 0;

@@ -96,4 +96,60 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.entrance_main_container {
+  width: 100%;
+  //height: 100%;
+  background-size: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .content {
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .common_bg_item {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .entrance_button_wrapper {
+    width: 100%;
+    position: absolute;
+    bottom: 4.75rem;
+    z-index: 366;
+
+    .entrance_beginbutton {
+      display: block;
+      //margin: 27.7rem auto 0;
+      margin: 21.4rem auto 0;
+      width: 6.5rem;
+      height: 2.2rem;
+      // background-image: url("./image/entrance/begin_button_00000.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      opacity: 1;
+      transition: all 0.6s;
+      z-index: -10;
+    }
+
+    .active {
+      opacity: 0;
+      transition: all 0.6s;
+    }
+  }
+
+  .common_logo_wrapper {
+    margin: 1rem 0 0 0;
+    position: absolute;
+    bottom: 1.5rem;
+  }
+}
+</style>

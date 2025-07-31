@@ -10,9 +10,6 @@ declare module 'vue' {
     CommonGoBack: typeof import('./src/components/CommonGoBack.vue')['default']
     CommonLoading: typeof import('./src/components/CommonLoading.vue')['default']
     CommonShareHint: typeof import('./src/components/CommonShareHint.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    InteractionLogo: typeof import('./src/components/InteractionLogo.vue')['default']
-    LotteryDrawLogo: typeof import('./src/components/LotteryDrawLogo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

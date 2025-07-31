@@ -187,6 +187,7 @@ input:-webkit-autofill {
     background-size: contain;
   }
 }
+
 .common_dialog_container {
   position: absolute;
   width: 100%;
@@ -201,8 +202,10 @@ input:-webkit-autofill {
     display: inline-block;
     vertical-align: middle;
   }
+
   .dialog_wrapper {
     display: inline-block;
+    padding: 0 0 0.4rem 0;
     margin: auto;
     width: 12rem;
     height: 12rem;
@@ -235,6 +238,22 @@ input:-webkit-autofill {
         font-size: 0.5rem;
         color: #fff;
         box-sizing: border-box;
+      }
+    }
+    .otheractivity {
+      display: block;
+      width: 100%;
+
+      position: absolute;
+      bottom: 0.5rem;
+
+      a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 0.5rem;
+        color: #ff213c;
+        text-decoration: underline;
       }
     }
   }

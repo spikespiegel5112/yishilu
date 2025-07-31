@@ -18,12 +18,10 @@
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_yan_00000.png"
-                alt
               />
               <img
                 :class="state.yan_enabled"
                 src="@/assets/image/interaction/button_interaction_yan_active_00000.png"
-                alt
               />
             </a>
           </li>
@@ -32,12 +30,10 @@
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_shi_00000.png"
-                alt
               />
               <img
                 :class="state.shi_enabled"
                 src="@/assets/image/interaction/button_interaction_shi_active_00000.png"
-                alt
               />
             </a>
           </li>
@@ -46,12 +42,10 @@
               <img
                 class="disabled"
                 src="@/assets/image/interaction/button_interaction_guang_00000.png"
-                alt
               />
               <img
                 :class="state.guang_enabled"
                 src="@/assets/image/interaction/button_interaction_guang_active_00000.png"
-                alt
               />
             </a>
           </li>
@@ -231,7 +225,7 @@ const getLighten = () => {
       console.log(error);
     });
 };
-const getParameter = (key:any) => {
+const getParameter = (key: any) => {
   var url = location.href;
   var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
   var paraObj = {};
@@ -288,7 +282,7 @@ const checkStatus = () => {
     state.guang_enabled == "disabled"
   ) {
     global.$router.push({
-      name: "lotteryDraw",
+      name: "LotteryDraw",
     });
   } else {
     state.dialogNotYetFlag = true;
@@ -337,6 +331,7 @@ onMounted(() => {
     .interaction_status_wrapper {
       ul {
         margin: auto;
+        padding: 0;
         width: 7rem;
         font-size: 0;
 

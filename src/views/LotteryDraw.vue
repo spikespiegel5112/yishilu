@@ -148,12 +148,18 @@ const state = reactive({
   userInfo: {
     id: "",
   },
-  prizeData: {},
+  prizeData: {
+    prize_Name: "dasdass",
+    prize_Content: "dasdass",
+    unit: "dasdass",
+    remark: "dasdass",
+  },
   rewardCode: "",
   remUnit: 0,
   canvasWidth: "",
   canvasHeight: "",
   loading: false,
+  dailyLimit: 10,
 });
 
 let wheelCanvas: any;
@@ -191,9 +197,7 @@ watch(
   }
 );
 
-const init = () => {
-  // console.log(FrameAnimation)
-};
+const init = () => {};
 
 const closeThankYou = () => {
   state.dialogThankYouFlag = false;
@@ -237,13 +241,9 @@ const drawCanvas = () => {
   let ctx2 = wheelCanvas.getContext("2d");
 
   let baseAngle = (Math.PI * 2) / state.wheelData.length;
-  // document.querySelector('.wheel_wrapper .wheel').style.width = state.remUnit * 13.5;
-  // document.querySelector('.wheel_wrapper .wheel').style.height = state.remUnit * 13.5;
 
   let canvasWidth = state.remUnit * 13.5;
   let canvasHeight = state.remUnit * 13.5;
-  // console.log(canvasWidth)
-  // console.log(canvasHeight)
 
   ctx.font = state.remUnit;
 
@@ -285,7 +285,7 @@ const drawCanvas = () => {
 
   ctx2.save();
 
-  let showDots = () => {
+  const showDots = () => {
     for (let i = 0; i < 24; i++) {
       ctx.beginPath();
       let angle = ((Math.PI * 2) / 24) * i;
@@ -318,10 +318,10 @@ const drawCanvas = () => {
 
   state.wheelData.forEach((item: any, index: number) => {
     let imageObj = new Image();
-    imageObj.width = "150";
-    imageObj.height = "150";
+    imageObj.width = 150;
+    imageObj.height = 150;
     // imageObj.src = this.$replaceProtocol(state.wheelData[index].image);
-    imageObj.transparency = 0.2;
+    // imageObj.transparency = 0.2;
     imageSequence.push(imageObj);
   });
 
@@ -442,39 +442,75 @@ const drawCanvas = () => {
 
   getCachedCircleNumber();
 };
+
+const drawPrizeLocalPromise = () => {
+  return new Promise((resolve, reject) => {
+    let index = 0;
+    state.wheelData.forEach((item1, index1) => {
+      if (index1 === Math.ceil((state.wheelData.length - 1) * Math.random())) {
+        index = index1;
+        console.log("match+++++++", item1);
+        console.log("match+++++++", index);
+      }
+    });
+    if (!state.alreadyReleasedPrize) {
+      rotateWheel(index)
+        .then(() => {
+          state.alreadyReleasedPrize = true;
+          state.dailyLimit =
+            Number(state.dailyLimit) > 0
+              ? Number(state.dailyLimit) - 1
+              : state.dailyLimit;
+          resolve({
+            drawCount: 2,
+            id: 2,
+            rewardCode: "dasdasd",
+            prize_Name: "dasdass",
+            prize_Content: "dasdass",
+            unit: "dasdass",
+            remark: "dasdass",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    }
+  });
+};
+
+const drawPrizeCallback = (response: any) => {
+  console.log(response);
+  state.loading = false;
+  state.prizeData = response;
+  state.rewardCode = response.rewardCode;
+  if (response.drawCount < 2) {
+    state.wheelData.forEach((item1, index1) => {
+      if (item1.value === response.id) {
+        rotateWheel(index1).then(() => {
+          state.alreadyReleasedPrize = true;
+          if (response.id < 5) {
+            state.dialogPrizeFlag = true;
+          } else {
+            state.dialogThankYouFlag = true;
+          }
+        });
+      }
+    });
+  } else {
+    if (response.id < 5) {
+      state.dialogPrizeFlag = true;
+    } else {
+      state.dialogThankYouFlag = true;
+    }
+  }
+};
 const drawPrize = () => {
   state.loading = true;
   // 本地调试代码
-  console.log(Math.random());
-  console.log(Math.ceil((state.wheelData.length - 1) * Math.random()));
-  console.log(
-    state.wheelData.find(
-      (item, index) =>
-        index === Math.ceil((state.wheelData.length - 1) * Math.random())
-    )
-  );
-  let index = 0;
-  state.wheelData.forEach((item1, index1) => {
-    if (index1 === Math.ceil((state.wheelData.length - 1) * Math.random())) {
-      index = index1;
-      console.log("match+++++++", item1);
-      console.log("match+++++++", index);
-    }
+  drawPrizeLocalPromise().then((response) => {
+    drawPrizeCallback(response);
   });
-  if (!state.alreadyReleasedPrize) {
-    rotateWheel(index)
-      .then(() => {
-        state.alreadyReleasedPrize = true;
-
-        this.dailyLimit =
-          Number(this.dailyLimit) > 0
-            ? Number(this.dailyLimit) - 1
-            : this.dailyLimit;
-      })
-      .catch((error) => {});
-  }
-
-  console.log(" userInfo.value.id", userInfo.value);
   // global.$http
   //   .post(this.drawRequest, {
   //     u_id: global.$store.state.user.userInfo,
@@ -540,12 +576,11 @@ const rotateWheel = (offset: any) => {
     offset = state.wheelData.length - offset - 4;
     let initRotateAngle = 3600;
     let unitAngle = 360 / state.wheelData.length;
-    console.log(222, initRotateAngle + unitAngle * offset);
     state.actualRotate = initRotateAngle + unitAngle * offset;
     // alert(state.actualRotate)
     wheelCanvas.style.transform = "rotate(-" + state.actualRotate + "deg)";
 
-    sessionStorage.setItem("actualRotate", state.actualRotate);
+    sessionStorage.setItem("actualRotate", state.actualRotate.toString());
     if (!state.rotatingFlag) {
       state.rotatingFlag = true;
       wheelCanvas.style.transition =
@@ -596,8 +631,8 @@ onMounted(() => {
 
     .wheel {
       margin: 0 auto 1.5rem;
-      width: 12rem;
-      height: 12rem;
+      width: 14rem;
+      height: 14rem;
       background-image: url("./image/lotterydraw/whell_bg_00000.png");
       background-size: contain;
       position: relative;
@@ -613,8 +648,8 @@ onMounted(() => {
 
       canvas {
         display: inline-block;
-        width: 12rem;
-        height: 12rem;
+        width: 14rem;
+        height: 14rem;
         transform: rotate(0deg);
         transition: rotate 6s ease;
         vertical-align: middle;
@@ -627,8 +662,8 @@ onMounted(() => {
         background-image: url("@/assets/image/lotterydraw/pointer_begin_00000.png");
         background-size: 100%;
         position: absolute;
-        top: 4.35rem;
-        left: 4.5rem;
+        top: 5.35rem;
+        left: 5.5rem;
 
         span {
           display: block;

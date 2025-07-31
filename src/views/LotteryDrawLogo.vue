@@ -12,10 +12,10 @@
       </div>
       <div class="wheel">
         <canvas
-          v-if="resetFlag"
+          v-if="state.resetFlag"
           id="wheelcanvas"
-          :width="remUnit * 13.5"
-          :height="remUnit * 13.5"
+          :width="state.remUnit * 13.5"
+          :height="state.remUnit * 13.5"
           >抱歉！浏览器不支持。</canvas
         >
         <a class="begin" @click="drawPrize"></a>
@@ -27,7 +27,10 @@
         <CommonGoBack to="InteractionLogo" />
       </div>
     </div>
-    <div v-if="dialogThankYouFlag" class="common_dialog_container thankyou">
+    <div
+      v-if="state.dialogThankYouFlag"
+      class="common_dialog_container thankyou"
+    >
       <div class="dialog_wrapper">
         <a class="close" @click="closeDialog"></a>
         <div class="content">
@@ -35,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div v-if="dialogRunOutFlag" class="common_dialog_container runout">
+    <div v-if="state.dialogRunOutFlag" class="common_dialog_container runout">
       <div class="dialog_wrapper">
         <a class="close" @click="closeDialog"></a>
         <div class="content">
@@ -79,7 +82,7 @@ const global = currentInstance.appContext.config.globalProperties;
 const state = reactive({
   drawlist2Request: "h5.get.wxuser.drawlist2",
   draw2Request: "h5.user.luck.draw2",
-  dialogThankYouFlag: false,
+  state.dialogThankYouFlag: false,
   dialogPrize2Flag: false,
   dialogRunOutFlag: false,
   status: false,
@@ -142,6 +145,7 @@ const state = reactive({
   // userInfo: {
   id: "",
   prizeData: {},
+  rewardCode: "",
   brandData: {},
   canvasWidth: "",
   canvasHeight: "",
@@ -158,7 +162,7 @@ const userInfo = computed(() => {
   return global.$store.state.user.userInfo;
 });
 const brandList = computed(() => {
-  return global.$store.brandList.value;
+  return global.$store.state.app.brandList;
 });
 
 watch(
@@ -179,7 +183,7 @@ const init = () => {
 // 	userInfo.value = JSON.parse(sessionStorage.getItem('userInfo'));
 // },
 const closeDialog = () => {
-  state.dialogThankYouFlag = false;
+  state.state.dialogThankYouFlag = false;
   state.dialogRunOutFlag = false;
   state.dialogPrize2Flag = false;
 };
@@ -478,13 +482,13 @@ const drawPrize = () => {
                 state.loading = false;
 
                 const brandData = brandList.value.find(
-                  (item2) => item2.taskType === response.zhanTai_Id
+                  (item2: any) => item2.taskType === response.zhanTai_Id
                 );
                 if (brandData) {
                   state.dialogPrize2Flag = true;
                   state.brandData = brandData;
                 } else {
-                  state.dialogThankYouFlag = true;
+                  state.state.dialogThankYouFlag = true;
                 }
               });
             }
@@ -493,7 +497,7 @@ const drawPrize = () => {
           if (response.prize_Id < 5) {
             state.dialogPrize2Flag = true;
           } else {
-            state.dialogThankYouFlag = true;
+            state.state.dialogThankYouFlag = true;
           }
         }
       }
@@ -540,7 +544,7 @@ const resetWheel = () => {
     }, 100);
   });
 };
-const rotateWheel = (offset:any) => {
+const rotateWheel = (offset: any) => {
   return new Promise(async (resolve, reject) => {
     console.log(111, offset);
 
@@ -665,28 +669,6 @@ onMounted(() => {
         text-align: center;
         color: #1d88c2;
         font-size: 0.6rem;
-      }
-    }
-  }
-
-  .common_dialog_container {
-    .dialog_wrapper {
-      padding: 0 0 0.4rem 0;
-      .otheractivity {
-        display: block;
-        width: 100%;
-
-        position: absolute;
-        bottom: 0.5rem;
-
-        a {
-          display: block;
-          width: 100%;
-          text-align: center;
-          font-size: 0.5rem;
-          color: #ff213c;
-          text-decoration: underline;
-        }
       }
     }
   }

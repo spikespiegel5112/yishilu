@@ -52,6 +52,14 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: "/InteractionLogo",
+        name: "InteractionLogo",
+        component: () =>
+          import(
+            /* webpackChunkName: "InteractionLogo" */ "@/views/InteractionLogo.vue"
+          ),
+      },
+      {
         path: "/Category",
         name: "Category",
         component: () =>
