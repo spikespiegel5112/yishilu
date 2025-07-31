@@ -84,7 +84,7 @@ const goToNextPage = () => {
   const duration = 3000;
   setTimeout(() => {
     global.$router.push({
-      name: "homePage",
+      name: "HomePage",
     });
   }, duration);
 };

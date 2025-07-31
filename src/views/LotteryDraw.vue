@@ -155,7 +155,7 @@ export default {
     goToNextflag(value) {
       if (value === true) {
         global.$router.push({
-          name: "homepage",
+          name: "HomePage",
         });
       }
     },

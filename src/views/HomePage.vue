@@ -12,23 +12,26 @@
       <!-- <img src="@/assets/image/homepage/navigator_00000.png" alt /> -->
       <ul class="links">
         <li class="link1">
-          <router-link href="javascript:;" :to="{ name: 'information' }" />
+          <router-link :to="{ name: 'Information' }" />
         </li>
         <li class="link2">
-          <router-link href="javascript:;" :to="{ name: 'interaction' }" />
+          <router-link :to="{ name: 'interaction' }" />
         </li>
         <li class="link3">
-          <router-link href="javascript:;" :to="{ name: 'category' }" />
+          <router-link :to="{ name: 'Category' }" />
         </li>
         <li class="link4">
-          <router-link href="javascript:;" :to="{ name: 'customize' }" />
+          <router-link :to="{ name: 'Customize' }" />
         </li>
         <li class="link5">
           <a href="javascript:;" @click="checkCollection"></a>
         </li>
       </ul>
     </div>
-    <div v-if="state.collectionNotYetFlag" class="common_dialog_container collection">
+    <div
+      v-if="state.collectionNotYetFlag"
+      class="common_dialog_container collection"
+    >
       <div class="dialog_wrapper">
         <a href="javascript:;" class="close" @click="closeDialog"></a>
         <div class="content">

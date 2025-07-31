@@ -90,7 +90,7 @@ watch(
   (newValue: any) => {
     if (newValue) {
       global.$router.push({
-        name: "homepage",
+        name: "HomePage",
       });
     }
   }
