@@ -78,14 +78,14 @@ export default {
       this.remUnit = Number(
         document
           .getElementsByTagName("html")[0]
-          .style.fontSize.replace("px", "")
+          .style.fontSize.replace("px", ""),
       );
     });
   },
   methods: {
     checkCollection() {
       const destinationTimeStamp = this.$moment(
-        new Date("2020-2-11")
+        new Date("2020-2-11"),
       ).valueOf();
       const currentTimeStamp = Date.parse(new Date());
       console.log(destinationTimeStamp);

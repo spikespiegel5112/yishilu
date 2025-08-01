@@ -176,7 +176,7 @@ watch(
         });
       }
     }
-  }
+  },
 );
 
 const init = () => {
@@ -235,7 +235,7 @@ const getParameter = (key: any) => {
     var j = paraString[i];
     paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(
       j.indexOf("=") + 1,
-      j.length
+      j.length,
     );
   }
   var returnValue = paraObj[key.toLowerCase()];

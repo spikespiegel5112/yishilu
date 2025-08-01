@@ -44,7 +44,7 @@ watch(
     if (newValue) {
       goToNextPage();
     }
-  }
+  },
 );
 
 watch(
@@ -55,7 +55,7 @@ watch(
       state.canvasWidth = document.body.clientWidth + "px";
       state.canvasHeight = document.body.clientHeight + "px";
     });
-  }
+  },
 );
 
 const getImage = () => {

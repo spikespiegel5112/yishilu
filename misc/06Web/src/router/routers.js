@@ -1,5 +1,5 @@
-import Main from '@/components/main'
-import parentView from '@/components/parent-view'
+import Main from "@/components/main";
+import parentView from "@/components/parent-view";
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -19,118 +19,118 @@ import parentView from '@/components/parent-view'
 
 export default [
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     meta: {
-      title: 'Login - 登录',
-      hideInMenu: true
+      title: "Login - 登录",
+      hideInMenu: true,
     },
-    component: () => import('@/view/login/login.vue')
+    component: () => import("@/view/login/login.vue"),
   },
   {
-    path: '/',
-    name: '_home',
-    redirect: '/home',
+    path: "/",
+    name: "_home",
+    redirect: "/home",
     component: Main,
     meta: {
       hideInMenu: true,
-      notCache: true
+      notCache: true,
     },
     children: [
       {
-        path: '/home',
-        name: 'home',
+        path: "/home",
+        name: "home",
         meta: {
           hideInMenu: true,
-          title: '首页',
+          title: "首页",
           notCache: true,
-          icon: 'md-home'
+          icon: "md-home",
         },
-        component: () => import('@/view/single-page/home')
-      }  
-    ]
+        component: () => import("@/view/single-page/home"),
+      },
+    ],
   },
   {
-    path: '/sys',
-    name: 'sys',
+    path: "/sys",
+    name: "sys",
     meta: {
-      icon: 'md-settings',
-      title: '系统设置'
+      icon: "md-settings",
+      title: "系统设置",
     },
     component: Main,
     children: [
       {
-        path: 'wx_user',
-        name: 'wx_user',
+        path: "wx_user",
+        name: "wx_user",
         meta: {
-          icon: 'ios-medical-outline',
-          title: '微信用户'
+          icon: "ios-medical-outline",
+          title: "微信用户",
         },
-        component: () => import('@/view/sysManage/wx_user.vue')
+        component: () => import("@/view/sysManage/wx_user.vue"),
       },
       {
-        path: 'team_manage',
-        name: 'team_manage',
+        path: "team_manage",
+        name: "team_manage",
         meta: {
-          icon: 'ios-aperture',
-          title: '战队管理'
+          icon: "ios-aperture",
+          title: "战队管理",
         },
-        component: () => import('@/view/sysManage/team_manage.vue')
+        component: () => import("@/view/sysManage/team_manage.vue"),
       },
       {
-        path: 'sys_setting',
-        name: 'sys_setting',
+        path: "sys_setting",
+        name: "sys_setting",
         meta: {
-          icon: 'ios-aperture',
-          title: '报告配置'
+          icon: "ios-aperture",
+          title: "报告配置",
         },
-        component: () => import('@/view/sysManage/sys_setting.vue')
-      }
-    ]
+        component: () => import("@/view/sysManage/sys_setting.vue"),
+      },
+    ],
   },
   {
-    path: '/error_logger',
-    name: 'error_logger',
+    path: "/error_logger",
+    name: "error_logger",
     meta: {
       hideInBread: true,
-      hideInMenu: true
+      hideInMenu: true,
     },
     component: Main,
     children: [
       {
-        path: 'error_logger_page',
-        name: 'error_logger_page',
+        path: "error_logger_page",
+        name: "error_logger_page",
         meta: {
-          icon: 'ios-bug',
-          title: '错误收集'
+          icon: "ios-bug",
+          title: "错误收集",
         },
-        component: () => import('@/view/single-page/error-logger.vue')
+        component: () => import("@/view/single-page/error-logger.vue"),
         // component: () => import('@/view/single-page/interview.vue')
-      }
-    ]
+      },
+    ],
   },
   {
-    path: '/401',
-    name: 'error_401',
+    path: "/401",
+    name: "error_401",
     meta: {
-      hideInMenu: true
+      hideInMenu: true,
     },
-    component: () => import('@/view/error-page/401.vue')
+    component: () => import("@/view/error-page/401.vue"),
   },
   {
-    path: '/500',
-    name: 'error_500',
+    path: "/500",
+    name: "error_500",
     meta: {
-      hideInMenu: true
+      hideInMenu: true,
     },
-    component: () => import('@/view/error-page/500.vue')
+    component: () => import("@/view/error-page/500.vue"),
   },
   {
-    path: '*',
-    name: 'error_404',
+    path: "*",
+    name: "error_404",
     meta: {
-      hideInMenu: true
+      hideInMenu: true,
     },
-    component: () => import('@/view/error-page/404.vue')
-  }
-]
+    component: () => import("@/view/error-page/404.vue"),
+  },
+];

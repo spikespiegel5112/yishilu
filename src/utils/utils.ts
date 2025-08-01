@@ -18,7 +18,7 @@ const _utils = {
     url: string,
     access_token: string,
     body: any,
-    onMessage: any
+    onMessage: any,
   ) => {
     body.stream = true;
     const decoder = new TextDecoder("utf-8");
@@ -79,7 +79,7 @@ const _utils = {
         onMessage({
           type: "ERROR",
           content: error,
-        })
+        }),
       );
   },
   $objectToUrlString: (query: DAMNU_ENABLE) => {
@@ -105,7 +105,7 @@ const _utils = {
         alignCenter: true,
         inward: false,
       },
-      params
+      params,
     );
     const htmlEl = document.getElementsByTagName("html")[0];
     const bodyEl = document.getElementsByTagName("body")[0];
@@ -185,7 +185,7 @@ const _utils = {
 
   $isMobile: () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
+      navigator.userAgent,
     );
   },
 
@@ -230,7 +230,7 @@ const _utils = {
         alignCenter: true,
         inward: false,
       },
-      params
+      params,
     );
     const htmlEl = document.getElementsByTagName("html")[0];
     const bodyEl = document.getElementsByTagName("body")[0];

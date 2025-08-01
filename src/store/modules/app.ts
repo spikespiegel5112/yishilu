@@ -16,8 +16,8 @@ const app = {
       "http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/music/daishangerji.mp3",
 
     userInfo: {
-    id: "",
-  },
+      id: "",
+    },
     filmInfoData: {},
     WeixinJSBridgeInitFlag: false,
     WeixinJSBridgeReadyFlag: false,

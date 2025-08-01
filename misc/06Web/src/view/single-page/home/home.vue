@@ -1,7 +1,5 @@
 <template>
-  <div>
-   
-  </div>
+  <div></div>
 </template>
 
 <script>
@@ -17,19 +15,19 @@ export default {
     CountTo,
     ChartPie,
     ChartBar,
-    Example
+    Example,
   },
   data() {
     var self = this;
     return {
-      date_range:"",
-      dateline_range:"",
+      date_range: "",
+      dateline_range: "",
       getpieData: "",
-      getbarata:"",
-      getlinedata:"",
+      getbarata: "",
+      getlinedata: "",
       userinfo: "",
-      start_date:"",
-      end_date:"",
+      start_date: "",
+      end_date: "",
       judicial_id: -1,
       topdata: {},
       dom: null,
@@ -42,17 +40,15 @@ export default {
         Thu: 12340,
         Fri: 24643,
         Sat: 1322,
-        Sun: 1324
-      }
+        Sun: 1324,
+      },
     };
   },
-  mounted() {
-  },
-  methods: {
-  },
+  mounted() {},
+  methods: {},
   created() {
     this.userinfo = this.$global.getUserinfo();
-  }
+  },
 };
 </script>
 

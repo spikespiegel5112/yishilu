@@ -83,13 +83,13 @@ watch(
       state.canvasWidth = document.body.clientWidth + "px";
       state.canvasHeight = document.body.clientHeight + "px";
     });
-  }
+  },
 );
 
 onMounted(() => {
   nextTick(() => {
     state.remUnit = Number(
-      document.getElementsByTagName("html")[0].style.fontSize.replace("px", "")
+      document.getElementsByTagName("html")[0].style.fontSize.replace("px", ""),
     );
   });
 });

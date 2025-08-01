@@ -145,7 +145,7 @@ watch(
         name: "HomePage",
       });
     }
-  }
+  },
 );
 
 watch(
@@ -156,7 +156,7 @@ watch(
       state.canvasWidth = document.body.clientWidth + "px";
       state.canvasHeight = document.body.clientHeight + "px";
     });
-  }
+  },
 );
 
 const init = () => {

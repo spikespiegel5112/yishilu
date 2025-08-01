@@ -1,86 +1,88 @@
-'use strict'
-const webpack = require('webpack')
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
-const vuxLoader = require('vux-loader')
+"use strict";
+const webpack = require("webpack");
+const path = require("path");
+const utils = require("./utils");
+const config = require("../config");
+const vueLoaderConfig = require("./vue-loader.conf");
+const vuxLoader = require("vux-loader");
 
 // const jQuery = require('jQuery')
 
-
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, "..", dir);
 }
 
 let webpackConfig = {
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(__dirname, "../"),
   entry: {
-    app: './src/main.js'
+    app: "./src/main.js",
   },
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    filename: "[name].js",
+    publicPath:
+      process.env.NODE_ENV === "production"
+        ? config.build.assetsPublicPath
+        : config.dev.assetsPublicPath,
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: [".js", ".vue", ".json"],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
-      'localPath': resolve(''),
-      'swiper': 'swiper/dist/js/swiper.js',
-      $: 'jquery',
-      jQuery: 'jquery',
+      vue$: "vue/dist/vue.esm.js",
+      "@": resolve("src"),
+      localPath: resolve(""),
+      swiper: "swiper/dist/js/swiper.js",
+      $: "jquery",
+      jQuery: "jquery",
       // 'swiper$': 'swiper',
       // 'jsSDK$':'weixin-js-sdk',
       // 'jsSDK$': resolve('/static/assets/js/jsSDK.js'),
 
       // 'swiper$': resolve('/src/assets/js/swiper/swiper.esm.bundle.js'),
       // 'moment$': resolve('/src/assets/js/moment/moment.min.js'),
-    }
+    },
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
+        loader: "vue-loader",
+        options: vueLoaderConfig,
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src'),
-        resolve('test'),
-        resolve('node_modules/swiper'),
-        resolve('node_modules/dom7'),
-        resolve('node_modules/ssr-window')]
+        loader: "babel-loader",
+        include: [
+          resolve("src"),
+          resolve("test"),
+          resolve("node_modules/swiper"),
+          resolve("node_modules/dom7"),
+          resolve("node_modules/ssr-window"),
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        }
+          name: utils.assetsPath("img/[name].[hash:7].[ext]"),
+        },
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
-        }
+          name: utils.assetsPath("media/[name].[hash:7].[ext]"),
+        },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
+        loader: "url-loader",
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-        }
+          name: utils.assetsPath("fonts/[name].[hash:7].[ext]"),
+        },
       },
       // {
       //   test: require.resolve('ion-sound'),
@@ -89,35 +91,31 @@ let webpackConfig = {
       //     options: 'ion'
       //   }]
       // }
-    ]
-  }
+    ],
+  },
 };
-
 
 module.exports = vuxLoader.merge(webpackConfig, {
   plugins: [
-    'vux-ui',
-    'progress-bar',
+    "vux-ui",
+    "progress-bar",
     {
-      name: 'duplicate-style',
+      name: "duplicate-style",
       options: {
         cssProcessorOptions: {
           safe: true,
           zindex: false,
           autoprefixer: {
             add: true,
-            browsers: [
-              'iOS >= 7',
-              'Android >= 4.1'
-            ]
-          }
-        }
-      }
+            browsers: ["iOS >= 7", "Android >= 4.1"],
+          },
+        },
+      },
     },
     new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      swiper: 'Swiper',
+      $: "jquery",
+      jQuery: "jquery",
+      swiper: "Swiper",
       // jsSDK: 'weixin-js-sdk',
       // moment:'moment'
     }),
@@ -125,5 +123,5 @@ module.exports = vuxLoader.merge(webpackConfig, {
     //   /moment[\/\\]locale$/,
     //   /zh-cn/
     // ),
-  ]
-})
+  ],
+});

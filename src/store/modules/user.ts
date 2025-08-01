@@ -3,8 +3,8 @@ const user = {
   state: {
     baiduAPIAccessInfo: {},
     userInfo: {
-    id: "",
-  },
+      id: "",
+    },
   },
   mutations: {
     updateBaiduAPIAccessInfo: (state: any, payload: object) => {

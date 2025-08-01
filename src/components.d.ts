@@ -5,13 +5,13 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 export {}
 
-declare module 'vue' {
+declare module "vue" {
   export interface GlobalComponents {
-    CommonGoBack: typeof import('./components/CommonGoBack.vue')['default']
-    CommonLoading: typeof import('./components/CommonLoading.vue')['default']
-    CommonShareHint: typeof import('./components/CommonShareHint.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
+    CommonGoBack: (typeof import("./components/CommonGoBack.vue"))["default"];
+    CommonLoading: (typeof import("./components/CommonLoading.vue"))["default"];
+    CommonShareHint: (typeof import("./components/CommonShareHint.vue"))["default"];
+    HelloWorld: (typeof import("./components/HelloWorld.vue"))["default"];
+    RouterLink: (typeof import("vue-router"))["RouterLink"];
+    RouterView: (typeof import("vue-router"))["RouterView"];
   }
 }

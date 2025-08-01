@@ -48,7 +48,7 @@ const getWeChatUserInfoByCode = (code: string) => {
               if (response.data) {
                 sessionStorage.setItem(
                   "userInfo",
-                  JSON.stringify(response.data)
+                  JSON.stringify(response.data),
                 );
                 global.$store.commit("setUserInfo", response.data);
                 state.userInfoFlag = true;
@@ -103,7 +103,7 @@ const getParameter = (key: string) => {
     var j = paraString[i];
     paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(
       j.indexOf("=") + 1,
-      j.length
+      j.length,
     );
   }
   var returnValue = paraObj[key.toLowerCase()];

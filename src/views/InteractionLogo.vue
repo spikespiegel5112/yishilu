@@ -166,13 +166,6 @@ const state = reactive({
   dialogGuangFlag: false,
 });
 
-const navigatorStyle = computed(() => {
-  return {
-    "background-image":
-      "url(" + require("@/assets/image/homepage/navigator_00000.png") + ")",
-  };
-});
-
 const userInfo = computed(() => {
   return global.$store.state.user.userInfo;
 });
@@ -189,7 +182,7 @@ watch(
         name: "HomePage",
       });
     }
-  }
+  },
 );
 
 const init = () => {
@@ -214,7 +207,7 @@ const lightTask = () => {
       console.log("lightTask+++", response);
       state.dialogLightenFlag = true;
       state.currentBrandData.brandName = brandList.value.find(
-        (item: any) => item.taskType === Number(response.data)
+        (item: any) => item.taskType === Number(response.data),
       ).brandName;
       getLighten();
     })
@@ -315,7 +308,7 @@ const receivetask = (type: number) => {
 };
 const checkStatus = () => {
   const lightenCount = brandList.value.filter(
-    (item: any) => item.active
+    (item: any) => item.active,
   ).length;
   let temp1 =
     state.prizeList.filter((item: any) => item.name !== "").length * 2;
@@ -350,7 +343,7 @@ const closeDialog = () => {
 };
 const checkBrandInfo = (data: any) => {
   state.currentBrandData = brandList.value.find(
-    (item: any) => item.taskType === data.taskType
+    (item: any) => item.taskType === data.taskType,
   );
   state.dialogPositionFlag = true;
 };
@@ -362,7 +355,7 @@ const getParameter = (key: any) => {
     let j = paraString[i];
     paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(
       j.indexOf("=") + 1,
-      j.length
+      j.length,
     );
   }
   let returnValue = paraObj[key.toLowerCase()];

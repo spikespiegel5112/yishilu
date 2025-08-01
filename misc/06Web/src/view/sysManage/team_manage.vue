@@ -24,39 +24,64 @@
           size="small"
           style="margin-right: 5px"
           @click="modifyManagerInfo(index)"
-        >编辑</Button>
-        <Button type="error" style="margin-right: 5px" size="small" @click="delacount(index)">删除</Button>
+          >编辑</Button
+        >
+        <Button
+          type="error"
+          style="margin-right: 5px"
+          size="small"
+          @click="delacount(index)"
+          >删除</Button
+        >
         <Button
           type="warning"
           style="margin-right: 5px"
           size="small"
           @click="setAccountEnable(index)"
-          v-if="data[index].f_Disable==0"
-        >禁用</Button>
+          v-if="data[index].f_Disable == 0"
+          >禁用</Button
+        >
         <Button
           type="success"
           style="margin-right: 5px"
           size="small"
           @click="setAccountEnable(index)"
           v-else
-        >启用</Button>
+          >启用</Button
+        >
       </template>
     </Table>
-    <Modal :styles="{width:'50%'}" v-model="isModal" :title="modalTitle" :mask-closable="false">
-      <Form ref="formValidate" :model="currentItemInfo" :rules="ruleValidate" :label-width="90">
+    <Modal
+      :styles="{ width: '50%' }"
+      v-model="isModal"
+      :title="modalTitle"
+      :mask-closable="false"
+    >
+      <Form
+        ref="formValidate"
+        :model="currentItemInfo"
+        :rules="ruleValidate"
+        :label-width="90"
+      >
         <Row>
           <Col span="12">
             <FormItem label="战队名称:" prop="teamName">
-              <Input v-model="currentItemInfo.teamName" placeholder="请输入战队名称"></Input>
+              <Input
+                v-model="currentItemInfo.teamName"
+                placeholder="请输入战队名称"
+              ></Input>
             </FormItem>
           </Col>
         </Row>
         <Row>
           <Col span="12">
-           <FormItem label="战队类型:" prop="team_Type">
-              <Select placeholder="请选择战队类型" v-model="currentItemInfo.team_Type">
-                 <Option  key="1" value="1">着装队</Option>
-                  <Option  key="2" value="2">表演队</Option>
+            <FormItem label="战队类型:" prop="team_Type">
+              <Select
+                placeholder="请选择战队类型"
+                v-model="currentItemInfo.team_Type"
+              >
+                <Option key="1" value="1">着装队</Option>
+                <Option key="2" value="2">表演队</Option>
               </Select>
             </FormItem>
           </Col>
@@ -64,8 +89,14 @@
         <Row>
           <Col span="12">
             <FormItem label="战队封面:" prop="backgroundImg" class="uploadList">
-              <div class="demo-upload-list" v-show="this.ImgStatus === 'finished'">
-                <img :src="currentItemInfo.backgroundImg" style="width:50px;height:50px" />
+              <div
+                class="demo-upload-list"
+                v-show="this.ImgStatus === 'finished'"
+              >
+                <img
+                  :src="currentItemInfo.backgroundImg"
+                  style="width: 50px; height: 50px"
+                />
                 <div class="demo-upload-list-cover">
                   <Icon
                     type="ios-eye-outline"
@@ -77,16 +108,16 @@
                 ref="upload"
                 :show-upload-list="false"
                 :on-success="ImgSuccess"
-                :format="['jpg','jpeg','bmp','png']"
+                :format="['jpg', 'jpeg', 'bmp', 'png']"
                 :max-size="10240"
                 :on-format-error="handleFormatError"
                 :on-exceeded-size="handleMaxSize"
                 type="drag"
                 action="https://jz.ah-rgkj.com/api/upload.file"
-                style="display: inline-block;width:58px;"
+                style="display: inline-block; width: 58px"
                 v-model="currentItemInfo.backgroundImg"
               >
-                <div style="width: 58px;height:58px;line-height: 58px;">
+                <div style="width: 58px; height: 58px; line-height: 58px">
                   <Icon type="ios-camera" size="20"></Icon>
                 </div>
               </Upload>
@@ -108,7 +139,9 @@
       </Form>
       <div slot="footer">
         <Button @click="cancel">取消</Button>
-        <Button type="primary" @click="submitData" :disabled="isDisable">确定</Button>
+        <Button type="primary" @click="submitData" :disabled="isDisable"
+          >确定</Button
+        >
       </div>
     </Modal>
     <Modal title="查看大图" v-model="visible">
@@ -121,7 +154,7 @@
         @on-change="getteamgedList"
         show-sizer
         show-elevator
-        v-if="tableLoading==false"
+        v-if="tableLoading == false"
       ></Page>
     </div>
   </div>
@@ -152,12 +185,12 @@ export default {
         userpwd: "",
         rid: "",
         remark: "",
-        roomid: 0
+        roomid: 0,
       },
       opType: "",
       userinfo: {},
       formItem: {
-        remark: ""
+        remark: "",
       },
       isDisable: false,
       columns: [
@@ -172,60 +205,60 @@ export default {
                 src:
                   params.row.backgroundImg ||
                   "https://www.m12315.com/Content/CodeSearchImg/icon_tx_u653.svg",
-                class: "img-thumbnail"
+                class: "img-thumbnail",
               },
               style: {
                 maxWidth: "50px",
                 margin: "5px 0",
                 verticalAlign: "middle",
-                cursor: "Position"
+                cursor: "Position",
               },
               on: {
                 click: () => {
                   this.handleView(
                     params.row.backgroundImg ||
-                      "https://www.m12315.com/Content/CodeSearchImg/icon_tx_u653.svg"
+                      "https://www.m12315.com/Content/CodeSearchImg/icon_tx_u653.svg",
                   );
-                }
-              }
+                },
+              },
             });
-          }
+          },
         },
         {
           title: "战队名称",
           key: "teamName",
           align: "center",
-          fixed: "left"
+          fixed: "left",
         },
         {
           title: "战队类型",
           key: "team_Type",
           align: "center",
-           render: (h, params) => {
+          render: (h, params) => {
             return h("span", this.getteamtype(params.row.team_Type));
-          }
+          },
         },
         {
           title: "战队描述",
           key: "description",
-          align: "center"
+          align: "center",
         },
         {
           title: "总投票数",
           key: "votingTotal",
-          align: "center"
+          align: "center",
         },
         {
           title: "创建时间",
           key: "createTime",
-          align: "center"
+          align: "center",
         },
         {
           title: "操作",
           align: "center",
           fixed: "right",
-          slot: "action"
-        }
+          slot: "action",
+        },
       ],
       data: [],
       ruleValidate: {
@@ -233,10 +266,10 @@ export default {
           {
             required: true,
             validator: this.$global.isempty,
-            trigger: "blur"
+            trigger: "blur",
           },
-        ]
-      }
+        ],
+      },
     };
   },
   methods: {
@@ -251,13 +284,13 @@ export default {
       this.$axios
         .get("get/team/pagelist", {
           params: {
-            searchkey:this.searchkey,
+            searchkey: this.searchkey,
             pageindex: this.currentPageIndex,
-            pagesize: this.pagesize
-          }
+            pagesize: this.pagesize,
+          },
         })
-        .then(p => {
-            console.log(p.data.data.items)
+        .then((p) => {
+          console.log(p.data.data.items);
           if (p.data.data.items) {
             this.total = p.data.data.count;
             if (this.total == 0) {
@@ -283,11 +316,12 @@ export default {
           "<b style='color:red'>" +
           _this.currentItemInfo.teamName +
           "</b>]",
-        onOk: function() {
-            _this.currentItemInfo.f_Disable=_this.currentItemInfo.f_Disable == 0?1:0;
+        onOk: function () {
+          _this.currentItemInfo.f_Disable =
+            _this.currentItemInfo.f_Disable == 0 ? 1 : 0;
           _this.$axios
             .post("add.update.team", _this.currentItemInfo)
-            .then(p => {
+            .then((p) => {
               if (p.data.state == 200) {
                 _this.$Message.success("操作成功！");
                 _this.getteamgedList(_this.currentPageIndex);
@@ -295,7 +329,7 @@ export default {
                 _this.$Message.warning(p.data.Msg);
               }
             });
-        }
+        },
       });
     },
     delacount(index) {
@@ -307,12 +341,11 @@ export default {
           "是否确定删除[<b style='color:red'>" +
           _this.currentItemInfo.teamName +
           "</b>]",
-        onOk: function() {
-            _this.currentItemInfo.f_Del=1;
+        onOk: function () {
+          _this.currentItemInfo.f_Del = 1;
           _this.$axios
-            .post("add.update.team", _this.currentItemInfo,
-            )
-            .then(p => {
+            .post("add.update.team", _this.currentItemInfo)
+            .then((p) => {
               if (p.data.state == 200) {
                 _this.$Message.success("操作成功！");
                 _this.getteamgedList(_this.currentPageIndex);
@@ -320,7 +353,7 @@ export default {
                 _this.$Message.warning(p.data.data);
               }
             });
-        }
+        },
       });
     },
     ImgSuccess(res) {
@@ -334,13 +367,13 @@ export default {
         desc:
           "File format of " +
           file.name +
-          " is incorrect, please select jpg or png."
+          " is incorrect, please select jpg or png.",
       });
     },
     handleMaxSize(file) {
       this.$Notice.warning({
         title: "请检查文件大小,不能大于10M",
-        desc: "File  " + file.name + " is too large, no more than 10M."
+        desc: "File  " + file.name + " is too large, no more than 10M.",
       });
     },
     getteamtype(obj) {
@@ -365,11 +398,11 @@ export default {
       this.opType = "Edit";
       this.$refs["formValidate"].resetFields();
       this.currentItemInfo = this.$copy(this.data[minfo]);
-      console.log( this.currentItemInfo)
+      console.log(this.currentItemInfo);
       if (this.currentItemInfo.backgroundImg) {
         this.ImgStatus = "finished";
       }
-       this.currentItemInfo.team_Type=this.currentItemInfo.team_Type+"";
+      this.currentItemInfo.team_Type = this.currentItemInfo.team_Type + "";
       this.model10 = [];
       //密码随意给个值
       this.isModal = !this.isModal;
@@ -379,7 +412,7 @@ export default {
       this.opType = "Add";
       this.model10 = [];
       this.currentItemInfo = {};
-      this.currentItemInfo.team_Type="1";
+      this.currentItemInfo.team_Type = "1";
       this.$refs["formValidate"].resetFields();
       this.ImgStatus = "";
       this.isModal = !this.isModal;
@@ -390,11 +423,11 @@ export default {
       setTimeout(() => {
         this.isDisable = false;
       }, 1000);
-      this.$refs["formValidate"].validate(valid => {
+      this.$refs["formValidate"].validate((valid) => {
         if (valid) {
           _this.$axios
             .post("add.update.team", _this.currentItemInfo)
-            .then(p => {
+            .then((p) => {
               if (p.data.state == 200) {
                 _this.isModal = !_this.isModal;
                 _this.$Message.success("操作成功！");
@@ -412,13 +445,13 @@ export default {
     },
     cancel() {
       this.isModal = false;
-    }
+    },
   },
   created() {
     this.userinfo = this.$global.getUserinfo();
     this.judicial_id = this.userinfo.source_id;
     this.getteamgedList();
-  }
+  },
 };
 </script>
 <style scoped>

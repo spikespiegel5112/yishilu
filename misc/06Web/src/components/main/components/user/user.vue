@@ -6,7 +6,7 @@
       </Badge>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
-        <DropdownItem>{{userinfo.userName}}</DropdownItem>
+        <DropdownItem>{{ userinfo.userName }}</DropdownItem>
         <!-- <DropdownItem name="messageCenter">
           消息中心
           <Badge style="margin-left: 10px" :count="messageUnreadCount"></Badge>
@@ -17,7 +17,7 @@
     <audio ref="music" id="audio" loop>
       <source src="./9833.mp3" type="audio/mpeg" />
     </audio>
-     <audio ref="music_notice" id="audio" loop>
+    <audio ref="music_notice" id="audio" loop>
       <source src="./2478.mp3" type="audio/mpeg" />
     </audio>
   </div>
@@ -36,23 +36,23 @@ export default {
       recive_type: 0,
       timer: null,
       messageUnreadCount: 0,
-      audio:{},
-      tiemr:null,
-      audiosrc:"./9833.mp3"
+      audio: {},
+      tiemr: null,
+      audiosrc: "./9833.mp3",
     };
   },
   props: {
     userAvatar: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   methods: {
     ...mapActions(["handleLogOut"]),
     logout() {
       this.handleLogOut().then(() => {
         this.$router.push({
-          name: "login"
+          name: "login",
         });
       });
     },
@@ -69,6 +69,6 @@ export default {
   },
   created() {
     this.userinfo = this.$global.getUserinfo();
-  }
+  },
 };
 </script>
