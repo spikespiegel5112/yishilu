@@ -46,14 +46,14 @@
         </div>
       </div>
     </div>
-    <div v-if="dialogPrize2Flag" class="common_dialog_container prize2">
+    <div v-if="state.dialogPrize2Flag" class="common_dialog_container prize2">
       <div class="dialog_wrapper">
         <a class="close" @click="closeDialog"></a>
         <div class="content">
           <div class="desc">
             <p class="congrats">恭喜您，奖品请前往</p>
-            <p class="degree">{{ brandData.brandName }}</p>
-            <p class="prize">{{ brandData.positionNumber }}</p>
+            <p class="degree">{{ state.brandData.brandName }}</p>
+            <p class="prize">{{ state.brandData.positionNumber }}</p>
             <p class="query">咨询及领取</p>
             <p class="hint">*奖品数量有限，领完即止</p>
           </div>
@@ -146,7 +146,10 @@ const state = reactive({
   id: "",
   prizeData: {},
   rewardCode: "",
-  brandData: {},
+  brandData: {
+    brandName: "",
+    positionNumber: "",
+  },
   canvasWidth: "",
   canvasHeight: "",
 });

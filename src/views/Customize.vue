@@ -145,7 +145,7 @@ watch(
         name: "HomePage",
       });
     }
-  },
+  }
 );
 
 watch(
@@ -156,7 +156,7 @@ watch(
       state.canvasWidth = document.body.clientWidth + "px";
       state.canvasHeight = document.body.clientHeight + "px";
     });
-  },
+  }
 );
 
 const init = () => {
@@ -205,7 +205,7 @@ onMounted(() => {
         height: 1.2rem;
         position: absolute;
         top: 3rem;
-        background-image: url("@/assets/customize/dot_00000.png");
+        background-image: url("@/assets/image/customize/dot_00000.png");
         background-size: contain;
 
         &.point {
