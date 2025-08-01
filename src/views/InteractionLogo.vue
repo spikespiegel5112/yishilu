@@ -27,7 +27,7 @@
             v-for="(item, index) in brandList"
             :key="item.name"
             :class="item.active ? 'active' + ' ' + item.name : item.name"
-            @click="receivetask(index)"
+            @click="receivetask(index:number)"
           >
             <a @click="checkBrandInfo(item)">
               <div class="enabled">

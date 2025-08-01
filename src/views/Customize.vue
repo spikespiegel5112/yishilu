@@ -160,7 +160,6 @@ watch(
 );
 
 const init = () => {
-  // console.log(FrameAnimation)
   const swiper = new Swiper(".swiper-container", {
     direction: "horizontal",
     slidesPerView: "auto",
@@ -172,7 +171,7 @@ const init = () => {
   });
 };
 
-const checkDetail = (index) => {
+const checkDetail = (index: number) => {
   state.dialogFlag = true;
   state.dialogIndex = index;
 };
@@ -182,19 +181,14 @@ const close = () => {
 };
 
 onMounted(() => {
-  setTimeout(() => {
-    init();
-  }, 100);
+  init();
 });
 </script>
 
 <style scoped lang="scss">
 .customize_main_container {
   width: 100%;
-
-  .common_title_item {
-    margin-top: 1rem;
-  }
+  overflow: hidden;
 
   .longpicture_wrapper {
     width: 100%;
@@ -211,7 +205,7 @@ onMounted(() => {
         height: 1.2rem;
         position: absolute;
         top: 3rem;
-        background-image: url("image/customize/dot_00000.png");
+        background-image: url("@/assets/customize/dot_00000.png");
         background-size: contain;
 
         &.point {

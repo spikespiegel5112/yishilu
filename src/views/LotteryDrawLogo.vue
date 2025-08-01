@@ -444,7 +444,7 @@ const drawPrize = () => {
   // 	}
   // })
   // if (!state.alreadyReleasedPrize) {
-  // 	rotateWheel(index).then(() => {
+  // 	rotateWheel(index:number).then(() => {
 
   // 		state.alreadyReleasedPrize = true;
 
@@ -605,7 +605,7 @@ onMounted(() => {
   .bg {
     width: 100%;
     height: 100vh;
-    // background-image: url("image/interaction/bg_interaction_00000.png");
+    // background-image: url("@/assets/interaction/bg_interaction_00000.png");
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;

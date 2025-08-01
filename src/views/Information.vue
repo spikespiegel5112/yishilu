@@ -32,9 +32,7 @@
       <div class="common_navigation_item">
         <a @click="getLocation">一键导航</a>
       </div>
-      <div class="common_goback_wrapper">
-        <CommonGoBack />
-      </div>
+      <CommonGoBack />
     </div>
   </div>
 </template>
@@ -52,7 +50,6 @@ import {
 } from "vue";
 
 import type { ComponentInternalInstance } from "vue";
-import Swiper from "swiper";
 
 const currentInstance = getCurrentInstance() as ComponentInternalInstance;
 const global = currentInstance.appContext.config.globalProperties;
@@ -98,7 +95,7 @@ watch(
 
 const init = () => {
   // console.log(FrameAnimation)
-  const swiper = new Swiper(".swiper-container", {
+  const swiper = new global.$Swiper(".swiper-container", {
     loop: true, // 循环模式选项
   });
 };
@@ -106,14 +103,7 @@ const getLocation = () => {
   initGetLocation()
     .then((response: any) => {
       console.log("res+++++++++++++++++", response);
-      var _this = this;
-      console.log(
-        "http://api.map.baidu.com/direction?origin=" +
-          response.latitude +
-          "," +
-          response.longitude +
-          "&destination=31.18846,121.496541&mode=driving&region=上海市&output=html"
-      );
+      let _this = this;
       location.href =
         "http://api.map.baidu.com/direction?origin=" +
         response.latitude +
@@ -138,15 +128,15 @@ const initGetLocation = () => {
     // 		alert('用户拒绝授权获取地理位置')
     // 	}
     // })
-    global.$wxsdk.getLocation(
-      function (res) {
-        resolve(res);
-      },
-      function (error) {
-        console.log("error++++++", error);
-        reject(error);
-      }
-    );
+    // global.$wxsdk.getLocation(
+    //   function (res: any) {
+    //     resolve(res);
+    //   },
+    //   function (error: any) {
+    //     console.log("error++++++", error);
+    //     reject(error);
+    //   }
+    // );
   });
 };
 
@@ -155,4 +145,52 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+$yellow: #f9c978;
+.information_main_container {
+  width: 100%;
+  overflow: hidden;
+
+  > .content {
+    .frame_wrapper {
+      width: 100%;
+      height: 10rem;
+
+      .swiper-container {
+        .swiper-wrapper {
+          padding: 0;
+          .swiper-slide {
+            background-color: transparent;
+
+            img {
+              width: 13rem;
+            }
+          }
+        }
+      }
+
+      .frame {
+        width: 100%;
+        height: 100%;
+        background-image: url("@/assets/information/frame_00000.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .position {
+      margin: 0.8rem 0;
+
+      img {
+        width: 10rem;
+      }
+    }
+
+    .common_navigation_item {
+      a {
+        // background-image: url("@/assets/information/button_yijiandaohang_00000.png");
+      }
+    }
+  }
+}
+</style>

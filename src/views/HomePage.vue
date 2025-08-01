@@ -116,13 +116,8 @@ const closeDialog = () => {
 .homepage_main_container {
   width: 100%;
 
-  .common_title_item {
-    // margin-top: 1.5rem;
-  }
-
   .content {
     margin: 3rem auto 0;
-    padding: 0 0 2rem 0;
     width: 12.5rem;
     height: 12.5rem;
     position: relative;

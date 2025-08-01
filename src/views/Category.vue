@@ -84,10 +84,6 @@ watch(
 .category_main_container {
   width: 100%;
 
-  .common_title_item {
-    margin-top: 1rem;
-  }
-
   .main {
     width: 100%;
     .describe {
@@ -98,7 +94,7 @@ watch(
     }
     img {
       display: block;
-      margin: 0.2rem auto 3rem;
+      margin: 0.2rem auto 0;
       width: 12rem;
     }
   }

@@ -309,7 +309,7 @@ onMounted(() => {
   .bg {
     width: 100%;
     height: 100vh;
-    background-image: url("image/interaction/bg_interaction_00000.png");
+    background-image: url("@/assets/interaction/bg_interaction_00000.png");
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -340,7 +340,7 @@ onMounted(() => {
           width: 3.5rem;
           height: 3rem;
           overflow: hidden;
-          background-image: url("image/interaction/button_interaction_bg_00000.png");
+          background-image: url("@/assets/interaction/button_interaction_bg_00000.png");
           background-repeat: no-repeat;
           background-position: center;
           background-size: contain;
@@ -384,7 +384,7 @@ onMounted(() => {
 
     .common_navigation_item {
       a {
-        // background-image: url("image/interaction/button_drawalottery_00000.png");
+        // background-image: url("@/assets/interaction/button_drawalottery_00000.png");
       }
     }
   }
