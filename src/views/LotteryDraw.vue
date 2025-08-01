@@ -183,7 +183,7 @@ watch(
         name: "HomePage",
       });
     }
-  },
+  }
 );
 
 watch(
@@ -194,7 +194,7 @@ watch(
       state.canvasHeight = newValue * 13.5 + "px";
       getPrizeList();
     });
-  },
+  }
 );
 
 const init = () => {};
@@ -254,7 +254,7 @@ const drawCanvas = () => {
     state.remUnit * 6.75,
     0,
     Math.PI * 2,
-    true,
+    true
   );
   ctx2.fillStyle = "#51a5ff";
   ctx2.fill();
@@ -266,7 +266,7 @@ const drawCanvas = () => {
     state.remUnit * 6.57,
     0,
     Math.PI * 2,
-    true,
+    true
   );
   ctx2.fillStyle = "#003e81";
   ctx2.fill();
@@ -278,7 +278,7 @@ const drawCanvas = () => {
     state.remUnit * 6.35,
     0,
     Math.PI * 2,
-    true,
+    true
   );
   ctx2.fillStyle = "#0b57aa";
   ctx2.fill();
@@ -299,7 +299,7 @@ const drawCanvas = () => {
         state.remUnit * 0.35,
         state.remUnit,
         Math.PI * 2,
-        true,
+        true
       );
       ctx.fillStyle =
         i % 2 === 0
@@ -344,7 +344,7 @@ const drawCanvas = () => {
         state.remUnit * 5.4,
         angle + baseAngle - Math.PI / state.wheelData.length,
         angle - Math.PI / state.wheelData.length,
-        true,
+        true
       );
     } else {
       ctx.arc(
@@ -353,7 +353,7 @@ const drawCanvas = () => {
         state.remUnit * 5.4,
         angle + baseAngle,
         angle,
-        true,
+        true
       );
     }
     ctx.lineTo(canvasWidth / 2, canvasHeight / 2);
@@ -376,7 +376,7 @@ const drawCanvas = () => {
             angle +
               baseAngle / 2 -
               Math.PI / 2 -
-              Math.PI / state.wheelData.length,
+              Math.PI / state.wheelData.length
           ) *
             state.remUnit *
             5;
@@ -386,7 +386,7 @@ const drawCanvas = () => {
             angle +
               baseAngle / 2 -
               Math.PI / 2 -
-              Math.PI / state.wheelData.length,
+              Math.PI / state.wheelData.length
           ) *
             state.remUnit *
             5;
@@ -412,7 +412,7 @@ const drawCanvas = () => {
             ctx.fillText(
               item,
               -ctx.measureText(item).width / 2,
-              (index * state.remUnit) / 1.4 + offset,
+              (index * state.remUnit) / 1.4 + offset
             );
           }
         });
@@ -603,7 +603,7 @@ onMounted(() => {
   }, 100);
   nextTick(() => {
     state.remUnit = Number(
-      document.getElementsByTagName("html")[0].style.fontSize.replace("px", ""),
+      document.getElementsByTagName("html")[0].style.fontSize.replace("px", "")
     );
   });
 });
@@ -631,8 +631,8 @@ onMounted(() => {
 
     .wheel {
       margin: 0 auto 1.5rem;
-      width: 14rem;
-      height: 14rem;
+      width: 13rem;
+      height: 13rem;
       background-image: url("./image/lotterydraw/whell_bg_00000.png");
       background-size: contain;
       position: relative;
@@ -648,8 +648,8 @@ onMounted(() => {
 
       canvas {
         display: inline-block;
-        width: 14rem;
-        height: 14rem;
+        width: 100%;
+        height: 100%;
         transform: rotate(0deg);
         transition: rotate 6s ease;
         vertical-align: middle;
@@ -662,8 +662,8 @@ onMounted(() => {
         background-image: url("@/assets/image/lotterydraw/pointer_begin_00000.png");
         background-size: 100%;
         position: absolute;
-        top: 5.35rem;
-        left: 5.5rem;
+        top: 5rem;
+        left: 5rem;
 
         span {
           display: block;
