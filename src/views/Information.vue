@@ -30,7 +30,7 @@
         <img src="@/assets/image/information/position_00000.png" />
       </div>
       <div class="common_navigation_item">
-        <a @click="getLocation">一键导航</a>
+        <a @click="getLocation"></a>
       </div>
       <CommonGoBack />
     </div>
@@ -172,7 +172,7 @@ $yellow: #f9c978;
       .frame {
         width: 100%;
         height: 100%;
-        background-image: url("@/assets/information/frame_00000.png");
+        background-image: url("@/assets/image/information/frame_00000.png");
         background-size: contain;
         background-repeat: no-repeat;
       }
@@ -188,7 +188,7 @@ $yellow: #f9c978;
 
     .common_navigation_item {
       a {
-        // background-image: url("@/assets/information/button_yijiandaohang_00000.png");
+        background-image: url("@/assets/image/information/button_yijiandaohang_00000.png");
       }
     }
   }

@@ -617,7 +617,7 @@ onMounted(() => {
   .bg {
     width: 100%;
     height: 100vh;
-    // background-image: url("@/assets/interaction/bg_interaction_00000.png");
+    // background-image: url("@/assets/image/interaction/bg_interaction_00000.png");
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;

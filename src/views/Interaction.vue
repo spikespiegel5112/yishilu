@@ -58,7 +58,9 @@
         </p>
       </div>
       <div class="common_navigation_item">
-        <a @click="checkStatus">参加抽奖</a>
+        <a @click="checkStatus">
+          <span>参加抽奖</span>
+        </a>
       </div>
       <div class="common_goback_wrapper">
         <CommonGoBack />
@@ -309,7 +311,7 @@ onMounted(() => {
   .bg {
     width: 100%;
     height: 100vh;
-    background-image: url("@/assets/interaction/bg_interaction_00000.png");
+    background-image: url("@/assets/image/interaction/bg_interaction_00000.png");
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -340,7 +342,7 @@ onMounted(() => {
           width: 3.5rem;
           height: 3rem;
           overflow: hidden;
-          background-image: url("@/assets/interaction/button_interaction_bg_00000.png");
+          background-image: url("@/assets/image/interaction/button_interaction_bg_00000.png");
           background-repeat: no-repeat;
           background-position: center;
           background-size: contain;
@@ -384,7 +386,7 @@ onMounted(() => {
 
     .common_navigation_item {
       a {
-        // background-image: url("@/assets/interaction/button_drawalottery_00000.png");
+        // background-image: url("@/assets/image/interaction/button_drawalottery_00000.png");
       }
     }
   }
