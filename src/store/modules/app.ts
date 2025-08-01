@@ -7,14 +7,6 @@ const app = {
     // loginId: '',
     loginId: "18260045855",
     shareUrl: "http://essilorevent.digital-support.cn/h5/",
-
-    bgmUrl:
-      "http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_entrance.mp3",
-    speechUrl:
-      "http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/ctzcf/ctzcf_speech.mp3",
-    daishangerjiUrl:
-      "http://pp-jgxzq.oss-cn-qingdao.aliyuncs.com/music/daishangerji.mp3",
-
     userInfo: {
       id: "",
     },

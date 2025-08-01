@@ -82,7 +82,7 @@ const global = currentInstance.appContext.config.globalProperties;
 const state = reactive({
   drawlist2Request: "h5.get.wxuser.drawlist2",
   draw2Request: "h5.user.luck.draw2",
-  state.dialogThankYouFlag: false,
+  dialogThankYouFlag: false,
   dialogPrize2Flag: false,
   dialogRunOutFlag: false,
   status: false,
@@ -294,9 +294,9 @@ const drawCanvas = () => {
     let imageSequence = [];
 
     state.wheelData.forEach((item: any, index: number) => {
-      let imageObj = new Image();
-      imageObj.width = "150";
-      imageObj.height = "150";
+      const imageObj = new Image();
+      imageObj.width = 150;
+      imageObj.height = 150;
       imageObj.transparency = 0.2;
       imageSequence.push(imageObj);
     });
@@ -430,7 +430,7 @@ const drawPrize = () => {
   console.log(Math.ceil((state.wheelData.length - 1) * Math.random()));
   console.log(
     state.wheelData.find(
-      (item, index) =>
+      (item: any, index: number) =>
         index === Math.ceil((state.wheelData.length - 1) * Math.random())
     )
   );
@@ -444,7 +444,7 @@ const drawPrize = () => {
   // 	}
   // })
   // if (!state.alreadyReleasedPrize) {
-  // 	rotateWheel(index:number).then(() => {
+  // 	rotateWheel(index).then(() => {
 
   // 		state.alreadyReleasedPrize = true;
 

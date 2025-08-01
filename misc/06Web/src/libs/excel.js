@@ -9,7 +9,7 @@ function auto_width(ws, data) {
       if (val == null) {
         return { wch: 10 };
       } else if (val.toString().charCodeAt(0) > 255) {
-      /*if chinese*/
+        /*if chinese*/
         return { wch: val.toString().length * 2 };
       } else {
         return { wch: val.toString().length };

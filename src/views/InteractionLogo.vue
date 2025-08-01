@@ -27,7 +27,7 @@
             v-for="(item, index) in brandList"
             :key="item.name"
             :class="item.active ? 'active' + ' ' + item.name : item.name"
-            @click="receivetask(index:number)"
+            @click="receivetask(index)"
           >
             <a @click="checkBrandInfo(item)">
               <div class="enabled">
@@ -182,7 +182,7 @@ watch(
         name: "HomePage",
       });
     }
-  },
+  }
 );
 
 const init = () => {
@@ -207,7 +207,7 @@ const lightTask = () => {
       console.log("lightTask+++", response);
       state.dialogLightenFlag = true;
       state.currentBrandData.brandName = brandList.value.find(
-        (item: any) => item.taskType === Number(response.data),
+        (item: any) => item.taskType === Number(response.data)
       ).brandName;
       getLighten();
     })
@@ -308,7 +308,7 @@ const receivetask = (type: number) => {
 };
 const checkStatus = () => {
   const lightenCount = brandList.value.filter(
-    (item: any) => item.active,
+    (item: any) => item.active
   ).length;
   let temp1 =
     state.prizeList.filter((item: any) => item.name !== "").length * 2;
@@ -343,19 +343,19 @@ const closeDialog = () => {
 };
 const checkBrandInfo = (data: any) => {
   state.currentBrandData = brandList.value.find(
-    (item: any) => item.taskType === data.taskType,
+    (item: any) => item.taskType === data.taskType
   );
   state.dialogPositionFlag = true;
 };
 const getParameter = (key: any) => {
   let url = location.href;
   let paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
-  let paraObj = {};
+  let paraObj = {} as any;
   for (let i = 0, len = paraString.length; i < len; i++) {
     let j = paraString[i];
     paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(
       j.indexOf("=") + 1,
-      j.length,
+      j.length
     );
   }
   let returnValue = paraObj[key.toLowerCase()];
